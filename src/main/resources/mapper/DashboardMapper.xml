@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.dashboard.mapper.DashboardMapper">
+
+	<select id="selectDashboardOut" parameterType="DashboardSearchDTO" resultType="DashboardResultDTO">
+		/*DashboardMapper.selectDashboardOut*/
+		select
+		(select ifnull(sum(oi.count_info_invc),0)
+		from cwt_out_ord_mst as om
+		left join(select ioi.mst_id
+		 			  ,sum(ifnull(oiic.info_invc_count,1)) as count_info_invc 
+		 		from cwt_out_info as ioi
+		 		left join (select 
+								 bb.info_id
+								,count(bb.invc_no) as info_invc_count
+							from
+								(select DISTINCT d.info_id, e.invc_no, e.parcel_cd
+									from (select * 
+											from cwt_rel_info_invc
+											where 1=1
+											and use_yn ='Y'
+											and rel_stats ='CN') d
+									left join (select *
+												from cwt_out_invc 
+												where 1=1 
+												and use_yn ='Y'
+												and invc_no is not NULL
+												and invc_no !='') e on e.id = d.invc_id
+								) bb
+							group by bb.info_id) as oiic on oiic.info_id = ioi.id		
+		 		where ioi.use_yn ='Y' 
+		 		group by ioi.mst_id) as oi on oi.mst_id = om.id
+		 where 1=1
+		 and om.use_yn ='Y' and om.out_method in('PC')  and om.out_type in ('OTAM','OTPM','OTSP','OTCS') 
+		 and om.cust_id = a.cust_id
+		 and a.to_dt >= om.out_ord_dt
+		 and om.out_ord_dt >= a.from_dt) as out_pc_count
+		 ,
+		(select ifnull(sum(oi.count_info_invc),0)
+		from cwt_out_ord_mst as om
+		left join(select ioi.mst_id
+		 			  ,sum(ifnull(oiic.info_invc_count,1)) as count_info_invc 
+		 		from cwt_out_info as ioi
+		 		left join (select 
+								 bb.info_id
+								,count(bb.invc_no) as info_invc_count
+							from
+								(select DISTINCT d.info_id, e.invc_no, e.parcel_cd
+									from (select * 
+											from cwt_rel_info_invc
+											where 1=1
+											and use_yn ='Y'
+											and rel_stats ='CN') d
+									left join (select *
+												from cwt_out_invc 
+												where 1=1 
+												and use_yn ='Y'
+												and invc_no is not NULL
+												and invc_no !='') e on e.id = d.invc_id
+								) bb
+							group by bb.info_id) as oiic on oiic.info_id = ioi.id		
+		 		where ioi.use_yn ='Y' 
+		 		group by ioi.mst_id) as oi on oi.mst_id = om.id
+		 where 1=1
+		 and om.use_yn ='Y' and om.out_method in ('CR','PI') and om.out_type in ('OTAM','OTPM','OTSP','OTCS')
+		 and om.cust_id = a.cust_id
+		 and a.to_dt >= om.out_ord_dt
+		 and om.out_ord_dt >= a.from_dt) as out_cr_count
+		 ,
+		(select ifnull(sum(oi.count_info_invc),0)
+		from cwt_out_ord_mst as om
+		left join(select ioi.mst_id
+		 			  ,sum(ifnull(oiic.info_invc_count,1)) as count_info_invc 
+		 		from cwt_out_info as ioi
+		 		left join (select 
+								 bb.info_id
+								,count(bb.invc_no) as info_invc_count
+							from
+								(select DISTINCT d.info_id, e.invc_no, e.parcel_cd
+									from (select * 
+											from cwt_rel_info_invc
+											where 1=1
+											and use_yn ='Y'
+											and rel_stats ='CN') d
+									left join (select *
+												from cwt_out_invc 
+												where 1=1 
+												and use_yn ='Y'
+												and invc_no is not NULL
+												and invc_no !='') e on e.id = d.invc_id
+								) bb
+							group by bb.info_id) as oiic on oiic.info_id = ioi.id		
+		 		where ioi.use_yn ='Y' 
+		 		group by ioi.mst_id) as oi on oi.mst_id = om.id
+		 where 1=1
+		 and om.use_yn ='Y' and om.out_method in ('PC','CR','PI') and om.out_type in ('OTWD')
+		 and om.cust_id = a.cust_id
+		 and a.to_dt >= om.out_ord_dt
+		 and om.out_ord_dt >= a.from_dt) as out_wd_count
+		 from 
+		 (select 
+		  (select 
+		  		center_id 
+		  	from cwt_rel_center_user 
+		  	where use_yn ='Y' and 
+		  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) as cust_id
+		 ,#{dashboardSearchDTO.fromDate} as from_dt
+		 ,#{dashboardSearchDTO.toDate} as to_dt
+		 ) as a	
+	</select>
+	
+	<select id="selectDashboardIn" parameterType="DashboardSearchDTO" resultType="DashboardResultDTO">
+		/*DashboardMapper.selectDashboardIn*/
+		select
+		(select 
+			concat(ifnull(count(im.id),0),'/',ifnull(sum(id.count_sku),0))
+		from cwt_in_ord_mst as im
+		join (select mst_id, count(id) as count_sku  from cwt_in_ord_dtl where use_yn ='Y' group by mst_id) as id on id.mst_id = im.id
+		where 1=1 and im.use_yn ='Y' and im.cust_id =a.cust_id and im.in_ord_dt = a.now_dt and im.in_stats ='IN01'
+		) as in_ord_in01
+		,
+		(select 
+			concat(ifnull(count(im.id),0),'/',ifnull(sum(id.count_sku),0))
+		from cwt_in_ord_mst as im
+		join (select mst_id, count(id) as count_sku  from cwt_in_ord_dtl where use_yn ='Y' group by mst_id) as id on id.mst_id = im.id
+		where 1=1 and im.use_yn ='Y' and im.cust_id =a.cust_id and im.in_ord_dt = a.now_dt and im.in_stats ='IN02'
+		) as in_ord_in02
+		,
+		(select 
+			concat(ifnull(count(im.id),0),'/',ifnull(sum(id.count_sku),0))
+		from cwt_in_ord_mst as im
+		join (select mst_id, count(id) as count_sku  from cwt_in_ord_dtl where use_yn ='Y' group by mst_id) as id on id.mst_id = im.id
+		where 1=1 and im.use_yn ='Y' and im.cust_id =a.cust_id and im.in_ord_dt = a.now_dt and im.in_stats ='IN04'
+		) as in_ord_in04
+		from 
+		(select 
+		  (select 
+		  		center_id 
+		  	from cwt_rel_center_user 
+		  	where use_yn ='Y' and 
+		  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) as cust_id
+		 ,DATE_FORMAT(now(),'%Y-%m-%d') as now_dt ) as a
+	</select>
+	
+	<select id="selectDashboardStoreWeight" parameterType="DashboardSearchDTO" resultType="DashboardResultDTO">
+		/*DashboardMapper.selectDashboardStoreWeight*/
+		select
+			concat(e.goods_count, '/' ,e.goods_ea) as store_weight
+		from
+		(select
+			  count(d.goods_id) as goods_count
+			 ,sum(d.stk_qty) as goods_ea
+		from
+		(select 
+				c.goods_id as goods_id
+				,c.goods_nm as goods_nm 
+				#,ifnull(c.goods_weight,0) as goods_weight
+				,case when 0 > c.inqty-c.outqty then 0
+					  else c.inqty-c.outqty end as stk_qty
+				from
+				(
+				select 
+				 b.id as goods_id
+				,b.goods_nm 
+				#,round((b.box_width*b.box_length*b.box_height)/b.box_pack_unit,1) as goods_weight
+				,ifnull(c.inqty,0) as inqty
+				,ifnull(d.outqty,0) as outqty
+				from (select * from
+								(select 
+									id
+									,cust_id
+									,goods_cd
+									,goods_nm
+									,box_width
+									,box_length
+									,box_height
+									,box_pack_unit
+									,case keep_code when 'OTMP' then 'G' 
+													when 'SPCP' then 'G'
+													when 'CCRF' then 'C'
+													when 'CCFR' then 'C'
+													else 0 end  as keep_code
+								from cwt_mst_goods
+								where 1=1
+								and use_yn ='Y'
+								) a
+						where 1=1
+						and a.cust_id = (select 
+									  		center_id 
+									  	from cwt_rel_center_user 
+									  	where use_yn ='Y' and 
+									  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) 
+						#and a.keep_code = p_keep_code
+							) b
+				#입고 조회 
+				left join (select a.goods_id, ifnull(sum(a.in_ord_qty_cnf),0) as inqty
+							from cwt_in_ord_dtl a
+							join cwt_in_ord_mst b on b.id = a.mst_id and b.use_yn='Y'
+							where 1=1 
+							  and a.use_yn ='Y'
+							  and b.in_stats = 'IN04'
+							  and a.in_stats not in ('INCAN')
+							  and a.item_check_code not in ('UNC') 
+							  and b.wh_id in (select 
+							  						wh_id 
+							  					from cwt_rel_wh_cust 
+							  					where cust_id =  (select 
+															  		center_id 
+															  	from cwt_rel_center_user 
+															  	where use_yn ='Y' and 
+															  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) 
+							  					and use_yn ='Y' and rel_stats ='CN')
+							  and DATE_FORMAT(now(),'%Y-%m-%d') >= DATE_FORMAT(b.data_ss03,'%Y-%m-%d') 
+							  group by goods_id 
+				)c on c.goods_id = b.id
+				#출고 조회 
+				left join (select a.goods_cd, sum(a.out_ord_qty_cnf) as outqty
+										     from cwt_out_ord_dtl a
+										     join cwt_out_info b on a.info_id = b.id and b.use_yn = 'Y'
+										     join cwt_out_ord_mst c on b.mst_id = c.id and c.use_yn = 'Y'
+										     where 1 = 1
+										       and a.use_yn = 'Y'
+										       and c.out_stats = 'OS05'
+										       and a.out_stats not in ('OUTCAN')
+										       and b.wh_id in (select 
+										       						wh_id 
+										       					from cwt_rel_wh_cust 
+										       					where cust_id = (select 
+																			  		center_id 
+																			  	from cwt_rel_center_user 
+																			  	where use_yn ='Y' and 
+																			  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) 
+										       					and use_yn ='Y' and rel_stats ='CN')
+											   and DATE_FORMAT(now(),'%Y-%m-%d') >= DATE_FORMAT(c.date_os05,'%Y-%m-%d')
+										       group by a.goods_cd	
+					  )d on d.goods_cd = b.id
+		
+				) c) d
+				where 1=1 
+				and d.stk_qty > 0
+				)e
+	</select>
+	
+	<select id="selectDashboardGoodsRank" parameterType="DashboardSearchDTO" resultType="DashboardResultDTO">
+		/*DashboardMapper.selectDashboardGoodsRank*/
+		select
+			 omi.cust_id
+			,od.goods_cd
+			,od.goods_nm
+			,sum(case when od.out_ord_qty_cnf is not null then od.out_ord_qty_cnf
+			        when od.out_ord_qty_cnf = 0 then od.out_ord_qty
+			        else od.out_ord_qty end )	as goods_count
+		from cwt_out_ord_dtl od
+		join (select 
+					sq1oi.id 
+					,sq1oi.mst_id 
+					,sq1om.out_ord_dt
+					,sq1om.cust_id
+				from cwt_out_info sq1oi
+				join (select 
+							id
+							,cust_id
+							,out_ord_dt 
+						from cwt_out_ord_mst 
+						where use_yn ='Y' 
+						and out_stats !='OS99') sq1om on sq1om.id = sq1oi.mst_id
+				where sq1oi.use_yn ='Y'
+				) omi on omi.id = od.info_id 	
+		where 1=1
+		and #{dashboardSearchDTO.toDate} >= omi.out_ord_dt 
+		and omi.out_ord_dt >= #{dashboardSearchDTO.fromDate}
+		and omi.cust_id = (select 
+						  		center_id 
+						  	from cwt_rel_center_user 
+						  	where use_yn ='Y' and 
+						  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) 
+		group by od.goods_cd
+		order by 4 desc 
+		limit 5
+	</select>
+	
+	<select id="selectDashboardGoodsRankRange" parameterType="DashboardSearchDTO" resultType="DashboardResultDTO">
+		/*DashboardMapper.selectDashboardGoodsRankRange*/
+		select
+		 omi.out_ord_dt 
+		,(select goods_nm from cwt_mst_goods where id = #{dashboardSearchDTO.goodsCd}) AS goods_nm
+		,sum(case when od.out_ord_qty_cnf is not null then od.out_ord_qty_cnf
+			        when od.out_ord_qty_cnf = 0 then od.out_ord_qty
+			        else od.out_ord_qty end )	as goods_count
+		from cwt_out_ord_dtl od
+		join (select 
+					sq1oi.id 
+					,sq1oi.mst_id 
+					,sq1om.out_ord_dt
+					,sq1om.cust_id
+				from cwt_out_info sq1oi
+				join (select 
+							id
+							,cust_id
+							,out_ord_dt 
+						from cwt_out_ord_mst 
+						where use_yn ='Y' 
+						and out_stats !='OS99') sq1om on sq1om.id = sq1oi.mst_id
+				where sq1oi.use_yn ='Y'
+				) omi on omi.id = od.info_id 	
+		where 1=1
+		and od.goods_cd = #{dashboardSearchDTO.goodsCd}
+		and DATE_FORMAT(now(),'%Y-%m-%d') >= omi.out_ord_dt 
+		and omi.out_ord_dt >= adddate(DATE_FORMAT(now(),'%Y-%m-%d'), INTERVAL -#{dashboardSearchDTO.searchDay} month)
+		group by omi.out_ord_dt
+		order by omi.out_ord_dt asc
+	</select>
+	
+	<select id="selectDashboardStockLack" parameterType="DashboardSearchDTO" resultType="DashboardResultDTO">
+		/*DashboardMapper.selectDashboardStockLack*/
+		select * from
+				(select 
+				 max(d.goods_cd) as goods_cd
+				,max(d.goods_nm) as goods_nm
+				,max(d.safe_stk_qty) as safe_stk_qty
+				,sum(d.in_ord_qty_cnf)-sum(d.out_qty) as stk_qty 
+				,sum(d.in_ord_qty_cnf)-sum(d.out_qty)-max(d.safe_stk_qty) as ex_count
+				,ifnull(max(d.in_ord_dt),'입고이력 없음') as last_in_ord_dt
+				from
+				(
+				select 
+				 a.id as ord_id
+				,(select center_nm from cwt_mst_center where id = (select wh_id from cwt_in_ord_mst where id = a.mst_id) ) as wh_nm
+				,a.in_ord_dtl_no as in_ord_dtl_no
+				,b.id as goods_id
+				,b.goods_cd as goods_cd
+				,b.goods_nm as goods_nm
+				,b.safe_stk_qty as safe_stk_qty
+				,ifnull(a.in_ord_qty_cnf,0) as in_ord_qty_cnf
+				,a.item_check_code as item_check_code
+				,a.check_memo as check_memo
+				,a.in_ord_date_cnf as in_ord_date_cnf
+				,a.exp_dt as exp_dt
+				,a.in_ord_dt
+				,(select ifnull(sum(out_qty),0)
+				    from cwt_rel_in_out
+				    where 1=1 
+				    and in_id = a.id
+				    and use_yn ='Y'
+				  	and DATE_FORMAT(now(),'%Y-%m-%d') >= DATE_FORMAT(reg_date,'%Y-%m-%d')
+				    ) out_qty
+			from (select * from cwt_mst_goods where 1=1
+				  and use_yn ='Y'
+					  						and cust_id = (select 
+														  		center_id 
+														  	from cwt_rel_center_user 
+														  	where use_yn ='Y' and 
+														  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) 
+					) b 	    
+		left join (select a.* , b.in_ord_dt from cwt_in_ord_dtl a
+					join cwt_in_ord_mst b on b.id = a.mst_id and b.use_yn='Y'
+					where 1 = 1
+					  and a.use_yn ='Y'
+					  and b.in_stats = 'IN04'
+					  and a.in_stats not in ('INCAN')
+					  and a.item_check_code not in ('UNC') 
+						and b.wh_id in	(select 
+												wh_id 
+											from cwt_rel_wh_cust 
+											where cust_id = (select 
+														  		center_id 
+														  	from cwt_rel_center_user 
+														  	where use_yn ='Y' and 
+														  	user_id =(select id from cwt_user where mid = #{dashboardSearchDTO.mid})) 
+											and use_yn ='Y' and rel_stats ='CN')
+						and DATE_FORMAT(now(),'%Y-%m-%d') >= DATE_FORMAT(a.in_ord_date_cnf,'%Y-%m-%d')
+					) a on a.goods_id = b.id
+			where 1=1 
+				) d 
+				group by d.goods_cd) e
+				where 1 > e.ex_count
+				order by 5 asc
+		
+	</select>
+
+</mapper>

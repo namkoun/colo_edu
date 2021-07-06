@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.dashboard.mapper.NoticeMapper">
+
+	<sql id="selectNoticeBasic">
+		SELECT n.id,
+               n.title,
+               n.contents,
+               n.category_code,
+               (SELECT code_name FROM cwt_code_dtl WHERE code_group_id = 'NOTICE_CATEGORY' AND code_id = n.category_code) AS category_code_name,
+               ifNULL(n.read_cnt, 0) AS read_cnt,
+               n.use_yn,
+               n.reg_date,
+               date_format(n.reg_date, '%Y-%m-%d') AS reg_date_string,
+               n.reg_mid,
+               n.mod_date,
+               date_format(n.mod_date, '%Y-%m-%d') AS mod_date_string,
+               n.mod_mid
+          FROM cwt_notice n
+         WHERE n.use_yn = 'Y'
+	</sql>
+
+	<select id="selectNoticeList" parameterType="NoticeSearchDTO" resultType="NoticeDTO">
+		SELECT n.id,
+               n.title,
+               #n.contents,
+               n.category_code,
+               (SELECT code_name FROM cwt_code_dtl WHERE code_group_id = 'NOTICE_CATEGORY' AND code_id = n.category_code) AS category_code_name,
+               ifNULL(n.read_cnt, 0) AS read_cnt,
+               n.use_yn,
+               n.reg_date,
+               date_format(n.reg_date, '%Y-%m-%d') AS reg_date_string,
+               n.reg_mid,
+               n.mod_date,
+               date_format(n.mod_date, '%Y-%m-%d') AS mod_date_string,
+               n.mod_mid
+          FROM cwt_notice n
+         WHERE n.use_yn = 'Y'
+		
+		<if test="noticeSearchDTO.searchCond neq null and noticeSearchDTO.searchCond neq '' and noticeSearchDTO.searchText neq null and noticeSearchDTO.searchText neq ''">
+              <if test="noticeSearchDTO.searchCond eq 'title'">
+                  AND n.title LIKE CONCAT('%', #{noticeSearchDTO.searchText}, '%')
+              </if>
+              <if test="noticeSearchDTO.searchCond eq 'contents'">
+                  AND n.contents LIKE CONCAT('%', #{noticeSearchDTO.searchText}, '%')
+              </if>
+              <if test="noticeSearchDTO.searchCond eq 'mid'">
+                  AND n.reg_mid LIKE CONCAT('%', #{noticeSearchDTO.searchText}, '%') or mod_mid LIKE CONCAT('%', #{noticeSearchDTO.searchText}, '%')
+              </if>
+          </if>
+         ORDER BY n.id DESC
+	</select>
+	
+	<select id="selectNotice" parameterType="NoticeSearchDTO" resultType="NoticeDTO">
+		<include refid="selectNoticeBasic"/>
+		  AND n.id = #{noticeSearchDTO.id}
+	</select>
+	
+	<update id="updateReadCount" parameterType="NoticeSearchDTO">
+		UPDATE cwt_notice
+           SET read_cnt = read_cnt + 1
+         WHERE 1 = 1
+           AND id = #{noticeSearchDTO.id}
+	</update>
+	
+	<select id="selectPreNextDoc" parameterType="long" resultType="NoticeDTO">
+		SELECT *
+		FROM cwt_notice
+		WHERE 1 = 1 
+			AND id IN (
+				( SELECT id FROM cwt_notice WHERE id &lt; #{id} AND use_yn='Y' ORDER BY id DESC LIMIT 1 ),
+				( SELECT id FROM cwt_notice WHERE id &gt; #{id} AND use_yn='Y' ORDER BY id LIMIT 1 )
+			)
+	</select>
+	
+	<insert id="insertNotice" parameterType="NoticeVO">
+		/*NoticeMapper.inertNotice*/
+		insert cwt_notice
+			(
+				category_code
+				,title
+				,contents
+				,use_yn
+				,reg_mid
+				,reg_date
+			)
+			values
+			(
+				'NC01'
+				,#{noticeVO.title}
+				,#{noticeVO.contents}
+				,'Y'
+				,#{noticeVO.regMid}
+				,now()
+			)
+	</insert>
+	
+	<update id="updateNotice" parameterType="NoticeVO">
+		/*NoticeMapper.updateNotice*/
+		update cwt_notice
+		<set>
+			 title = #{noticeVO.title}
+			,contents = #{noticeVO.contents}
+			,mod_date = now()
+			,mod_mid = #{noticeVO.modMid}
+		</set>
+		where id = #{noticeVO.id}
+	</update>
+	
+	<update id="deleteNotice" parameterType="NoticeVO">
+		/*NoticeMapper.deleteNotice*/
+		update cwt_notice
+		<set>
+			 use_yn = 'N'
+			,mod_date = now()
+			,mod_mid = #{noticeVO.modMid}
+		</set>
+		where id = #{noticeVO.id}
+	</update>
+	
+</mapper>

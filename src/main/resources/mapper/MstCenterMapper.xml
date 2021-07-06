@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.user.mapper.MstCenterMapper">
+
+	<select id="selectWhlistForCd" parameterType="String" resultType="MstCenterVO">
+		/* CodeMapper.selectWhlistForCd */
+		<if test="typecd == 'AD'">
+			select 
+				id,
+				center_nm
+			from cwt_mst_center
+			where use_yn='Y'
+			and center_type_cd = 'WH'
+		</if>
+		<if test="typecd == 'SL'">
+			select
+				b.id,
+				b.center_nm
+			from cwt_rel_wh_cust a
+			left join cwt_mst_center b on b.id = a.wh_id
+			where a.use_yn='Y' and b.use_yn='Y'
+			  and a.cust_id in( select 
+									center_id 
+								from cwt_rel_center_user 
+								where use_yn='Y' and user_id = (select 
+													id 
+												from cwt_user where mid = #{mid}))
+		</if>
+		<if test="typecd == 'WH'">
+			select
+				a.id,
+				a.center_nm
+			from cwt_mst_center a
+			where a.use_yn='Y'
+			  and a.id in( select 
+									center_id 
+								from cwt_rel_center_user 
+								where use_yn='Y' and user_id = (select 
+													id 
+												from cwt_user where mid = #{mid}))
+		</if>
+		    order by 2 
+		   
+	</select>
+	
+	<select id="selectSllist" parameterType="String" resultType="MstCenterVO">
+		/*CodeMapper.selectSllist*/
+		<if test="typecd == 'AD'">
+			select 
+				id as id
+				,center_nm as centerNm
+			from cwt_mst_center
+			where use_yn='Y' and center_type_cd = 'SL'
+		</if>
+		<if test="typecd == 'SL'">
+			select
+				 a.id as id
+				,a.center_nm as centerNm
+			from cwt_mst_center a
+			where a.use_yn='Y'
+			  and a.id in( select 
+									center_id 
+								from cwt_rel_center_user 
+								where use_yn='Y' and user_id = (select 
+													id 
+												from cwt_user where mid = #{mid}))
+		</if>
+		<if test="typecd == 'WH'">
+			select
+				 b.id as id
+				,b.center_nm as centerNm
+			from cwt_rel_wh_cust a
+			left join cwt_mst_center b on b.id = a.cust_id
+			where a.use_yn='Y' and b.use_yn='Y'
+			  and a.wh_id in( select 
+									center_id 
+								from cwt_rel_center_user 
+								where use_yn='Y' and user_id = (select 
+													id 
+												from cwt_user where mid = #{mid}))
+		</if>
+		<if test="typecd == 'GD'">
+			select 
+				 cust_id as id
+				,(select center_nm from cwt_mst_center where id = cust_id) as centerNm
+			from cwt_itf_shop_info
+			where 1=1
+			  and use_yn = 'Y'
+			  and itf_cmp_cd = 'GODO'
+		</if>
+		    order by 2 
+		
+	</select>
+	
+	<select id="selectCenterInfoByMid" parameterType="String" resultType="MstCenterVO">
+		/*mstCenterMapper.selectCenterInfoByMid*/
+		SELECT id,
+			   center_cd,
+			   center_nm,
+			   center_email,
+			   center_tel,
+			   center_fax,
+			   center_zip,
+			   center_jibun_addr,
+			   center_road_addr,
+			   center_detail_addr
+		  FROM cwt_mst_center
+		  WHERE 1 = 1
+		    AND use_yn = 'Y'
+		    AND id IN (
+		    		   SELECT center_id
+		    		     FROM cwt_rel_center_user
+		    		     WHERE 1 = 1
+		    		       AND user_id = (
+		    		                      SELECT id
+		    		                        FROM cwt_user
+		    		                        WHERE 1 = 1
+		    		                          AND mid = #{mid}
+		    		                     )
+		              )
+	</select>
+	
+</mapper>

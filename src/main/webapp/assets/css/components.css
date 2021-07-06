@@ -1,0 +1,403 @@
+/*------------------------------------
+  Text
+------------------------------------*/
+.colo-main-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #666666;
+    letter-spacing: -0.3px;
+}
+.colo-category-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666666;
+    letter-spacing: -0.3px;
+    margin-bottom: 2px;
+}
+.colo-contents-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #222222;
+    letter-spacing: -0.5px;
+}
+.colo-contents-default {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666666;
+    letter-spacing: -0.3px;
+}
+.colo-contents-entered {
+    font-size: 14px;
+    font-weight: 500;
+    color: #222222;
+    letter-spacing: -0.3px;
+}
+.colo-contents-disabled {
+    font-size: 14px;
+    font-weight: 500;
+    color: #aaaaaa;
+    letter-spacing: -0.3px;
+}
+.colo-table-default {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666666;
+    letter-spacing: -0.3px;
+}
+.colo-table-box-default {
+    font-size: 12px;
+    font-weight: 400;
+    color: #666666;
+    letter-spacing: -0.3px;
+}
+
+
+/*------------------------------------
+  Badge
+------------------------------------*/
+.colo-badge {
+    display: inline-block;
+    padding: .3125em .5em;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 5px;
+    transition: all .2s ease-in-out;
+    margin-right: 4px;
+    margin-top: 2px;
+}
+.colo-badge-primary {
+    background-color: #eff1ff;
+    color: #3b5aff;
+}
+
+
+/*------------------------------------
+  Page Layout
+------------------------------------*/
+.colo-page-wrapper {
+    padding: 48px 32px;
+}
+
+
+/*------------------------------------
+  Page Header
+------------------------------------*/
+.colo-page-header {
+    padding: 20px 32px 12px;
+    border-bottom: 1px solid #cccccc;
+    background-color: #fff;
+}
+
+
+/*------------------------------------
+  Title Wrapper
+------------------------------------*/
+.colo-contents-title-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 12px;
+}
+
+
+/*------------------------------------
+  Date Tab
+------------------------------------*/
+.colo-tab-wrapper {
+    display: inline-block;
+}
+.colo-tab {
+    display: flex;
+    padding: 4px 4px 3px 4px;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+}
+.colo-tab input {
+    display: none;
+}
+.colo-tab label.tab-item-label {
+    font-size: 12px;
+    color: #666666;
+    line-height: 1.5;
+    text-align: center;
+    padding: 8px 8px 7px 8px;
+    cursor: pointer;
+}
+.colo-tab input.tab-item:checked + .tab-item-label {
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(34, 34, 34, 0.07);
+    background-color: #fff;
+}
+
+
+/*------------------------------------
+  Filter
+------------------------------------*/
+
+/*.filter-container {*/
+.colo-filter-wrapper {
+    width: 102px;
+}
+
+/*Styling Selectbox*/
+.colo-filter {
+    width: 100%;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 4px;
+    transition: all .5s ease;
+    position: relative;
+    font-size: 12px;
+    color: #666666;
+    text-align: left;
+    outline: none;
+    line-height: 1.5;
+    font-weight: 400;
+    border: 1px solid #e0e0e0;
+    /*box-shadow: 0 0 2px rgb(204, 204, 204);*/
+}
+.colo-filter .select {
+    cursor: pointer;
+    display: block;
+    padding: 11px 16px 11px 16px;
+}
+.colo-filter .select > i {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    float: right;
+    /*transition: all .1s ease-in-out;*/
+}
+.colo-filter:hover {
+    background-color: #f5f5f5;
+    /*box-shadow: 0 0 4px rgb(204, 204, 204)*/
+}
+.colo-filter:active {
+    background-color: #f8f8f8
+}
+.colo-filter.active:hover,
+.colo-filter.active {
+    border-radius: 2px 2px 0 0;
+    background-color: #f8f8f8;
+    /*box-shadow: 0 0 4px rgb(204, 204, 204);*/
+}
+.colo-filter.active .select > i {
+    transform: rotate(-90deg)
+}
+.colo-filter .colo-filter-items {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    overflow: hidden;
+    display: none;
+    max-height: 144px;
+    overflow-y: auto;
+    z-index: 9;
+    border: 1px solid #3b5aff;
+    border-radius: 4px;
+    /*outline: 1px solid #3b5aff;*/
+    /*box-shadow: 0 1px 2px rgb(204, 204, 204);*/
+}
+.colo-filter .colo-filter-items li {
+    padding: 10px;
+    cursor: pointer;
+    /*transition: all .1s ease-in-out;*/
+}
+.colo-filter .colo-filter-items {
+    padding: 0;
+    list-style: none;
+}
+.colo-filter .colo-filter-items li:hover {
+    background-color: #f2f2f2
+}
+.colo-filter .colo-filter-items li:active {
+    background-color: #e2e2e2
+}
+.colo-filter:after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    top: 13px;
+    margin-left: -5px;
+    width: 7px;
+    height: 7px;
+    border-left: 2px solid #c7c7c7;
+    border-bottom: 2px solid #c7c7c7;
+    transform: rotate(-45deg);
+    /*transition: all .1s ease-in-out;*/
+}
+.colo-filter.active:after {
+    top: 18px;
+    transform: rotate(135deg);
+}
+.colo-filter.disabled {
+    background-color: #f5f5f5;
+    color: #aaaaaa;
+}
+
+
+/*------------------------------------
+  Button
+------------------------------------*/
+.colo-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 4px;
+    transition: all .5s ease;
+    position: relative;
+    font-size: 12px;
+    color: #666666;
+    text-align: left;
+    outline: none;
+    line-height: 1.5;
+    font-weight: 400;
+    padding: 11px 16px 11px 16px;
+    border: 1px solid #e0e0e0;
+}
+.colo-btn:hover {
+    background-color: #f5f5f5;
+}
+.colo-btn img.btn-ic-right {
+    margin-left: 8px;
+    margin-top: 1px;
+}
+.colo-btn img.btn-ic-left {
+    margin-right: 8px;
+    margin-top: 1px;
+}
+
+
+/*------------------------------------
+  CheckBox
+------------------------------------*/
+.colo-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+}
+.colo-checkbox {
+    display: inline-block !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 8px !important;
+}
+.colo-checkbox-label {
+    font-size: 12px;
+    color: #4f0b0e;
+    line-height: 1.5;
+}
+.colo-checkbox.active + .colo-checkbox-label {
+    font-weight: 600;
+}
+
+
+/*------------------------------------
+  Input
+------------------------------------*/
+.colo-input-wrapper {
+    position: relative;
+}
+.colo-input {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 11px 8px 11px 8px;
+    font-size: 12px;
+    color: #666666;
+    box-sizing: border-box;
+    width: 100%;
+    line-height: 1.5;
+}
+.colo-input:read-only {
+    background-color: #fafafa;
+}
+.colo-input::placeholder {
+    color: #aaaaaa;
+}
+.colo-input-wrapper .colo-input-icon {
+    position: absolute;
+    top: 11px;
+    right: 8px;
+}
+.colo-label-input-wrapper {
+    width: 100%;
+}
+.colo-label-input-wrapper label {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666666;
+}
+
+/*------------------------------------
+  Modal
+------------------------------------*/
+.colo-modal {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff;
+    overflow: auto;
+    z-index: 100;
+    min-width: 400px;
+}
+.colo-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid #ddd;
+}
+.colo-modal-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #222222;
+}
+.colo-modal-close-btn {
+    width: 1.3125rem;
+    height: 1.375rem;
+    background: url(/assets/images/icon/cfms-modal-close@2x.png) no-repeat 50% 50%;
+    display: inline-block;
+    background-size: 60%;
+    margin-top: 1px;
+    cursor: pointer;
+}
+.colo-modal-body {
+    padding: 24px;
+    border-bottom: 1px solid #ddd;
+}
+.colo-modal-footer {
+    padding: 24px 24px 32px 24px;
+}
+.colo-modal-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.38);
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 99;
+}
+.colo-modal-reset-btn {
+    width: 56px;
+    height: 56px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-right: 12px;
+    cursor: pointer;
+}

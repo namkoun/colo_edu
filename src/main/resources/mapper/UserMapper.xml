@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.user.mapper.UserMapper">
+
+
+	<!-- USER 관련 SQL(SELECT) -->
+	<select id="selectUserList" parameterType="UserVO" resultType="UserVO">
+		/* UserMapper.selectUserList */	
+		SELECT id,
+		       cmp_id,
+		       mid,
+		       pass,
+		       first_join_yn,
+		       member_type_code,
+		       member_status_code,
+		       '홍길동' AS name,
+		       '01012341234' AS mobile,
+               '021231234' AS tel_no,
+		       pass_change_date,
+		       last_login_date,
+		       use_term_yn,
+		       personal_info_term_yn,
+		       cfms_service_term_yn,
+		       marketing_term_yn,
+		       send_alim_talk_target_yn,
+		       stats_cd,
+		       use_yn,
+		       reg_date,
+		       DATE_FORMAT(reg_date,'%Y-%m-%d') as formatted_reg_date,
+		       reg_mid,
+		       mod_date,
+		       mod_mid
+		  FROM cwt_user
+		  WHERE 1 = 1
+		    AND use_yn = 'Y'
+		  <if test="userVO.mid != null and userVO.mid != ''">
+		    AND mid = #{userVO.mid}
+		  </if>
+		  <if test="userVO.firstJoinYn != null and userVO.firstJoinYn != ''">
+		    AND first_join_yn = #{userVO.firstJoinYn}
+		  </if>
+		  <if test="userVO.cmpId != null and userVO.cmpId != ''">
+		    AND cmp_id = #{userVO.cmpId}
+		  </if>
+		  <if test="userVO.memberTypeCode != null and userVO.memberTypeCode != ''">
+		    AND member_type_code = #{userVO.memberTypeCode}
+		  </if>
+		  <if test="userVO.sendAlimTalkTargetYn != null and userVO.sendAlimTalkTargetYn != ''">
+		  	AND send_alim_talk_target_yn = #{userVO.sendAlimTalkTargetYn}
+		  </if>
+	</select>
+
+	<!-- 로그인날짜 변경 -->
+	<update id="updateLastLoginDate" parameterType="UserVO">
+		UPDATE cwt_user
+		   SET last_login_date = now(),
+		       mod_date = now(),
+		       mod_mid = #{userVO.mid}
+		   WHERE 1 = 1
+		   <if test="userVO.id != null and userVO.id != 0">
+		     AND id = #{userVO.id}
+		   </if>
+		   <if test="userVO.mid != null and userVO.mid != ''">
+		     AND mid = #{userVO.mid}
+		   </if>
+	</update>
+
+	<select id="checkPasswordExpire" parameterType="String" resultType="int">
+		SELECT count(mid)
+		  FROM cwt_user
+		  WHERE 1 = 1
+		    AND pass_change_date >= DATE_SUB(now(), INTERVAL 3 MONTH)
+		    AND mid = #{mid}
+	</select>
+
+	<!-- USER 인증 관련 SQL -->
+	<select id="getUserStatusCode" parameterType="String" resultType="String">
+		/*UserMapper.getUserStatusCode*/
+		SELECT member_status_code
+		FROM cwt_user
+		WHERE mid = #{mid}
+	</select>
+
+</mapper>

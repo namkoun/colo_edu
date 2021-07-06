@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.common.mapper.CodeMapper">
+
+	<select id="selectCodeDtl" parameterType="String" resultType="CodeDtlVO">
+        /*CodeMapper.selectCodeDtl*/
+        SELECT code_id as codeId,
+               code_name as codeName,
+               up_code_group_id,
+               up_code_id
+          FROM cwt_code_dtl
+         WHERE use_yn = 'Y'
+           AND code_group_id = #{code_group_id}
+            <if test="code_group_id != 'ITF_TYPE_CD_ETC' and code_group_id != 'IN_ORD_CHECK_TYPE'">
+             ORDER BY sort_no ASC
+            </if>
+    </select>
+    
+    <select id="selectCodeDtlByGroupIds" parameterType="String" resultType="CodeDtlVO">
+        /* CodeMapper.selectCodeDtlByGroupIds */
+        SELECT  a.code_group_id
+               ,a.code_id
+               ,a.code_name
+               ,a.up_code_group_id
+               ,a.up_code_id
+               ,a.desc
+               ,a.sort_no
+               ,a.use_yn
+          FROM cwt_code_dtl a
+         WHERE a.use_yn = 'Y'
+           AND a.code_group_id IN 
+           <foreach collection="groupIdList" item="item" separator="," open="(" close=")">
+				#{item}
+		   </foreach>
+		 ORDER BY a.code_group_id, a.sort_no
+    </select>
+    
+    <select id="selectCodeDtlException" parameterType="CodeDtlVO" resultType="CodeDtlVO">
+        /*CodeMapper.selectCodeDtl*/
+        SELECT code_id as codeId,
+               code_name as codeName
+          FROM cwt_code_dtl
+         WHERE use_yn = 'Y'
+           AND code_group_id = #{codeDtlVO.codeGroupId}
+           AND code_id not in 
+           <foreach collection="codeDtlVO.ExceptionCode" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		ORDER BY sort_no ASC
+    </select>
+    
+    <select id="getCodeDtl" parameterType="CodeDtlVO" resultType="CodeDtlVO">
+        SELECT a.code_group_id,
+               a.code_id,
+               a.code_name,
+               a.up_code_group_id,
+               a.up_code_id,
+               a.desc,
+               a.sort_no,
+               a.use_yn
+          FROM cwt_code_dtl a
+          WHERE use_yn = 'Y'
+          <if test="codeDtlVO.codeGroupId != null and codeDtlVO.codeGroupId != ''">
+            AND code_group_id = #{codeDtlVO.codeGroupId}
+          </if>
+          <if test="codeDtlVO.codeId != null and codeDtlVO.codeId != ''">
+            AND code_id = #{codeDtlVO.codeId}
+          </if>
+          <if test="codeDtlVO.codeName != null and codeDtlVO.codeName != ''">
+            AND code_name = #{codeDtlVO.codeName}
+          </if>
+             ORDER BY sort_no ASC
+	</select>
+
+</mapper>
