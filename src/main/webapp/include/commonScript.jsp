@@ -2,7 +2,7 @@
 <%@ include file="/common/tagLibs.jsp" %>
 
 <!-- 공통 script -->
-<script src="${contextPath}/assets/js/common/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" ></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="${contextPath}/assets/js/common/jquery-ui.min.js"></script>
 
 <!-- 구글차트 -->
