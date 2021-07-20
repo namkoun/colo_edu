@@ -1,7 +1,7 @@
 package kr.cfms.dashboard.controller.ajax;
 
-import kr.cfms.dashboard.dto.DashboardADResultDTO;
-import kr.cfms.dashboard.dto.DashboardADSearchDTO;
+import kr.cfms.dashboard.dto.CenterIdNameDTO;
+import kr.cfms.dashboard.dto.TodayInOutDTO;
 import kr.cfms.dashboard.service.DashboardADService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,32 +19,32 @@ public class DashboardADAjaxController {
 	private final DashboardADService dashboardADService;
 
 	@GetMapping("get/searchTodayInOut")
-	public ResponseEntity<List<DashboardADResultDTO>> searchTodayInOut() {
-		List<DashboardADResultDTO> todayInOut = dashboardADService.selectTodayInOut();
+	public ResponseEntity<List<TodayInOutDTO>> searchTodayInOut() {
+		List<TodayInOutDTO> todayInOut = dashboardADService.selectTodayInOut();
 		return ResponseEntity.ok(todayInOut);
 	}
 
 	@GetMapping("get/searchSLCenterList")
-	public ResponseEntity<List<DashboardADResultDTO>> searchSLCenterList() {
-		List<DashboardADResultDTO> slCenterList = dashboardADService.selectSLCenterNameAll();
+	public ResponseEntity<List<CenterIdNameDTO>> searchSLCenterList() {
+		List<CenterIdNameDTO> slCenterList = dashboardADService.selectSLCenterNameAll();
 		return ResponseEntity.ok(slCenterList);
 	}
 
 	@GetMapping("get/searchWHCenterList")
-	public ResponseEntity<List<DashboardADResultDTO>> searchWHCenterList() {
-		List<DashboardADResultDTO> whCenterList = dashboardADService.selectWHCenterNameAll();
+	public ResponseEntity<List<CenterIdNameDTO>> searchWHCenterList() {
+		List<CenterIdNameDTO> whCenterList = dashboardADService.selectWHCenterNameAll();
 		return ResponseEntity.ok(whCenterList);
 	}
 
-	@GetMapping("get/searchWHCenterListBySLCenterName")
-	public ResponseEntity<List<DashboardADResultDTO>> searchWHCenterListBySLCenterName(@ModelAttribute DashboardADSearchDTO dashboardADSearchDTO) {
-		List<DashboardADResultDTO> whCenterList = dashboardADService.selectWHCenterNameBySLCenterName(dashboardADSearchDTO);
+	@GetMapping("get/searchWHCenterListBySLCenterId")
+	public ResponseEntity<List<CenterIdNameDTO>> searchWHCenterListBySLCenterId(long id) {
+		List<CenterIdNameDTO> whCenterList = dashboardADService.selectWHCenterNameBySLCenterId(id);
 		return ResponseEntity.ok(whCenterList);
 	}
 
-	@GetMapping("get/searchSLCenterListByWHCenterName")
-	public ResponseEntity<List<DashboardADResultDTO>> searchSLCenterListByWHCenterName(@ModelAttribute DashboardADSearchDTO dashboardADSearchDTO) {
-		List<DashboardADResultDTO> slCenterList = dashboardADService.selectSLCenterNameByWHCenterName(dashboardADSearchDTO);
+	@GetMapping("get/searchSLCenterListByWHCenterId")
+	public ResponseEntity<List<CenterIdNameDTO>> searchSLCenterListByWHCenterId(long id) {
+		List<CenterIdNameDTO> slCenterList = dashboardADService.selectSLCenterNameByWHCenterId(id);
 		return ResponseEntity.ok(slCenterList);
 	}
 }
