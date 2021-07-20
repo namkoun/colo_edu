@@ -259,17 +259,11 @@
 
 
 
-					$("select[name=in-select]").val();
-
-					$("#out-select").empty();
-					$("#out-select").append('<option value="1" selected>wh</option>');
-					$("#out-select").append('<option value="2" >test</option>');
-
 
 				}else {
 
 
-					selectsl(wh);
+					selectwh(wh);
 					$("#out-select").empty();
 					$("#out-select").append('<option selected value="1">sl</option>');
 					$("#out-select").append('<option value="1">test</option>');
@@ -606,13 +600,76 @@
 		});
 	}
 	//sl버튼
-
 	function selectsl(CenterName){
 
 
 
 		$.ajax({
 			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterList',
+			type : 'GET',
+			data : {
+				CenterName : CenterName,
+
+			},
+			dataType : 'json',
+			contentType : 'application/json;charset=UTF-8',
+			success : function(Data) {
+				console.log(Data);
+
+				$("#in-select").empty();
+				$("#in-select").append('<option value="1" selected>'+ CenterName +'</option>');
+				$("#in-select").append('<option value="2" id="All" > 전체 </option>');
+				for (var i = 0; i < Data.length; i++) {
+					$("#in-select").append('<option value="'+ Data[i].centerNm +'" >'+Data[i].centerNm+'</option>');
+				}
+
+
+			}
+
+		});
+	};
+	$("#in-select").change(function (){
+		var slname = $("select[name=in-select]").val();
+		var slnames = decodeURI(decodeURIComponent(slname));
+		console.log(slname);
+		console.log(decodeURIComponent(slname));
+		whbox(slname);
+	})
+	function whbox(slname){
+
+		$.ajax({
+			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterListBySLCenterName',
+			type : 'GET',
+			data : {
+				centerNm : encodeURI(slname),
+
+			},
+			dataType : 'json',
+			contentType : 'application/json;charset=UTF-8',
+			success : function(whData) {
+				console.log(whData);
+				$("#out-select").empty();
+				$("#out-select").append('<option value="1" selected> wh </option>');
+				for (var i = 0; i < whData.length; i++) {
+					$("#out-select").append('<option value='+ whData[i].centerNm +' >'+whData[i].centerNm+'</option>');
+				}
+			},
+			error:function(request, status, error){
+
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+			}
+		})
+	}
+
+
+	//wh버튼
+	function selectwh(CenterName){
+
+
+
+		$.ajax({
+			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterList',
 			type : 'GET',
 			data : {
 				CenterName : CenterName,
@@ -636,10 +693,6 @@
 		});
 
 	};
-
-
-
-
 
 	//전체 입·출고량
 
@@ -683,10 +736,10 @@
 	$(document).ready(function() {
 
 		/*
-          $('#noticeList tbody').on('click', 'tr td:not(.btn-area)', function (e) {
-                alert("TEST");
-            });
-          */
+            $('#noticeList tbody').on('click', 'tr td:not(.btn-area)', function (e) {
+                  alert("TEST");
+              });
+            */
 
 		getNoticeList();
 
