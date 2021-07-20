@@ -7,6 +7,9 @@
 		/*SL-센터명 모두 불러오기*/
 		SELECT center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'SL'
+		AND center_nm IS NOT NULL
+		AND center_nm != ''
+        AND use_yn = 'Y'
 		ORDER BY center_nm;
 	</select>
 
@@ -15,7 +18,11 @@
 		/*WH-센터명 모두 불러오기*/
 		SELECT center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'WH'
+	    AND center_nm IS NOT NULL
+	    AND center_nm != ''
+        AND use_yn = 'Y'
 		ORDER BY center_nm;
+
 	</select>
 
 	<select id="selectWHCenterNameBySLCenterName" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
