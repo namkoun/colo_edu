@@ -31,8 +31,8 @@ public class DashboardADAjaxController {
 	}
 
 	@GetMapping("get/searchWHCenterList")
-	public ResponseEntity<List<DashboardADResultDTO>> searchWHCenterList(@ModelAttribute DashboardADSearchDTO dashboardADSearchDTO) {
-		List<DashboardADResultDTO> whCenterList = dashboardADService.selectWHCenterNameAll(dashboardADSearchDTO);
+	public ResponseEntity<List<DashboardADResultDTO>> searchWHCenterList() {
+		List<DashboardADResultDTO> whCenterList = dashboardADService.selectWHCenterNameAll();
 		return ResponseEntity.ok(whCenterList);
 	}
 

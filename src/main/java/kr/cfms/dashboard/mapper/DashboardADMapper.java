@@ -15,7 +15,7 @@ public interface DashboardADMapper {
 	List<DashboardADResultDTO> selectTodayInOut();
 	
 	List<DashboardADResultDTO> selectSLCenterNameAll();
-	List<DashboardADResultDTO> selectWHCenterNameAll(@Param("dashboardSearchDTO")DashboardADSearchDTO dashboardADSearchDTO);
+	List<DashboardADResultDTO> selectWHCenterNameAll();
 	List<DashboardADResultDTO> selectWHCenterNameBySLCenterName(@Param("dashboardSearchDTO") DashboardADSearchDTO dashboardADSearchDTO);
 	List<DashboardADResultDTO> selectSLCenterNameByWHCenterName(@Param("dashboardSearchDTO") DashboardADSearchDTO dashboardADSearchDTO);
 

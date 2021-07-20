@@ -83,7 +83,7 @@
 	<select id="selectSLCenterNameAll" resultType="DashboardADResultDTO">
 		/*DashboardADMapper.searchSLCenterNameAll*/
 		/*SL-센터명 모두 불러오기*/
-		SELECT center_nm FROM cwt_mst_center
+		SELECT id, center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'SL'
 		AND center_nm IS NOT NULL
 		AND center_nm != ''
@@ -91,10 +91,10 @@
 		ORDER BY center_nm;
 	</select>
 
-	<select id="selectWHCenterNameAll" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
+	<select id="selectWHCenterNameAll" resultType="DashboardADResultDTO">
 		/*DashboardADMapper.searchWHCenterNameAll*/
 		/*WH-센터명 모두 불러오기*/
-		SELECT center_nm FROM cwt_mst_center
+		SELECT id, center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'WH'
 	    AND center_nm IS NOT NULL
 	    AND center_nm != ''
@@ -107,19 +107,20 @@
 		/*DashboardADMapper.selectCenterNameAll*/
 		/*SL-센터명 -> WH-센터명 모두 불러오기*/
 		SELECT id, center_nm FROM cwt_mst_center c
-								  JOIN (SELECT wh_id FROM cwt_rel_wh_cust
-										WHERE cust_id = #{dashboardADSearchDTO.centerId}) AS r
-									   ON c.id = r.wh_id;
+	    JOIN (SELECT  wh_id FROM cwt_rel_wh_cust
+	  	      WHERE cust_id = (SELECT  id FROM cwt_mst_center
+							   WHERE id =#{dashboardADSearchDTO.centerId})) AS r
+	    ON c.id = r.wh_id;
 	</select>
 
 	<select id="selectSLCenterNameByWHCenterName" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
 		/*DashboardADMapper.selectCenterNameAll*/
 		/*WH-센터명 -> SL-센터명 모두 불러오기*/
 		SELECT center_nm FROM cwt_mst_center c
-								  JOIN (SELECT cust_id FROM cwt_rel_wh_cust
-										WHERE wh_id = (SELECT id FROM cwt_mst_center
-													   WHERE center_nm = '#{dashboardADSearchDTO.centerNm}')) AS r
-									   ON c.id = r.cust_id;
+		JOIN (SELECT cust_id FROM cwt_rel_wh_cust
+			  WHERE wh_id = (SELECT id FROM cwt_mst_center
+							 WHERE id =#{dashboardADSearchDTO.centerId})) AS r
+		ON c.id = r.cust_id;
 	</select>
 
 </mapper>
