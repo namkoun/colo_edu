@@ -1,7 +1,7 @@
 package kr.cfms.dashboard.mapper;
 
-import kr.cfms.dashboard.dto.DashboardADResultDTO;
-import kr.cfms.dashboard.dto.DashboardADSearchDTO;
+import kr.cfms.dashboard.dto.CenterIdNameDTO;
+import kr.cfms.dashboard.dto.TodayInOutDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface DashboardADMapper {
 
-	List<DashboardADResultDTO> selectTodayInOut();
+	List<TodayInOutDTO> selectTodayInOut();
 	
-	List<DashboardADResultDTO> selectSLCenterNameAll();
-	List<DashboardADResultDTO> selectWHCenterNameAll();
-	List<DashboardADResultDTO> selectWHCenterNameBySLCenterName(@Param("dashboardSearchDTO") DashboardADSearchDTO dashboardADSearchDTO);
-	List<DashboardADResultDTO> selectSLCenterNameByWHCenterName(@Param("dashboardSearchDTO") DashboardADSearchDTO dashboardADSearchDTO);
+	List<CenterIdNameDTO> selectSLCenterNameAll();
+	List<CenterIdNameDTO> selectWHCenterNameAll();
+	List<CenterIdNameDTO> selectWHCenterNameBySLCenterId(@Param("id") long id);
+	List<CenterIdNameDTO> selectSLCenterNameByWHCenterId(@Param("id") long id);
 
 }

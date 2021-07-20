@@ -1,7 +1,7 @@
 package kr.cfms.dashboard.service;
 
-import kr.cfms.dashboard.dto.DashboardADResultDTO;
-import kr.cfms.dashboard.dto.DashboardADSearchDTO;
+import kr.cfms.dashboard.dto.CenterIdNameDTO;
+import kr.cfms.dashboard.dto.TodayInOutDTO;
 import kr.cfms.dashboard.mapper.DashboardADMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,24 +17,24 @@ public class DashboardADService {
 
 	private final DashboardADMapper dashboardADMapper;
 
-	public List<DashboardADResultDTO> selectTodayInOut() {
+	public List<TodayInOutDTO> selectTodayInOut() {
 		return dashboardADMapper.selectTodayInOut();
 	}
 
-	public List<DashboardADResultDTO> selectSLCenterNameAll() {
+	public List<CenterIdNameDTO> selectSLCenterNameAll() {
 		return dashboardADMapper.selectSLCenterNameAll();
 	}
 
-	public List<DashboardADResultDTO> selectWHCenterNameAll() {
+	public List<CenterIdNameDTO> selectWHCenterNameAll() {
 		return dashboardADMapper.selectWHCenterNameAll();
 	}
 
-	public List<DashboardADResultDTO> selectWHCenterNameBySLCenterName(DashboardADSearchDTO dashboardADSearchDTO) {
-		return dashboardADMapper.selectWHCenterNameBySLCenterName(dashboardADSearchDTO);
+	public List<CenterIdNameDTO> selectWHCenterNameBySLCenterId(long id) {
+		return dashboardADMapper.selectWHCenterNameBySLCenterId(id);
 	}
 
-	public List<DashboardADResultDTO> selectSLCenterNameByWHCenterName(DashboardADSearchDTO dashboardADSearchDTO) {
-		return dashboardADMapper.selectSLCenterNameByWHCenterName(dashboardADSearchDTO);
+	public List<CenterIdNameDTO> selectSLCenterNameByWHCenterId(long id) {
+		return dashboardADMapper.selectSLCenterNameByWHCenterId(id);
 	}
 }
 
