@@ -11,9 +11,12 @@ import java.util.List;
 @Mapper
 @Repository
 public interface DashboardADMapper {
+
+	List<DashboardADResultDTO> selectTodayInOut();
 	
-	List<DashboardADResultDTO> selectSLCenterNameAll(@Param("dashboardSearchDTO")DashboardADSearchDTO dashboardADSearchDTO);
+	List<DashboardADResultDTO> selectSLCenterNameAll();
 	List<DashboardADResultDTO> selectWHCenterNameAll(@Param("dashboardSearchDTO")DashboardADSearchDTO dashboardADSearchDTO);
 	List<DashboardADResultDTO> selectWHCenterNameBySLCenterName(@Param("dashboardSearchDTO") DashboardADSearchDTO dashboardADSearchDTO);
 	List<DashboardADResultDTO> selectSLCenterNameByWHCenterName(@Param("dashboardSearchDTO") DashboardADSearchDTO dashboardADSearchDTO);
+
 }

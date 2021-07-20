@@ -18,9 +18,15 @@ public class DashboardADAjaxController {
 
 	private final DashboardADService dashboardADService;
 
+	@GetMapping("get/searchTodayInOut")
+	public ResponseEntity<List<DashboardADResultDTO>> searchTodayInOut() {
+		List<DashboardADResultDTO> todayInOut = dashboardADService.selectTodayInOut();
+		return ResponseEntity.ok(todayInOut);
+	}
+
 	@GetMapping("get/searchSLCenterList")
-	public ResponseEntity<List<DashboardADResultDTO>> searchSLCenterList(@ModelAttribute DashboardADSearchDTO dashboardADSearchDTO) {
-		List<DashboardADResultDTO> slCenterList = dashboardADService.selectSLCenterNameAll(dashboardADSearchDTO);
+	public ResponseEntity<List<DashboardADResultDTO>> searchSLCenterList() {
+		List<DashboardADResultDTO> slCenterList = dashboardADService.selectSLCenterNameAll();
 		return ResponseEntity.ok(slCenterList);
 	}
 

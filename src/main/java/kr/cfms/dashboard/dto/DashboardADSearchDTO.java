@@ -12,6 +12,7 @@ import org.apache.ibatis.type.Alias;
 @Alias("DashboardADSearchDTO")
 public class DashboardADSearchDTO extends BaseVO {
 
+    private long centerId;
     private String centerNm;
 
 }

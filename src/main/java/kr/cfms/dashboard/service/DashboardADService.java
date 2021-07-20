@@ -17,8 +17,12 @@ public class DashboardADService {
 
 	private final DashboardADMapper dashboardADMapper;
 
-	public List<DashboardADResultDTO> selectSLCenterNameAll(DashboardADSearchDTO dashboardADSearchDTO) {
-		return dashboardADMapper.selectSLCenterNameAll(dashboardADSearchDTO);
+	public List<DashboardADResultDTO> selectTodayInOut() {
+		return dashboardADMapper.selectTodayInOut();
+	}
+
+	public List<DashboardADResultDTO> selectSLCenterNameAll() {
+		return dashboardADMapper.selectSLCenterNameAll();
 	}
 
 	public List<DashboardADResultDTO> selectWHCenterNameAll(DashboardADSearchDTO dashboardADSearchDTO) {

@@ -2,7 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.cfms.dashboard.mapper.DashboardADMapper">
 
-	<select id="selectSLCenterNameAll" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
+	<select id="selectTodayInOut" resultType="DashboardADResultDTO">
+		/*DashboardADMapper.searchSLCenterNameAll*/
+		/*오늘의 입/출고 신청, 완료 건수*/
+		SELECT
+-- 		    오늘의 전체 입고신청 건수
+			(SELECT
+				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
+			 FROM cwt_in_ord_mst AS im
+					  JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
+							WHERE use_yn = 'Y'
+							GROUP BY mst_id) AS id ON id.mst_id = im.id
+			 WHERE 1 = 1 AND im.use_yn = 'Y'
+			   AND im.in_ord_dt = a.now_dt
+			   AND im.in_stats IN ('IN00' , 'IN01')) AS 'today_in_apply'
+		    ,
+-- 		    오늘의 전체 입고완료 건수
+				(SELECT
+					 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
+				 FROM cwt_in_ord_mst AS im
+						  JOIN (SELECT mst_id, COUNT(id) AS count_sku
+								FROM cwt_in_ord_dtl
+								WHERE use_yn = 'Y'
+								GROUP BY mst_id) AS id ON id.mst_id = im.id
+				 WHERE 1 = 1 AND im.use_yn = 'Y'
+				   AND im.in_ord_dt = a.now_dt
+				   AND im.in_stats IN ('IN04')) AS 'today_in_complete'
+			,
+-- 			오늘의 전체 출고신청 건수
+			(SELECT
+				 IFNULL(SUM(oi.count_info_invc), 0)
+			 FROM cwt_out_ord_mst AS om
+			 LEFT JOIN (SELECT
+					  		ioi.mst_id,
+					  		SUM(IFNULL(oiic.info_invc_count, 1)) AS count_info_invc
+				  		FROM cwt_out_info AS ioi
+					    LEFT JOIN (SELECT bb.info_id, COUNT(bb.invc_no) AS info_invc_count
+								   FROM (SELECT DISTINCT d.info_id, e.invc_no, e.parcel_cd
+										 FROM (SELECT * FROM cwt_rel_info_invc
+											   WHERE 1 = 1 AND use_yn = 'Y'
+											   AND rel_stats = 'CN') d
+										 LEFT JOIN (SELECT * FROM cwt_out_invc
+													WHERE 1 = 1 AND use_yn = 'Y'
+												    AND invc_no IS NOT NULL
+												    AND invc_no != '') e ON e.id = d.invc_id) bb
+								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
+						WHERE ioi.use_yn = 'Y'
+				  		GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
+			 WHERE 1 = 1 AND om.use_yn = 'Y'
+		     AND om.out_stats IN ('OS01')
+		     AND om.out_ord_dt = a.now_dt) AS 'today_out_apply'
+		    ,
+-- 		    오늘의 전체 출고완료 건수
+			(SELECT
+				 IFNULL(SUM(oi.count_info_invc), 0)
+			 FROM cwt_out_ord_mst AS om
+			 LEFT JOIN (SELECT
+						  ioi.mst_id,
+						  SUM(IFNULL(oiic.info_invc_count, 1)) AS count_info_invc
+					 	FROM cwt_out_info AS ioi
+					    LEFT JOIN (SELECT bb.info_id, COUNT(bb.invc_no) AS info_invc_count
+								   FROM (SELECT DISTINCT d.info_id, e.invc_no, e.parcel_cd
+									     FROM (SELECT * FROM cwt_rel_info_invc
+											   WHERE 1 = 1 AND use_yn = 'Y'
+											   AND rel_stats = 'CN') d
+										 LEFT JOIN (SELECT * FROM cwt_out_invc
+												    WHERE 1 = 1 AND use_yn = 'Y'
+												    AND invc_no IS NOT NULL
+												    AND invc_no != '') e ON e.id = d.invc_id) bb
+								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
+					    WHERE ioi.use_yn = 'Y'
+					 	GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
+			 WHERE 1 = 1 AND om.use_yn = 'Y'
+		     AND om.out_stats IN ('OS05')
+		     AND om.out_ord_dt = a.now_dt) AS 'today_out_complete'
+		FROM
+			(SELECT DATE_FORMAT(NOW(), '%Y-%m-%d') AS now_dt) AS a;
+	</select>
+
+	<select id="selectSLCenterNameAll" resultType="DashboardADResultDTO">
 		/*DashboardADMapper.searchSLCenterNameAll*/
 		/*SL-센터명 모두 불러오기*/
 		SELECT center_nm FROM cwt_mst_center
@@ -28,21 +106,20 @@
 	<select id="selectWHCenterNameBySLCenterName" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
 		/*DashboardADMapper.selectCenterNameAll*/
 		/*SL-센터명 -> WH-센터명 모두 불러오기*/
-		SELECT center_nm FROM cwt_mst_center c
-		JOIN (SELECT wh_id FROM cwt_rel_wh_cust
-			  WHERE cust_id = (SELECT id FROM cwt_mst_center
-							   WHERE center_nm = #{dashboardADSearchDTO.centerNm})) AS r
-		ON c.id = r.wh_id;
+		SELECT id, center_nm FROM cwt_mst_center c
+								  JOIN (SELECT wh_id FROM cwt_rel_wh_cust
+										WHERE cust_id = #{dashboardADSearchDTO.centerId}) AS r
+									   ON c.id = r.wh_id;
 	</select>
 
 	<select id="selectSLCenterNameByWHCenterName" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
 		/*DashboardADMapper.selectCenterNameAll*/
 		/*WH-센터명 -> SL-센터명 모두 불러오기*/
 		SELECT center_nm FROM cwt_mst_center c
-		JOIN (SELECT cust_id FROM cwt_rel_wh_cust
-			  WHERE wh_id = (SELECT id FROM cwt_mst_center
-							 WHERE center_nm = #{dashboardADSearchDTO.centerNm})) AS r
-		ON c.id = r.cust_id;
+								  JOIN (SELECT cust_id FROM cwt_rel_wh_cust
+										WHERE wh_id = (SELECT id FROM cwt_mst_center
+													   WHERE center_nm = '#{dashboardADSearchDTO.centerNm}')) AS r
+									   ON c.id = r.cust_id;
 	</select>
 
 </mapper>
