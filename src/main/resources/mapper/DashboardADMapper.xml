@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.dashboard.mapper.DashboardADMapper">
+
+	<select id="selectSLCenterNameAll" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
+		/*DashboardADMapper.searchSLCenterNameAll*/
+		/*SL-센터명 모두 불러오기*/
+		SELECT center_nm FROM cwt_mst_center
+		WHERE center_type_cd = 'SL'
+		ORDER BY center_nm;
+	</select>
+
+	<select id="selectWHCenterNameAll" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
+		/*DashboardADMapper.searchWHCenterNameAll*/
+		/*WH-센터명 모두 불러오기*/
+		SELECT center_nm FROM cwt_mst_center
+		WHERE center_type_cd = 'WH'
+		ORDER BY center_nm;
+	</select>
+
+	<select id="selectWHCenterNameBySLCenterName" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
+		/*DashboardADMapper.selectCenterNameAll*/
+		/*SL-센터명 -> WH-센터명 모두 불러오기*/
+		SELECT center_nm FROM cwt_mst_center c
+		JOIN (SELECT wh_id FROM cwt_rel_wh_cust
+			  WHERE cust_id = (SELECT id FROM cwt_mst_center
+							   WHERE center_nm = #{dashboardADSearchDTO.centerNm})) AS r
+		ON c.id = r.wh_id;
+	</select>
+
+	<select id="selectSLCenterNameByWHCenterName" parameterType="DashboardADSearchDTO" resultType="DashboardADResultDTO">
+		/*DashboardADMapper.selectCenterNameAll*/
+		/*WH-센터명 -> SL-센터명 모두 불러오기*/
+		SELECT center_nm FROM cwt_mst_center c
+		JOIN (SELECT cust_id FROM cwt_rel_wh_cust
+			  WHERE wh_id = (SELECT id FROM cwt_mst_center
+							 WHERE center_nm = #{dashboardADSearchDTO.centerNm})) AS r
+		ON c.id = r.cust_id;
+	</select>
+
+</mapper>
