@@ -57,7 +57,7 @@
 
 				</select>
 
-				<select id="out-select"  class="form-select" >
+				<select id="out-select" name="out-select" class="form-select" >
 
 				</select>
 
@@ -88,28 +88,28 @@
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img style="margin-left: 5px;" src="${contextPath}/assets/images/icon/dashboard/in1.png" /> </span>
 						<span>입고 예정</span>
-						<span id="">0</span>
+						<span id="in_expected">0</span>
 						<span>건</span>
 					</div>
 					<i class="bi bi-caret-right "></i>
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img src="${contextPath}/assets/images/icon/dashboard/in3.png" /> </span>
 						<span>입GO 작업중</span>
-						<span id="">0</span>
+						<span id="in_working">0</span>
 						<span>건</span>
 					</div>
 					<i class="bi bi-caret-right "></i>
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img src="${contextPath}/assets/images/icon/dashboard/in4.png" /> </span>
 						<span>입고 완료</span>
-						<span id="">0</span>
+						<span id="in_complete">0</span>
 						<span>건</span>
 					</div>
 					<i class="bi bi-plus-lg"></i>
 					<div style="display: flex;flex-direction: column;align-items: center;">
 						<span class="span-img-icon"><img src="${contextPath}/assets/images/icon/dashboard/out-x.png" /> </span>
 						<span>입고 취소</span>
-						<span id="">0</span>
+						<span id="in_cancel">0</span>
 						<span>건</span>
 					</div>
 
@@ -124,28 +124,28 @@
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img style="margin-left: 5px;" src="${contextPath}/assets/images/icon/dashboard/out1.png" /> </span>
 						<span>출고 예정</span>
-						<span id="">0</span>
+						<span id="out_expected">0</span>
 						<span>건</span>
 					</div>
 					<i class="bi bi-caret-right "></i>
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img src="${contextPath}/assets/images/icon/dashboard/out2.png" /> </span>
 						<span>출고 작업중</span>
-						<span id="">0</span>
+						<span id="out_working">0</span>
 						<span>건</span>
 					</div>
 					<i class="bi bi-caret-right "></i>
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img src="${contextPath}/assets/images/icon/dashboard/out3.png" /> </span>
 						<span>출고 완료</span>
-						<span id="">0</span>
+						<span id="out_complete">0</span>
 						<span>건</span>
 					</div>
 					<i class="bi bi-plus-lg"></i>
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img src="${contextPath}/assets/images/icon/dashboard/out-x.png" /> </span>
 						<span>취소</span>
-						<span id="">0</span>
+						<span id="out_cancel">0</span>
 						<span>건</span>
 					</div>
 
@@ -173,27 +173,39 @@
 	var rightselect = "";
 	var sl = "sl";
 	var wh = "wh";
-	$("#out-select").empty();
-	$("#out-select").append('<option value="1" selected>wh</option>');
-	selectsl(sl);
+	var today = new Date();
+	var toDate = "";
+	var fromDate = "";
 
+	console.log(getDayType());
+	console.log(getMonthType());
+	$("#out-select").empty();
+	$("#out-select").append('<option value="all" selected>wh</option>');
+	selectsl(sl);
 	$(document).ready(function(){
 		getTotalSum();
+		selectAll(getMonthType(),getDayType());
 		//////////////////////////////////////// 선택 스위치버튼/////////////////////////////////////////////////
-		$(function() {
-			$('#input-data').change(function() {
-				if ($(this).prop('checked')){
-					$("#out-select").empty();
-					$("#out-select").append('<option selected value="-1">wh</option>');
-					selectsl(sl);
-					console.log(rightselect);
-				}else {
-					$("#out-select").empty();
-					$("#out-select").append('<option selected value="-1">sl</option>');
-					selectwh(wh);
-				}
+
+		//if ($("select[name=in-select]").val() === "" || $("select[name=in-select]").val() === "all" )
+
+
+			$(function() {
+				$('#input-data').change(function() {
+					if ($(this).prop('checked')){
+						$("#out-select").empty();
+						$("#out-select").append('<option selected value="all">wh</option>');
+						selectsl(sl);
+						console.log(rightselect);
+					}else {
+						$("#out-select").empty();
+						$("#out-select").append('<option selected value="all">sl</option>');
+						selectwh(wh);
+					}
+				})
 			})
-		})
+
+
 		function initDatePickers() {
 			// datepicker Korean option
 			$.datepicker.regional['ko'] = {
@@ -513,8 +525,8 @@
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
 				$("#in-select").empty();
-				$("#in-select").append('<option value="-1" selected>'+ CenterName +'</option>');
-				$("#in-select").append('<option value="-2" id="All" > 전체 </option>');
+				$("#in-select").append('<option value="all" selected>'+ CenterName +'</option>');
+				$("#in-select").append('<option value="all" id="All" > 전체 </option>');
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
@@ -533,7 +545,7 @@
 						success : function(whData) {
 
 							$("#out-select").empty();
-							$("#out-select").append('<option value="-1" selected> wh </option>');
+							$("#out-select").append('<option value="all" selected> wh </option>');
 							for (var i = 0; i < whData.length; i++) {
 								$("#out-select").append('<option value="'+ whData[i].id +'" >'+whData[i].centerNm+'</option>');
 
@@ -562,7 +574,7 @@
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
 				$("#in-select").empty();
-				$("#in-select").append('<option value="-1" selected>'+ CenterName +'</option>');
+				$("#in-select").append('<option value="all" selected>'+ CenterName +'</option>');
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
@@ -580,7 +592,7 @@
 						success : function(slData) {
 
 							$("#out-select").empty();
-							$("#out-select").append('<option value="-1" selected> sl </option>');
+							$("#out-select").append('<option value="all" selected> sl </option>');
 							for (var i = 0; i < slData.length; i++) {
 								$("#out-select").append('<option value="'+ slData[i].id +'" >'+slData[i].centerNm+'</option>');
 							}
@@ -596,7 +608,7 @@
 	////////////////////////////////////////차트 디테일 시작//////////////////////////////////
 	function selectAll(fromDate,toDate){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatus',
 			type: 'GET',
 			data : {
 				fromDate : fromDate,
@@ -608,22 +620,22 @@
 				console.log(data);
 				if(data.length>0){
 					for(var i in data){
-						var $a = data[0].a;
-						var $b = data[0].b;
-						var $c = data[0].c;
-						var $d = data[0].d;
-						var $e = data[0].e;
-						var $f = data[0].f;
-						var $g = data[0].g;
-						var $h = data[0].h;
-						$('').text($a);
-						$('').text($b);
-						$('').text($c);
-						$('').text($d);
-						$('').text($e);
-						$('').text($f);
-						$('').text($g);
-						$('').text($h);
+						var $a = data[0].inTobe.split('/');
+						var $b = data[0].inWorking.split('/');
+						var $c = data[0].inComplete.split('/');
+						var $d = data[0].inCancle.split('/');
+						var $e = data[0].outTobe;
+						var $f = data[0].outWorking;
+						var $g = data[0].outComplete;
+						var $h = data[0].outCancle;
+						$('#in_expected').text($a[0]);
+						$('#in_working').text($b[0]);
+						$('#in_complete').text($c[0]);
+						$('#in_cancel').text($d[0]);
+						$('#out_expected').text($e);
+						$('#out_working').text($f);
+						$('#out_complete').text($g);
+						$('#out_cancel').text($h);
 					}
 				}
 			},
@@ -807,5 +819,22 @@
 				});
 			}
 		});
+	}
+	//////////////////////
+	// return today, YYYY-MM-DD
+	function getDayType() {
+		return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+	}
+
+	// return 1 week ago, YYYY-MM-DD
+	function getWeekType() {
+		weekLater = new Date(today.valueOf() - 7 * 1000 * 3600 * 24);
+		return weekLater.getFullYear() + '-' + ('0' + (weekLater.getMonth() + 1)).slice(-2) + '-' + ('0' + weekLater.getDate()).slice(-2);
+	}
+
+	// return 1 month ago, YYYY-MM-DD
+	function getMonthType() {
+		monthLater = new Date(today.valueOf() - 30 * 1000 * 3600 * 24);
+		return monthLater.getFullYear() + '-' + ('0' + (monthLater.getMonth() + 1)).slice(-2) + '-' + ('0' + monthLater.getDate()).slice(-2);
 	}
 </script>
