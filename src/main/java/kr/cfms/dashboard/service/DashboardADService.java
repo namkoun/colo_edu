@@ -26,21 +26,21 @@ public class DashboardADService {
 	public List<CenterIdNameDTO> selectSLCenterNameAll() {
 		return dashboardADMapper.selectSLCenterNameAll();
 	}
-
 	public List<CenterIdNameDTO> selectWHCenterNameAll() {
 		return dashboardADMapper.selectWHCenterNameAll();
 	}
-
 	public List<CenterIdNameDTO> selectWHCenterNameBySLCenterId(long id) {
 		return dashboardADMapper.selectWHCenterNameBySLCenterId(id);
 	}
-
 	public List<CenterIdNameDTO> selectSLCenterNameByWHCenterId(long id) {
 		return dashboardADMapper.selectSLCenterNameByWHCenterId(id);
 	}
 
 	public List<InOutResultDTO> selectInOutStatus(InOutSearchDTO inOutSearchDTO) {
 		return dashboardADMapper.selectInOutStatus(inOutSearchDTO);
+	}
+	public List<InOutResultDTO> selectInOutStatusBySL(InOutSearchDTO inOutSearchDTO) {
+		return dashboardADMapper.selectInOutStatusBySL(inOutSearchDTO);
 	}
 }
 

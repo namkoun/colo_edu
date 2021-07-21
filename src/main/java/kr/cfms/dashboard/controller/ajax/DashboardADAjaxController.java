@@ -20,12 +20,18 @@ public class DashboardADAjaxController {
 
 	private final DashboardADService dashboardADService;
 
+	/**
+	 * 오늘의 출/입고 현황
+	 */
 	@GetMapping("get/searchTodayInOut")
 	public ResponseEntity<List<TodayInOutDTO>> searchTodayInOut() {
 		List<TodayInOutDTO> todayInOut = dashboardADService.selectTodayInOut();
 		return ResponseEntity.ok(todayInOut);
 	}
 
+	/**
+	 * 업체명 출력
+	 */
 	@GetMapping("get/searchSLCenterList")
 	public ResponseEntity<List<CenterIdNameDTO>> searchSLCenterList() {
 		List<CenterIdNameDTO> slCenterList = dashboardADService.selectSLCenterNameAll();
@@ -50,9 +56,18 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(slCenterList);
 	}
 
+	/**
+	 * 날짜, 업체별 출/입고 현황
+	 */
 	@GetMapping("get/searchInOutStatus")
 	public ResponseEntity<List<InOutResultDTO>> searchInOutStatus(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<InOutResultDTO> inOutStatus = dashboardADService.selectInOutStatus(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatus);
+	}
+
+	@GetMapping("get/searchInOutStatusBySL")
+	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusBySL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		List<InOutResultDTO> inOutStatusBySL = dashboardADService.selectInOutStatusBySL(inOutSearchDTO);
+		return ResponseEntity.ok(inOutStatusBySL);
 	}
 }

@@ -13,4 +13,7 @@ public class InOutSearchDTO {
 
     private String fromDate;
     private String toDate;
+    private long whId;
+    private long custId;
+
 }

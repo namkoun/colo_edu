@@ -22,4 +22,5 @@ public interface DashboardADMapper {
 	List<CenterIdNameDTO> selectSLCenterNameByWHCenterId(@Param("id") long id);
 
 	List<InOutResultDTO> selectInOutStatus(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
+	List<InOutResultDTO> selectInOutStatusBySL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
 }
