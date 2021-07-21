@@ -1,6 +1,8 @@
 package kr.cfms.dashboard.controller.ajax;
 
 import kr.cfms.dashboard.dto.CenterIdNameDTO;
+import kr.cfms.dashboard.dto.InOutResultDTO;
+import kr.cfms.dashboard.dto.InOutSearchDTO;
 import kr.cfms.dashboard.dto.TodayInOutDTO;
 import kr.cfms.dashboard.service.DashboardADService;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +48,11 @@ public class DashboardADAjaxController {
 	public ResponseEntity<List<CenterIdNameDTO>> searchSLCenterListByWHCenterId(long id) {
 		List<CenterIdNameDTO> slCenterList = dashboardADService.selectSLCenterNameByWHCenterId(id);
 		return ResponseEntity.ok(slCenterList);
+	}
+
+	@GetMapping("get/searchInOutStatus")
+	public ResponseEntity<List<InOutResultDTO>> searchInOutStatus(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		List<InOutResultDTO> inOutStatus = dashboardADService.selectInOutStatus(inOutSearchDTO);
+		return ResponseEntity.ok(inOutStatus);
 	}
 }

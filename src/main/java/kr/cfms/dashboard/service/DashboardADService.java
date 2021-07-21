@@ -1,6 +1,8 @@
 package kr.cfms.dashboard.service;
 
 import kr.cfms.dashboard.dto.CenterIdNameDTO;
+import kr.cfms.dashboard.dto.InOutResultDTO;
+import kr.cfms.dashboard.dto.InOutSearchDTO;
 import kr.cfms.dashboard.dto.TodayInOutDTO;
 import kr.cfms.dashboard.mapper.DashboardADMapper;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,10 @@ public class DashboardADService {
 
 	public List<CenterIdNameDTO> selectSLCenterNameByWHCenterId(long id) {
 		return dashboardADMapper.selectSLCenterNameByWHCenterId(id);
+	}
+
+	public List<InOutResultDTO> selectInOutStatus(InOutSearchDTO inOutSearchDTO) {
+		return dashboardADMapper.selectInOutStatus(inOutSearchDTO);
 	}
 }
 
