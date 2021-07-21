@@ -147,7 +147,7 @@
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 		  	 AND im.in_stats IN ('IN02')
-		 	  AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_working
+		 	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_working
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -272,11 +272,8 @@
 		  	 AND om.out_stats IN ('OS99')
 		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_cancle
 		FROM
-			(SELECT
-				(SELECT id FROM cwt_mst_center
-				 WHERE 1 = 1 AND use_yn = 'Y' AND center_nm = '콜로상사') AS cust_id,
-			#{inOutSearchDTO.fromDate} AS from_dt,
-			#{inOutSearchDTO.toDate} AS to_dt
+				#{inOutSearchDTO.fromDate} AS from_dt,
+				#{inOutSearchDTO.toDate} AS to_dt
 			) AS a;
 	</select>
 	<select id="selectInOutStatusBySL" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
@@ -352,6 +349,7 @@
 			WHERE 1 = 1
 		    AND om.use_yn = 'Y'
 		    AND om.out_stats IS NOT NULL AND om.out_stats != ''
+			AND om.cust_id = a.cust_id
 		    AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_all
 			,
 			(SELECT
@@ -373,6 +371,7 @@
 			 WHERE 1 = 1
 		     AND om.use_yn = 'Y'
 		     AND om.out_stats IN ('OS01')
+			 AND om.cust_id = a.cust_id
 		     AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_tobe
 			,
 			(SELECT
@@ -394,6 +393,7 @@
 			 WHERE 1 = 1
 		  	 AND om.use_yn = 'Y'
 		 	 AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
+			 AND om.cust_id = a.cust_id
 		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_working
 			,
 			(SELECT
@@ -415,6 +415,7 @@
 			 WHERE 1 = 1
 		  	 AND om.use_yn = 'Y'
 		 	 AND om.out_stats IN ('OS05')
+			 AND om.cust_id = a.cust_id
 		 	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_complete
 			,
 			(SELECT
@@ -436,12 +437,13 @@
 			 WHERE 1 = 1
 		  	 AND om.use_yn = 'Y'
 		  	 AND om.out_stats IN ('OS99')
+		 	 AND om.cust_id = a.cust_id
 		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_cancle
 		FROM
 			(SELECT
-			#{inOutSearchDTO.custId} AS cust_id,
-			#{inOutSearchDTO.fromDate} AS from_dt,
-			#{inOutSearchDTO.toDate} AS to_dt
+				#{inOutSearchDTO.custId} AS cust_id,
+				#{inOutSearchDTO.fromDate} AS from_dt,
+				#{inOutSearchDTO.toDate} AS to_dt
 			) AS a;
 	</select>
 	<select id="selectInOutStatusByWH" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
