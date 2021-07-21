@@ -24,4 +24,5 @@ public interface DashboardADMapper {
 	List<InOutResultDTO> selectInOutStatus(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
 	List<InOutResultDTO> selectInOutStatusBySL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
 	List<InOutResultDTO> selectInOutStatusByWH(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
+	List<InOutResultDTO> selectInOutStatusByWHAndSL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
 }
