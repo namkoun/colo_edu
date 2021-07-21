@@ -70,4 +70,10 @@ public class DashboardADAjaxController {
 		List<InOutResultDTO> inOutStatusBySL = dashboardADService.selectInOutStatusBySL(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatusBySL);
 	}
+
+	@GetMapping("get/searchInOutStatusByWH")
+	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusByWH(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		List<InOutResultDTO> inOutStatusByWH = dashboardADService.selectInOutStatusByWH(inOutSearchDTO);
+		return ResponseEntity.ok(inOutStatusByWH);
+	}
 }

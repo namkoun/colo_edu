@@ -42,5 +42,8 @@ public class DashboardADService {
 	public List<InOutResultDTO> selectInOutStatusBySL(InOutSearchDTO inOutSearchDTO) {
 		return dashboardADMapper.selectInOutStatusBySL(inOutSearchDTO);
 	}
+	public List<InOutResultDTO> selectInOutStatusByWH(InOutSearchDTO inOutSearchDTO) {
+		return dashboardADMapper.selectInOutStatusByWH(inOutSearchDTO);
+	}
 }
 
