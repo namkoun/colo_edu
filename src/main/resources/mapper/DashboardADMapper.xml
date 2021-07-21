@@ -272,6 +272,7 @@
 		  	 AND om.out_stats IN ('OS99')
 		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_cancle
 		FROM
+			(SELECT
 				#{inOutSearchDTO.fromDate} AS from_dt,
 				#{inOutSearchDTO.toDate} AS to_dt
 			) AS a;
