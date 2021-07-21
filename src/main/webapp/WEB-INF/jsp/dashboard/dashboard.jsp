@@ -191,9 +191,9 @@
 					$("#out-select").empty();
 					$("#out-select").append('<option selected value="-1">sl</option>');
 					selectwh(wh);
-					}
-				})
+				}
 			})
+		})
 		function initDatePickers() {
 			// datepicker Korean option
 			$.datepicker.regional['ko'] = {
@@ -477,29 +477,29 @@
 		});
 
 	});
-		function getTotalSum(){
-			$.ajax({
-				url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchTodayInOut',
-				type: 'GET',
-				dataType: 'json',
-				contentType: 'application/json;charset=UTF-8',
-				success:function (data){
-					console.log(data);
-					if(data.length>0){
-						for(var i in data){
-							var $a = data[0].todayInApply;
-							var $b = data[0].todayInComplete;
-							var $c = data[0].todayOutApply;
-							var $d = data[0].todayOutComplete;
-							$('#in-sum').text($a);
-							$('#in-complete').text($b);
-							$('#out-sum').text($c);
-							$('#out-complete').text($d);
-						}
+	function getTotalSum(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchTodayInOut',
+			type: 'GET',
+			dataType: 'json',
+			contentType: 'application/json;charset=UTF-8',
+			success:function (data){
+				console.log(data);
+				if(data.length>0){
+					for(var i in data){
+						var $a = data[0].todayInApply;
+						var $b = data[0].todayInComplete;
+						var $c = data[0].todayOutApply;
+						var $d = data[0].todayOutComplete;
+						$('#in-sum').text($a);
+						$('#in-complete').text($b);
+						$('#out-sum').text($c);
+						$('#out-complete').text($d);
 					}
-				},
-			});
-		}
+				}
+			},
+		});
+	}
 	/////////////////////////////////////////////////////sl버튼/////////////////////////////////////////////////////
 	function selectsl(CenterName){
 		$.ajax({
@@ -519,7 +519,7 @@
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
 
-	/////////////////////////////////////////// sl 선택후 wh부분/////////////////////////////////////////////
+				/////////////////////////////////////////// sl 선택후 wh부분/////////////////////////////////////////////
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
 					$.ajax({
@@ -566,7 +566,7 @@
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
-	///////////////////////////////////////////////wh 선택후 sl부분/////////////////////////////////////////////
+				///////////////////////////////////////////////wh 선택후 sl부분/////////////////////////////////////////////
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
 					$.ajax({
