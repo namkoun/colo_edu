@@ -16,8 +16,10 @@
 
 - ###selectAll(): select box에서 선택된 값이 없을 때
  
-- ###selectSLWH(): select box값이 모두 선택 됐을때
+- ###selectSLWH(): select box값이 모두 선택 됐을때 (leftselect가 셀러일때)
 
+- ###selectWHSL(): select box값이 모두 선택 됐을때 (rightselect가 셀러일때) 
+  
 - ###selectSL(): leftSelect값 불러올 때
 
 - ###selectWH(): rightSelect값 불러올 때
