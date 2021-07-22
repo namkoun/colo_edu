@@ -106,7 +106,8 @@
 		/*SL(센터id)로 WH(센터명) 모두 불러오기*/
 		SELECT id, center_nm FROM cwt_mst_center c
 	    JOIN (SELECT  wh_id FROM cwt_rel_wh_cust
-	  	      WHERE cust_id =#{id}) AS r
+	  	      WHERE cust_id =#{id}
+			  and use_yn ='Y' and rel_stats ='CN') AS r
 	    ON c.id = r.wh_id;
 	</select>
 	<select id="selectSLCenterNameByWHCenterId" parameterType="long" resultType="CenterIdNameDTO">
@@ -114,7 +115,8 @@
 		/*WH(센터id)로 SL(센터명) 모두 불러오기*/
 		SELECT id, center_nm FROM cwt_mst_center c
 		JOIN (SELECT cust_id FROM cwt_rel_wh_cust
-			  WHERE wh_id =#{id}) AS r
+			  WHERE wh_id =#{id}
+			  and use_yn ='Y' and rel_stats ='CN') AS r
 		ON c.id = r.cust_id;
 	</select>
 

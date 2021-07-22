@@ -184,13 +184,13 @@
 	selectsl(sl);
 	$(document).ready(function(){
 		getTotalSum();
-		selectAll(getMonthType(),getDayType());
+
 		//////////////////////////////////////// 선택 스위치버튼/////////////////////////////////////////////////
 
 		//if ($("select[name=in-select]").val() === "" || $("select[name=in-select]").val() === "all" )
 
 
-			$(function() {
+
 				$('#input-data').change(function() {
 					if ($(this).prop('checked')){
 						$("#out-select").empty();
@@ -203,7 +203,7 @@
 						selectwh(wh);
 					}
 				})
-			})
+
 
 
 		function initDatePickers() {
@@ -525,15 +525,21 @@
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
 				$("#in-select").empty();
-				$("#in-select").append('<option value="all" selected>'+ CenterName +'</option>');
+				$("#in-select").append('<option value="-1" selected> ---선택--- </option>');
 				$("#in-select").append('<option value="all" id="All" > 전체 </option>');
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
 
+
+				$("#in-select").unbind("change");
+
 				/////////////////////////////////////////// sl 선택후 wh부분/////////////////////////////////////////////
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
+
+
+					selectSL(getMonthType(),getDayType(),leftselect);
 					$.ajax({
 						url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterListBySLCenterId',
 						type : 'GET',
@@ -550,9 +556,10 @@
 								$("#out-select").append('<option value="'+ whData[i].id +'" >'+whData[i].centerNm+'</option>');
 
 							}
+							$("#out-select").off('change');
 							$("#out-select").change(function (){
 								rightselect = $("select[name=out-select]").val();
-
+								selectSLWH(getMonthType(),getDayType(),leftselect,rightselect);
 							})
 
 						}
@@ -574,13 +581,17 @@
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
 				$("#in-select").empty();
-				$("#in-select").append('<option value="all" selected>'+ CenterName +'</option>');
+				$("#in-select").append('<option value="-1" selected> -------- </option>');
+				$("#in-select").append('<option value="all" id="all"> 전체 </option>');
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
+				$("#in-select").unbind("change");
 				///////////////////////////////////////////////wh 선택후 sl부분/////////////////////////////////////////////
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
+
+					selectWH(getMonthType(),getDayType(),leftselect);
 					$.ajax({
 						url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterListByWHCenterId',
 						type : 'GET',
@@ -596,14 +607,18 @@
 							for (var i = 0; i < slData.length; i++) {
 								$("#out-select").append('<option value="'+ slData[i].id +'" >'+slData[i].centerNm+'</option>');
 							}
+							$("#out-select").off('change');
 							$("#out-select").change(function (){
 								rightselect = $("select[name=out-select]").val();
+								console.log("왼쪽값:"+leftselect+" "+"오른쪽 값:"+ rightselect);
+								selectWHSL(getMonthType(),getDayType(),leftselect,rightselect);
 							})
 						}
 					})
 				})
 			}
 		});
+
 	};
 	////////////////////////////////////////차트 디테일 시작//////////////////////////////////
 	function selectAll(fromDate,toDate){
@@ -643,49 +658,99 @@
 	}
 	function selectSLWH(fromDate,toDate,leftSelect,rightSelect){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWHAndSL',
+
 			type: 'GET',
 			data : {
+				whId: rightSelect,
+				custId: leftSelect,
 				fromDate : fromDate,
 				toDate : toDate,
-				id: leftSelect,
-				id: rightSelect,
+
+
 			},
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
+
+				console.log("둘사 선택 조회: "+ data);
 				console.log(data);
 				if(data.length>0){
 					for(var i in data){
-						var $a = data[0].a;
-						var $b = data[0].b;
-						var $c = data[0].c;
-						var $d = data[0].d;
-						var $e = data[0].e;
-						var $f = data[0].f;
-						var $g = data[0].g;
-						var $h = data[0].h;
-						$('').text($a);
-						$('').text($b);
-						$('').text($c);
-						$('').text($d);
-						$('').text($e);
-						$('').text($f);
-						$('').text($g);
-						$('').text($h);
+						var $a = data[0].inTobe.split('/');
+						var $b = data[0].inWorking.split('/');
+						var $c = data[0].inComplete.split('/');
+						var $d = data[0].inCancle.split('/');
+						var $e = data[0].outTobe;
+						var $f = data[0].outWorking;
+						var $g = data[0].outComplete;
+						var $h = data[0].outCancle;
+						$('#in_expected').text($a[0]);
+						$('#in_working').text($b[0]);
+						$('#in_complete').text($c[0]);
+						$('#in_cancel').text($d[0]);
+						$('#out_expected').text($e);
+						$('#out_working').text($f);
+						$('#out_complete').text($g);
+						$('#out_cancel').text($h);
+					}
+				}
+			},
+		});
+	}
+	function selectWHSL(fromDate,toDate,leftSelect,rightSelect){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWHAndSL',
+
+			type: 'GET',
+			data : {
+				whId: leftSelect,
+				custId: rightSelect,
+				fromDate : fromDate,
+				toDate : toDate,
+
+
+			},
+			dataType: 'json',
+			contentType: 'application/json;charset=UTF-8',
+			success:function (data){
+
+				console.log("둘사 선택 조회: "+ data);
+				console.log(data);
+				if(data.length>0){
+					for(var i in data){
+						var $a = data[0].inTobe.split('/');
+						var $b = data[0].inWorking.split('/');
+						var $c = data[0].inComplete.split('/');
+						var $d = data[0].inCancle.split('/');
+						var $e = data[0].outTobe;
+						var $f = data[0].outWorking;
+						var $g = data[0].outComplete;
+						var $h = data[0].outCancle;
+						$('#in_expected').text($a[0]);
+						$('#in_working').text($b[0]);
+						$('#in_complete').text($c[0]);
+						$('#in_cancel').text($d[0]);
+						$('#out_expected').text($e);
+						$('#out_working').text($f);
+						$('#out_complete').text($g);
+						$('#out_cancel').text($h);
 					}
 				}
 			},
 		});
 	}
 	function selectSL(fromDate,toDate,leftSelect){
+		if($("select[name=in-select]").val() === 'all'){
+			selectAll(getMonthType(),getDayType());
+		}else {
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusBySL',
 			type: 'GET',
 			data : {
 				fromDate : fromDate,
 				toDate : toDate,
-				id: leftSelect
+				custId: leftSelect
 			},
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
@@ -693,62 +758,68 @@
 				console.log(data);
 				if(data.length>0){
 					for(var i in data){
-						var $a = data[0].a;
-						var $b = data[0].b;
-						var $c = data[0].c;
-						var $d = data[0].d;
-						var $e = data[0].e;
-						var $f = data[0].f;
-						var $g = data[0].g;
-						var $h = data[0].h;
-						$('').text($a);
-						$('').text($b);
-						$('').text($c);
-						$('').text($d);
-						$('').text($e);
-						$('').text($f);
-						$('').text($g);
-						$('').text($h);
+						var $a = data[0].inTobe.split('/');
+						var $b = data[0].inWorking.split('/');
+						var $c = data[0].inComplete.split('/');
+						var $d = data[0].inCancle.split('/');
+						var $e = data[0].outTobe;
+						var $f = data[0].outWorking;
+						var $g = data[0].outComplete;
+						var $h = data[0].outCancle;
+						$('#in_expected').text($a[0]);
+						$('#in_working').text($b[0]);
+						$('#in_complete').text($c[0]);
+						$('#in_cancel').text($d[0]);
+						$('#out_expected').text($e);
+						$('#out_working').text($f);
+						$('#out_complete').text($g);
+						$('#out_cancel').text($h);
 					}
 				}
 			},
 		});
+		}
 	}
-	function selectWH(fromDate,toDate,rightSelect){
-		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
-			type: 'GET',
-			data : {
-				fromDate : fromDate,
-				toDate : toDate,
-				id: rightSelect
-			},
-			dataType: 'json',
-			contentType: 'application/json;charset=UTF-8',
-			success:function (data){
-				console.log(data);
-				if(data.length>0){
-					for(var i in data){
-						var $a = data[0].a;
-						var $b = data[0].b;
-						var $c = data[0].c;
-						var $d = data[0].d;
-						var $e = data[0].e;
-						var $f = data[0].f;
-						var $g = data[0].g;
-						var $h = data[0].h;
-						$('').text($a);
-						$('').text($b);
-						$('').text($c);
-						$('').text($d);
-						$('').text($e);
-						$('').text($f);
-						$('').text($g);
-						$('').text($h);
-					}
-				}
-			},
-		});
+	function selectWH(fromDate,toDate,leftselect){
+
+			if($("select[name=in-select]").val() === 'all'){
+				selectAll(getMonthType(),getDayType());
+			}else {
+				$.ajax({
+					url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWH',
+					type: 'GET',
+					data : {
+						fromDate : fromDate,
+						toDate : toDate,
+						whId: leftselect
+					},
+					dataType: 'json',
+					contentType: 'application/json;charset=UTF-8',
+					success:function (data){
+						console.log(data);
+						if(data.length>0){
+							for(var i in data){
+								var $a = data[0].inTobe.split('/');
+								var $b = data[0].inWorking.split('/');
+								var $c = data[0].inComplete.split('/');
+								var $d = data[0].inCancle.split('/');
+								var $e = data[0].outTobe;
+								var $f = data[0].outWorking;
+								var $g = data[0].outComplete;
+								var $h = data[0].outCancle;
+								$('#in_expected').text($a[0]);
+								$('#in_working').text($b[0]);
+								$('#in_complete').text($c[0]);
+								$('#in_cancel').text($d[0]);
+								$('#out_expected').text($e);
+								$('#out_working').text($f);
+								$('#out_complete').text($g);
+								$('#out_cancel').text($h);
+							}
+						}
+					},
+				});
+		}
 	}
 	///////////////////////////////////////////////////////// 선택 날짜//////////////////////////////////////////////////
 	$('').on('click', function(e) {
