@@ -57,19 +57,10 @@
 			</div>
 			<div style="display: flex" >
 				<input class="btn-success" data-width="160" id="input-data" data-style="slow" type="checkbox" checked data-toggle="toggle" data-on="셀러 " data-off="창고 " data-onstyle="light" data-offstyle="light">
-
-				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" >
-
-				</select>
-
-				<select id="out-select" name="out-select" class="form-select" >
-
-				</select>
-
+				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" ></select>
+				<select id="out-select" name="out-select" class="form-select" ></select>
 			</div>
-
 		</div>
-
 		<div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
                padding: 20px 0; background-color: #e2e2e2;">
 			<div style="width: 400px; height: 400px;">
@@ -113,7 +104,6 @@
 						<span id="in_cancel">0</span>
 						<span>건</span>
 					</div>
-
 				</div>
 			</div>
 			<!-- 출고 -->         <!-- width값 조정 -->
@@ -149,7 +139,6 @@
 						<span id="out_cancel">0</span>
 						<span>건</span>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -169,7 +158,79 @@
 		</div>
 	</div>
 </div>
+<div style="position: relative; ">
+	<div class="accordion" id="accordionPanelsStayOpenExample" style=" width: 360px;position: fixed;right: 0;bottom: 0; z-index: 99;">
+		<div class="accordion-item">
+
+			<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+				<div class="accordion-body">
+					<div class="toast-container">
+						<div class="toast-box" style="z-index: 1000">
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<h2 class="accordion-header" id="panelsStayOpen-headingOne">
+				<button class="accordion-button cccc" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+					Accordion Item #1
+					<div >
+
+						<div style="position: relative; text-align: center">
+					<span id="test-a" style="text-align: center; position: absolute;width: 20px;height: 20px;background-color: red;border-radius: 50%;
+					color: white;top: -3px;right: 10px">0</span>
+							<a id="icon">	<span> <i  class="fas fa-bell fa-2x"></i></span> </a>
+						</div>
+					</div>
+				</button>
+			</h2>
+		</div>
+	</div>
+</div>
+<button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+<!--------------------------script----------------------------------->
+
 <script type="text/javascript">
+	////알림기능 시작
+	$("#liveToastBtn").on("click",function (){
+		$(".toast-box").append("<div id=\"liveToast\" class=\"toast hide\" role=\"alert\" aria-live=\"assertive\" data-bs-autohide=\"false\" aria-atomic=\"true\">\n" +
+				"\t\t\t<div class=\"toast-header\">\n" +
+				"\t\t\t\t<img src=\"...\" class=\"rounded me-2\" alt=\"...\">\n" +
+				"\t\t\t\t<strong class=\"me-auto\">Bootstrap</strong>\n" +
+				"\t\t\t\t<small>11 mins ago</small>\n" +
+				"\t\t\t\t<button type=\"button\" class=\"btn-close\" onclick=\"tititi();\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
+				"\t\t\t</div>\n" +
+				"\t\t\t<div class=\"toast-body\">\n" +
+				"\t\t\t\tHello, world! This is a toast message.\n" +
+				"\t\t\t\t<div class=\"mt-2 pt-2 border-top\">\n" +
+				"\t\t\t\t\t<button type=\"button\" class=\"btn btn-primary btn-sm\">Take action</button>\n" +
+				"\n" +
+				"\t\t\t\t</div>\n" +
+				"\t\t\t</div>\n" +
+				"\t\t</div>");
+		$(".toast").toast('show');
+		test111();
+		// db로 랜더링될때마다 1증 증가 한다
+	});
+	$(".cccc").on("click",function (){
+		$(".toast").toast('show');
+		test111();
+	})
+	function tititi(){
+		$(event.target).closest(".toast").remove();
+		test111();
+		// 삭제버튼 누를때 마다 db에서 -1 한다.
+		//$(".toast-box>.toast:last").remove();
+		//$(".toast-box").last().empty();
+	}
+	function test111(){
+		var n = $(".toast").length;
+		$("#test-a").text(n);
+		//10 초마다 db에서 값을 가져와서 보여준다
+	}
+	//////여기까지 알림기능
+	//전역변수
 	var leftselect = "";
 	var rightselect = "";
 	var sl = "sl";
@@ -179,8 +240,7 @@
 	var fromDate = "";
 	var day = getMonthType();
 
-	console.log(getDayType());
-	console.log(getMonthType());
+	//선택 스위치버튼
 	$("#out-select").empty();
 	$("#out-select").append('<option value="all" selected>wh</option>');
 	selectsl(sl,day);
@@ -195,7 +255,6 @@
 			day = getWeekType();
 			$("#out-select").empty();
 			$("#out-select").append('<option selected value="all">wh</option>');
-			console.log(day);
 			selectsl(sl,day);
 
 		} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
@@ -206,10 +265,7 @@
 		}
 	});
 	$(document).ready(function(){
-		getTotalSum();
-
-		//////////////////////////////////////// 선택 스위치버튼/////////////////////////////////////////////////
-
+		getTotalSum();//전체 출/입고량 실행
 		$('#input-data').change(function() {
 			if ($(this).prop('checked')){
 				selectsl(sl,day);
@@ -219,14 +275,11 @@
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">wh</option>');
 						selectsl(sl,day);
-
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">wh</option>');
-						console.log(day);
 						selectsl(sl,day);
-
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
@@ -242,30 +295,24 @@
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
 						selectwh(wh,day);
-
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
-						console.log(day);
 						selectwh(wh,day);
-
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
 						selectwh(wh,day);
-
 					}
 				});
-
 			}
 		})
 
-
+// datepicker Korean option
 
 		function initDatePickers() {
-			// datepicker Korean option
 			$.datepicker.regional['ko'] = {
 				closeText: '닫기',
 				prevText: '이전달',
@@ -295,7 +342,8 @@
 				monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 			};
 			$('#schMonth').monthpicker(options);
-			// make year selector
+
+// make year selector
 			for (var i = currentYear; i >= startYear; i--) {
 				if ($("#schYear").attr("pathValue") == i) {
 					$("#schYear").append("<option value='" + i + "' selected>" + i + "</option>");
@@ -326,7 +374,8 @@
 										disabledMonths: []
 									}, options);
 							settings.dateSeparator = settings.pattern.replace(/(mmm|mm|m|yyyy|yy|y)/ig, '');
-							// If the plugin hasn't been initialized yet for this element
+
+// If the plugin hasn't been initialized yet for this element
 							if (!data) {
 								$(this).data('monthpicker', {
 									'target': $this,
@@ -456,7 +505,8 @@
 							}
 							monthpicker.trigger('monthpicker-change-year', $(this).val());
 						});
-						// mount years combo
+
+// mount years combo
 						for (var i = settings.startYear; i <= settings.finalYear; i++) {
 							var option = $('<option class="mtz-monthpicker" />').attr('value', i).append(i);
 							if (settings.selectedYear == i) {
@@ -465,7 +515,8 @@
 							combo.append(option);
 						}
 						header.append(combo).appendTo(container);
-						// mount months table
+
+// mount months table
 						for (var i = 1; i <= 12; i++) {
 							td = $('<td class="ui-state-default mtz-monthpicker mtz-monthpicker-month" style="padding:5px;cursor:default;" />').attr('data-month', i);
 							if (settings.selectedMonth == i) {
@@ -529,7 +580,6 @@
 					}
 				};
 			})(jQuery);
-
 			Date.prototype.yyyymmdd = function() {
 				var mm = this.getMonth() + 1; // getMonth() is zero-based
 				var dd = this.getDate();
@@ -542,11 +592,12 @@
 			var schDate = date.yyyymmdd();
 			$('#schDate').val(schDate);
 			$('#schMonth').val(schDate.substr(0,7));
-
 			initDatePickers();
 		});
-
 	});
+
+	//전체 출/입고량
+
 	function getTotalSum(){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchTodayInOut',
@@ -570,14 +621,14 @@
 			},
 		});
 	}
-	/////////////////////////////////////////////////////sl버튼/////////////////////////////////////////////////////
+
+	//sl버튼
 	function selectsl(CenterName,day){
 		$.ajax({
 			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterList',
 			type : 'GET',
 			data : {
-				CenterName : CenterName,
-
+				CenterName : CenterName
 			},
 			dataType : 'json',
 			contentType : 'application/json;charset=UTF-8',
@@ -589,15 +640,12 @@
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
 
-
 				$("#in-select").unbind("change");
 
-				/////////////////////////////////////////// sl 선택후 wh부분/////////////////////////////////////////////
+//sl 선택후 wh부분
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
-
 					if ($("select[name=in-select]").val() === 'all'){
-						console.log(day);
 						selectAll(day,getDayType());
 					}else {
 						selectSL(day,getDayType(),leftselect);
@@ -610,30 +658,25 @@
 							dataType : 'json',
 							contentType : 'application/json;charset=UTF-8',
 							success : function(whData) {
-
 								$("#out-select").empty();
 								$("#out-select").append('<option value="all" selected> wh </option>');
 								for (var i = 0; i < whData.length; i++) {
 									$("#out-select").append('<option value="'+ whData[i].id +'" >'+whData[i].centerNm+'</option>');
-
 								}
 								$("#out-select").off('change');
 								$("#out-select").change(function (){
 									rightselect = $("select[name=out-select]").val();
 									selectSLWH(day,getDayType(),leftselect,rightselect);
 								})
-
 							}
-
 						})
 					}
 				})
-
 			}
-
 		});
 	};
-	//////////////////////////////////////////////wh버튼//////////////////////////////////////////////////////
+
+	//wh버튼
 	function selectwh(CenterName,day){
 		$.ajax({
 			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterList',
@@ -650,11 +693,12 @@
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
+
 				$("#in-select").unbind("change");
-				///////////////////////////////////////////////wh 선택후 sl부분/////////////////////////////////////////////
+
+//wh 선택후 sl부분
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
-
 					if ($("select[name=in-select]").val() === 'all'){
 						selectAll(day,getDayType());
 					}else {
@@ -668,7 +712,6 @@
 							dataType : 'json',
 							contentType : 'application/json;charset=UTF-8',
 							success : function(slData) {
-
 								$("#out-select").empty();
 								$("#out-select").append('<option value="all" selected> sl </option>');
 								for (var i = 0; i < slData.length; i++) {
@@ -677,22 +720,19 @@
 								$("#out-select").off('change');
 								$("#out-select").change(function (){
 									rightselect = $("select[name=out-select]").val();
-									console.log("왼쪽값:"+leftselect+" "+"오른쪽 값:"+ rightselect);
 									selectWHSL(day,getDayType(),leftselect,rightselect);
 								})
 							}
 						})
 					}
 				})
-
 			}
 		});
-
 	};
-	////////////////////////////////////////차트 디테일 시작//////////////////////////////////
+
+	//차트 디테일 시작
+	//전체 선택
 	function selectAll(fromDate,toDate){
-		console.log(fromDate);
-		console.log(toDate);
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatus',
 			type: 'GET',
@@ -703,7 +743,6 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log(data);
 				if(data.length>0){
 					for(var i in data){
 						var $a = data[0].inTobe.split('/');
@@ -727,25 +766,21 @@
 			},
 		});
 	}
+
+	//둘다선택(셀러기준)
 	function selectSLWH(fromDate,toDate,leftSelect,rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWHAndSL',
-
 			type: 'GET',
 			data : {
 				whId: rightSelect,
 				custId: leftSelect,
 				fromDate : fromDate,
 				toDate : toDate,
-
-
 			},
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-
-				console.log("둘사 선택 조회: "+ data);
-				console.log(data);
 				if(data.length>0){
 					for(var i in data){
 						var $a = data[0].inTobe.split('/');
@@ -769,25 +804,21 @@
 			},
 		});
 	}
+
+	//둘다선택(창고기준)
 	function selectWHSL(fromDate,toDate,leftSelect,rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWHAndSL',
-
 			type: 'GET',
 			data : {
 				whId: leftSelect,
 				custId: rightSelect,
 				fromDate : fromDate,
 				toDate : toDate,
-
-
 			},
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-
-				console.log("둘사 선택 조회: "+ data);
-				console.log(data);
 				if(data.length>0){
 					for(var i in data){
 						var $a = data[0].inTobe.split('/');
@@ -811,6 +842,8 @@
 			},
 		});
 	}
+
+	//셀러만 선택
 	function selectSL(fromDate,toDate,leftSelect){
 		if($("select[name=in-select]").val() === 'all'){
 			selectAll(getMonthType(),getDayType());
@@ -851,8 +884,9 @@
 			});
 		}
 	}
-	function selectWH(fromDate,toDate,leftselect){
 
+	//창고만 선택
+	function selectWH(fromDate,toDate,leftselect){
 		if($("select[name=in-select]").val() === 'all'){
 			selectAll(getMonthType(),getDayType());
 		}else {
@@ -893,7 +927,9 @@
 		}
 	}
 
-	///////////////////////////////////////////////////////재고부족 테이블 시작/////////////////////////////////////////////
+	//재고부족 테이블 시작
+
+	//둘다 선택 안했을 때
 	function stockSelectNone(){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -906,6 +942,8 @@
 			}
 		});
 	}
+
+	//셀러만 선택
 	function stockSelectSL(leftSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -921,6 +959,8 @@
 			}
 		});
 	}
+
+	//창고만 선택
 	function stockSelectWH(rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -936,6 +976,8 @@
 			}
 		});
 	}
+
+	//둘다 선택
 	function stockSelectSLWH(leftSelect, rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -952,7 +994,7 @@
 			}
 		});
 	}
-	//////////////////////
+
 	// return today, YYYY-MM-DD
 	function getDayType() {
 		return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
@@ -969,13 +1011,14 @@
 		monthLater = new Date(today.valueOf() - 30 * 1000 * 3600 * 24);
 		return monthLater.getFullYear() + '-' + ('0' + (monthLater.getMonth() + 1)).slice(-2) + '-' + ('0' + monthLater.getDate()).slice(-2);
 	}
-	/////////////////////chart///////////////////////////////////
+
+	//chart
+
 	function chart1(){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
 			type: "GET",
 			data: {
-
 			},
 			datatype: 'json',
 			success: function (chartIn){
