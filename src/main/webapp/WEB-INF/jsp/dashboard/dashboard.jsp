@@ -210,31 +210,6 @@
 
 		//////////////////////////////////////// 선택 스위치버튼/////////////////////////////////////////////////
 
-		//if ($("select[name=in-select]").val() === "" || $("select[name=in-select]").val() === "all" )
-
-
-
-		// $('.tdwdmd').on('click', function(e) {
-		//    if ( $(this).data('type') === 'day' ) { // 오늘 클릭
-		//       day = getDayType();
-		//       $("#out-select").empty();
-		//       $("#out-select").append('<option selected value="all">wh</option>');
-		//       selectsl(day);
-		//
-		//    } else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
-		//       day = getWeekType();
-		//       $("#out-select").empty();
-		//       $("#out-select").append('<option selected value="all">wh</option>');
-		//       selectsl(sl,day);
-		//
-		//    } else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
-		//       day = getMonthType();
-		//       $("#out-select").empty();
-		//       $("#out-select").append('<option selected value="all">wh</option>');
-		//       selectsl(day);
-		//    }
-		// });
-
 		$('#input-data').change(function() {
 			if ($(this).prop('checked')){
 				selectsl(sl,day);
@@ -709,6 +684,7 @@
 						})
 					}
 				})
+
 			}
 		});
 
