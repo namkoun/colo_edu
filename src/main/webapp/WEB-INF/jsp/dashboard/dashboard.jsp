@@ -178,9 +178,9 @@
 					<div >
 
 						<div style="position: relative; text-align: center">
-					<span id="test-a" style="text-align: center; position: absolute;width: 20px;height: 20px;background-color: red;border-radius: 50%;
-					color: white;top: -3px;right: 10px">0</span>
-							<a id="icon">	<span> <i  class="fas fa-bell fa-2x"></i></span> </a>
+               <span id="test-a" style="text-align: center; position: absolute;width: 20px;height: 20px;background-color: red;border-radius: 50%;
+               color: white;top: -3px;right: 10px">0</span>
+							<a id="icon">   <span> <i  class="fas fa-bell fa-2x"></i></span> </a>
 						</div>
 					</div>
 				</button>
@@ -1055,4 +1055,5 @@
 			}
 		});
 	}
+	//test
 </script>
