@@ -50,25 +50,17 @@
 
 		<div class="select-home" style="width: 100%; padding-bottom: 20px;  border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
             padding: 20px 9px; background-color: #efefef;">
+			<div >
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd" data-type="month">한달</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd" data-type="week">일주일</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd" data-type="day">오늘</button>
+			</div>
 			<div style="display: flex" >
 				<input class="btn-success" data-width="160" id="input-data" data-style="slow" type="checkbox" checked data-toggle="toggle" data-on="셀러 " data-off="창고 " data-onstyle="light" data-offstyle="light">
-
-				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" >
-
-				</select>
-
-				<select id="out-select" name="out-select" class="form-select" >
-
-				</select>
-
-			</div>
-			<div >
-				<button type="button" class="btn btn-sm buttonmwd status" data-type="month">한달</button>
-				<button type="button" class="btn btn-sm buttonmwd status" data-type="week">일주일</button>
-				<button type="button" class="btn btn-sm buttonmwd status" data-type="day">오늘</button>
+				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" ></select>
+				<select id="out-select" name="out-select" class="form-select" ></select>
 			</div>
 		</div>
-
 		<div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
                padding: 20px 0; background-color: #e2e2e2;">
 			<div style="width: 400px; height: 400px;">
@@ -112,7 +104,6 @@
 						<span id="in_cancel">0</span>
 						<span>건</span>
 					</div>
-
 				</div>
 			</div>
 			<!-- 출고 -->         <!-- width값 조정 -->
@@ -148,7 +139,6 @@
 						<span id="out_cancel">0</span>
 						<span>건</span>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -168,7 +158,79 @@
 		</div>
 	</div>
 </div>
+<div style="position: relative; ">
+	<div class="accordion" id="accordionPanelsStayOpenExample" style=" width: 360px;position: fixed;right: 0;bottom: 0; z-index: 99;">
+		<div class="accordion-item">
+
+			<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+				<div class="accordion-body">
+					<div class="toast-container">
+						<div class="toast-box" style="z-index: 1000">
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<h2 class="accordion-header" id="panelsStayOpen-headingOne">
+				<button class="accordion-button cccc" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+					Accordion Item #1
+					<div >
+
+						<div style="position: relative; text-align: center">
+               <span id="test-a" style="text-align: center; position: absolute;width: 20px;height: 20px;background-color: red;border-radius: 50%;
+               color: white;top: -3px;right: 10px">0</span>
+							<a id="icon">   <span> <i  class="fas fa-bell fa-2x"></i></span> </a>
+						</div>
+					</div>
+				</button>
+			</h2>
+		</div>
+	</div>
+</div>
+<button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+<!--------------------------script----------------------------------->
+
 <script type="text/javascript">
+	////알림기능 시작
+	$("#liveToastBtn").on("click",function (){
+		$(".toast-box").append("<div id=\"liveToast\" class=\"toast hide\" role=\"alert\" aria-live=\"assertive\" data-bs-autohide=\"false\" aria-atomic=\"true\">\n" +
+				"\t\t\t<div class=\"toast-header\">\n" +
+				"\t\t\t\t<img src=\"...\" class=\"rounded me-2\" alt=\"...\">\n" +
+				"\t\t\t\t<strong class=\"me-auto\">Bootstrap</strong>\n" +
+				"\t\t\t\t<small>11 mins ago</small>\n" +
+				"\t\t\t\t<button type=\"button\" class=\"btn-close\" onclick=\"tititi();\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
+				"\t\t\t</div>\n" +
+				"\t\t\t<div class=\"toast-body\">\n" +
+				"\t\t\t\tHello, world! This is a toast message.\n" +
+				"\t\t\t\t<div class=\"mt-2 pt-2 border-top\">\n" +
+				"\t\t\t\t\t<button type=\"button\" class=\"btn btn-primary btn-sm\">Take action</button>\n" +
+				"\n" +
+				"\t\t\t\t</div>\n" +
+				"\t\t\t</div>\n" +
+				"\t\t</div>");
+		$(".toast").toast('show');
+		test111();
+		// db로 랜더링될때마다 1증 증가 한다
+	});
+	$(".cccc").on("click",function (){
+		$(".toast").toast('show');
+		test111();
+	})
+	function tititi(){
+		$(event.target).closest(".toast").remove();
+		test111();
+		// 삭제버튼 누를때 마다 db에서 -1 한다.
+		//$(".toast-box>.toast:last").remove();
+		//$(".toast-box").last().empty();
+	}
+	function test111(){
+		var n = $(".toast").length;
+		$("#test-a").text(n);
+		//10 초마다 db에서 값을 가져와서 보여준다
+	}
+	//////여기까지 알림기능
+	//전역변수
 	var leftselect = "";
 	var rightselect = "";
 	var sl = "sl";
@@ -176,38 +238,81 @@
 	var today = new Date();
 	var toDate = "";
 	var fromDate = "";
+	var day = getMonthType();
 
-	console.log(getDayType());
-	console.log(getMonthType());
+	//선택 스위치버튼
 	$("#out-select").empty();
 	$("#out-select").append('<option value="all" selected>wh</option>');
-	selectsl(sl);
+	selectsl(sl,day);
+	$('.tdwdmd').on('click', function(e) {
+		if ( $(this).data('type') === 'day' ) { // 오늘 클릭
+			day = getDayType();
+			$("#out-select").empty();
+			$("#out-select").append('<option selected value="all">wh</option>');
+			selectsl(sl,day);
+
+		} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
+			day = getWeekType();
+			$("#out-select").empty();
+			$("#out-select").append('<option selected value="all">wh</option>');
+			selectsl(sl,day);
+
+		} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
+			day = getMonthType();
+			$("#out-select").empty();
+			$("#out-select").append('<option selected value="all">wh</option>');
+			selectsl(sl,day);
+		}
+	});
 	$(document).ready(function(){
-		getTotalSum();
-
-		//////////////////////////////////////// 선택 스위치버튼/////////////////////////////////////////////////
-
-		//if ($("select[name=in-select]").val() === "" || $("select[name=in-select]").val() === "all" )
-
-
-
-				$('#input-data').change(function() {
-					if ($(this).prop('checked')){
+		getTotalSum();//전체 출/입고량 실행
+		$('#input-data').change(function() {
+			if ($(this).prop('checked')){
+				selectsl(sl,day);
+				$('.tdwdmd').on('click', function(e) {
+					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
+						day = getDayType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">wh</option>');
-						selectsl(sl);
-						console.log(rightselect);
-					}else {
+						selectsl(sl,day);
+					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
+						day = getWeekType();
+						$("#out-select").empty();
+						$("#out-select").append('<option selected value="all">wh</option>');
+						selectsl(sl,day);
+					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
+						day = getMonthType();
+						$("#out-select").empty();
+						$("#out-select").append('<option selected value="all">wh</option>');
+						selectsl(sl,day);
+					}
+				});
+			}else {
+				selectwh(wh,day);
+				$('.tdwdmd').on('click', function(e) {
+					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
+						day = getDayType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
-						selectwh(wh);
+						selectwh(wh,day);
+					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
+						day = getWeekType();
+						$("#out-select").empty();
+						$("#out-select").append('<option selected value="all">sl</option>');
+						selectwh(wh,day);
+					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
+						day = getMonthType();
+						$("#out-select").empty();
+						$("#out-select").append('<option selected value="all">sl</option>');
+						selectwh(wh,day);
 					}
-				})
+				});
+			}
+		})
 
-
+// datepicker Korean option
 
 		function initDatePickers() {
-			// datepicker Korean option
 			$.datepicker.regional['ko'] = {
 				closeText: '닫기',
 				prevText: '이전달',
@@ -237,7 +342,8 @@
 				monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 			};
 			$('#schMonth').monthpicker(options);
-			// make year selector
+
+// make year selector
 			for (var i = currentYear; i >= startYear; i--) {
 				if ($("#schYear").attr("pathValue") == i) {
 					$("#schYear").append("<option value='" + i + "' selected>" + i + "</option>");
@@ -268,7 +374,8 @@
 										disabledMonths: []
 									}, options);
 							settings.dateSeparator = settings.pattern.replace(/(mmm|mm|m|yyyy|yy|y)/ig, '');
-							// If the plugin hasn't been initialized yet for this element
+
+// If the plugin hasn't been initialized yet for this element
 							if (!data) {
 								$(this).data('monthpicker', {
 									'target': $this,
@@ -398,7 +505,8 @@
 							}
 							monthpicker.trigger('monthpicker-change-year', $(this).val());
 						});
-						// mount years combo
+
+// mount years combo
 						for (var i = settings.startYear; i <= settings.finalYear; i++) {
 							var option = $('<option class="mtz-monthpicker" />').attr('value', i).append(i);
 							if (settings.selectedYear == i) {
@@ -407,7 +515,8 @@
 							combo.append(option);
 						}
 						header.append(combo).appendTo(container);
-						// mount months table
+
+// mount months table
 						for (var i = 1; i <= 12; i++) {
 							td = $('<td class="ui-state-default mtz-monthpicker mtz-monthpicker-month" style="padding:5px;cursor:default;" />').attr('data-month', i);
 							if (settings.selectedMonth == i) {
@@ -471,7 +580,6 @@
 					}
 				};
 			})(jQuery);
-
 			Date.prototype.yyyymmdd = function() {
 				var mm = this.getMonth() + 1; // getMonth() is zero-based
 				var dd = this.getDate();
@@ -484,11 +592,12 @@
 			var schDate = date.yyyymmdd();
 			$('#schDate').val(schDate);
 			$('#schMonth').val(schDate.substr(0,7));
-
 			initDatePickers();
 		});
-
 	});
+
+	//전체 출/입고량
+
 	function getTotalSum(){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchTodayInOut',
@@ -512,14 +621,14 @@
 			},
 		});
 	}
-	/////////////////////////////////////////////////////sl버튼/////////////////////////////////////////////////////
-	function selectsl(CenterName){
+
+	//sl버튼
+	function selectsl(CenterName,day){
 		$.ajax({
 			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterList',
 			type : 'GET',
 			data : {
-				CenterName : CenterName,
-
+				CenterName : CenterName
 			},
 			dataType : 'json',
 			contentType : 'application/json;charset=UTF-8',
@@ -531,46 +640,44 @@
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
 
-
 				$("#in-select").unbind("change");
 
-				/////////////////////////////////////////// sl 선택후 wh부분/////////////////////////////////////////////
+//sl 선택후 wh부분
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
-
-
-					selectSL(getMonthType(),getDayType(),leftselect);
-					$.ajax({
-						url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterListBySLCenterId',
-						type : 'GET',
-						data : {
-							id : leftselect,
-						},
-						dataType : 'json',
-						contentType : 'application/json;charset=UTF-8',
-						success : function(whData) {
-
-							$("#out-select").empty();
-							$("#out-select").append('<option value="all" selected> wh </option>');
-							for (var i = 0; i < whData.length; i++) {
-								$("#out-select").append('<option value="'+ whData[i].id +'" >'+whData[i].centerNm+'</option>');
-
+					if ($("select[name=in-select]").val() === 'all'){
+						selectAll(day,getDayType());
+					}else {
+						selectSL(day,getDayType(),leftselect);
+						$.ajax({
+							url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterListBySLCenterId',
+							type : 'GET',
+							data : {
+								id : leftselect,
+							},
+							dataType : 'json',
+							contentType : 'application/json;charset=UTF-8',
+							success : function(whData) {
+								$("#out-select").empty();
+								$("#out-select").append('<option value="all" selected> wh </option>');
+								for (var i = 0; i < whData.length; i++) {
+									$("#out-select").append('<option value="'+ whData[i].id +'" >'+whData[i].centerNm+'</option>');
+								}
+								$("#out-select").off('change');
+								$("#out-select").change(function (){
+									rightselect = $("select[name=out-select]").val();
+									selectSLWH(day,getDayType(),leftselect,rightselect);
+								})
 							}
-							$("#out-select").off('change');
-							$("#out-select").change(function (){
-								rightselect = $("select[name=out-select]").val();
-								selectSLWH(getMonthType(),getDayType(),leftselect,rightselect);
-							})
-
-						}
-
-					})
+						})
+					}
 				})
 			}
 		});
 	};
-	//////////////////////////////////////////////wh버튼//////////////////////////////////////////////////////
-	function selectwh(CenterName){
+
+	//wh버튼
+	function selectwh(CenterName,day){
 		$.ajax({
 			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterList',
 			type : 'GET',
@@ -586,41 +693,45 @@
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
+
 				$("#in-select").unbind("change");
-				///////////////////////////////////////////////wh 선택후 sl부분/////////////////////////////////////////////
+
+//wh 선택후 sl부분
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
-
-					selectWH(getMonthType(),getDayType(),leftselect);
-					$.ajax({
-						url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterListByWHCenterId',
-						type : 'GET',
-						data : {
-							id : leftselect,
-						},
-						dataType : 'json',
-						contentType : 'application/json;charset=UTF-8',
-						success : function(slData) {
-
-							$("#out-select").empty();
-							$("#out-select").append('<option value="all" selected> sl </option>');
-							for (var i = 0; i < slData.length; i++) {
-								$("#out-select").append('<option value="'+ slData[i].id +'" >'+slData[i].centerNm+'</option>');
+					if ($("select[name=in-select]").val() === 'all'){
+						selectAll(day,getDayType());
+					}else {
+						selectWH(day,getDayType(),leftselect);
+						$.ajax({
+							url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterListByWHCenterId',
+							type : 'GET',
+							data : {
+								id : leftselect,
+							},
+							dataType : 'json',
+							contentType : 'application/json;charset=UTF-8',
+							success : function(slData) {
+								$("#out-select").empty();
+								$("#out-select").append('<option value="all" selected> sl </option>');
+								for (var i = 0; i < slData.length; i++) {
+									$("#out-select").append('<option value="'+ slData[i].id +'" >'+slData[i].centerNm+'</option>');
+								}
+								$("#out-select").off('change');
+								$("#out-select").change(function (){
+									rightselect = $("select[name=out-select]").val();
+									selectWHSL(day,getDayType(),leftselect,rightselect);
+								})
 							}
-							$("#out-select").off('change');
-							$("#out-select").change(function (){
-								rightselect = $("select[name=out-select]").val();
-								console.log("왼쪽값:"+leftselect+" "+"오른쪽 값:"+ rightselect);
-								selectWHSL(getMonthType(),getDayType(),leftselect,rightselect);
-							})
-						}
-					})
+						})
+					}
 				})
 			}
 		});
-
 	};
-	////////////////////////////////////////차트 디테일 시작//////////////////////////////////
+
+	//차트 디테일 시작
+	//전체 선택
 	function selectAll(fromDate,toDate){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatus',
@@ -632,7 +743,6 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log(data);
 				if(data.length>0){
 					for(var i in data){
 						var $a = data[0].inTobe.split('/');
@@ -656,25 +766,21 @@
 			},
 		});
 	}
+
+	//둘다선택(셀러기준)
 	function selectSLWH(fromDate,toDate,leftSelect,rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWHAndSL',
-
 			type: 'GET',
 			data : {
 				whId: rightSelect,
 				custId: leftSelect,
 				fromDate : fromDate,
 				toDate : toDate,
-
-
 			},
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-
-				console.log("둘사 선택 조회: "+ data);
-				console.log(data);
 				if(data.length>0){
 					for(var i in data){
 						var $a = data[0].inTobe.split('/');
@@ -698,25 +804,21 @@
 			},
 		});
 	}
+
+	//둘다선택(창고기준)
 	function selectWHSL(fromDate,toDate,leftSelect,rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWHAndSL',
-
 			type: 'GET',
 			data : {
 				whId: leftSelect,
 				custId: rightSelect,
 				fromDate : fromDate,
 				toDate : toDate,
-
-
 			},
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-
-				console.log("둘사 선택 조회: "+ data);
-				console.log(data);
 				if(data.length>0){
 					for(var i in data){
 						var $a = data[0].inTobe.split('/');
@@ -740,99 +842,94 @@
 			},
 		});
 	}
+
+	//셀러만 선택
 	function selectSL(fromDate,toDate,leftSelect){
 		if($("select[name=in-select]").val() === 'all'){
 			selectAll(getMonthType(),getDayType());
 		}else {
-		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusBySL',
-			type: 'GET',
-			data : {
-				fromDate : fromDate,
-				toDate : toDate,
-				custId: leftSelect
-			},
-			dataType: 'json',
-			contentType: 'application/json;charset=UTF-8',
-			success:function (data){
-				console.log(data);
-				if(data.length>0){
-					for(var i in data){
-						var $a = data[0].inTobe.split('/');
-						var $b = data[0].inWorking.split('/');
-						var $c = data[0].inComplete.split('/');
-						var $d = data[0].inCancle.split('/');
-						var $e = data[0].outTobe;
-						var $f = data[0].outWorking;
-						var $g = data[0].outComplete;
-						var $h = data[0].outCancle;
-						$('#in_expected').text($a[0]);
-						$('#in_working').text($b[0]);
-						$('#in_complete').text($c[0]);
-						$('#in_cancel').text($d[0]);
-						$('#out_expected').text($e);
-						$('#out_working').text($f);
-						$('#out_complete').text($g);
-						$('#out_cancel').text($h);
-					}
-				}
-			},
-		});
-		}
-	}
-	function selectWH(fromDate,toDate,leftselect){
-
-			if($("select[name=in-select]").val() === 'all'){
-				selectAll(getMonthType(),getDayType());
-			}else {
-				$.ajax({
-					url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWH',
-					type: 'GET',
-					data : {
-						fromDate : fromDate,
-						toDate : toDate,
-						whId: leftselect
-					},
-					dataType: 'json',
-					contentType: 'application/json;charset=UTF-8',
-					success:function (data){
-						console.log(data);
-						if(data.length>0){
-							for(var i in data){
-								var $a = data[0].inTobe.split('/');
-								var $b = data[0].inWorking.split('/');
-								var $c = data[0].inComplete.split('/');
-								var $d = data[0].inCancle.split('/');
-								var $e = data[0].outTobe;
-								var $f = data[0].outWorking;
-								var $g = data[0].outComplete;
-								var $h = data[0].outCancle;
-								$('#in_expected').text($a[0]);
-								$('#in_working').text($b[0]);
-								$('#in_complete').text($c[0]);
-								$('#in_cancel').text($d[0]);
-								$('#out_expected').text($e);
-								$('#out_working').text($f);
-								$('#out_complete').text($g);
-								$('#out_cancel').text($h);
-							}
+			$.ajax({
+				url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusBySL',
+				type: 'GET',
+				data : {
+					fromDate : fromDate,
+					toDate : toDate,
+					custId: leftSelect
+				},
+				dataType: 'json',
+				contentType: 'application/json;charset=UTF-8',
+				success:function (data){
+					console.log(data);
+					if(data.length>0){
+						for(var i in data){
+							var $a = data[0].inTobe.split('/');
+							var $b = data[0].inWorking.split('/');
+							var $c = data[0].inComplete.split('/');
+							var $d = data[0].inCancle.split('/');
+							var $e = data[0].outTobe;
+							var $f = data[0].outWorking;
+							var $g = data[0].outComplete;
+							var $h = data[0].outCancle;
+							$('#in_expected').text($a[0]);
+							$('#in_working').text($b[0]);
+							$('#in_complete').text($c[0]);
+							$('#in_cancel').text($d[0]);
+							$('#out_expected').text($e);
+							$('#out_working').text($f);
+							$('#out_complete').text($g);
+							$('#out_cancel').text($h);
 						}
-					},
-				});
+					}
+				},
+			});
 		}
 	}
-	///////////////////////////////////////////////////////// 선택 날짜//////////////////////////////////////////////////
-	$('').on('click', function(e) {
 
-		if ( $(this).data('type') === 'day' ) { // 오늘 클릭
-
-		} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
-
-		} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
-
+	//창고만 선택
+	function selectWH(fromDate,toDate,leftselect){
+		if($("select[name=in-select]").val() === 'all'){
+			selectAll(getMonthType(),getDayType());
+		}else {
+			$.ajax({
+				url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOutStatusByWH',
+				type: 'GET',
+				data : {
+					fromDate : fromDate,
+					toDate : toDate,
+					whId: leftselect
+				},
+				dataType: 'json',
+				contentType: 'application/json;charset=UTF-8',
+				success:function (data){
+					console.log(data);
+					if(data.length>0){
+						for(var i in data){
+							var $a = data[0].inTobe.split('/');
+							var $b = data[0].inWorking.split('/');
+							var $c = data[0].inComplete.split('/');
+							var $d = data[0].inCancle.split('/');
+							var $e = data[0].outTobe;
+							var $f = data[0].outWorking;
+							var $g = data[0].outComplete;
+							var $h = data[0].outCancle;
+							$('#in_expected').text($a[0]);
+							$('#in_working').text($b[0]);
+							$('#in_complete').text($c[0]);
+							$('#in_cancel').text($d[0]);
+							$('#out_expected').text($e);
+							$('#out_working').text($f);
+							$('#out_complete').text($g);
+							$('#out_cancel').text($h);
+						}
+					}
+				},
+			});
 		}
-	});
-	///////////////////////////////////////////////////////재고부족 테이블 시작/////////////////////////////////////////////
+	}
+
+	//재고부족 테이블 시작
+
+	//둘다 선택 안했을 때
 	function stockSelectNone(){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -845,6 +942,8 @@
 			}
 		});
 	}
+
+	//셀러만 선택
 	function stockSelectSL(leftSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -860,6 +959,8 @@
 			}
 		});
 	}
+
+	//창고만 선택
 	function stockSelectWH(rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -875,6 +976,8 @@
 			}
 		});
 	}
+
+	//둘다 선택
 	function stockSelectSLWH(leftSelect, rightSelect){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
@@ -891,7 +994,7 @@
 			}
 		});
 	}
-	//////////////////////
+
 	// return today, YYYY-MM-DD
 	function getDayType() {
 		return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
@@ -908,4 +1011,49 @@
 		monthLater = new Date(today.valueOf() - 30 * 1000 * 3600 * 24);
 		return monthLater.getFullYear() + '-' + ('0' + (monthLater.getMonth() + 1)).slice(-2) + '-' + ('0' + monthLater.getDate()).slice(-2);
 	}
+
+	//chart
+
+	function chart1(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			type: "GET",
+			data: {
+			},
+			datatype: 'json',
+			success: function (chartIn){
+				var ctx = document.getElementById('myChart').getContext('2d');
+				var myChart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+						datasets: [{
+							label: '# of Votes',
+							data: [],
+							backgroundColor: [
+								'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)',
+								'rgba(75, 192, 192, 0.2)',
+								'rgba(153, 102, 255, 0.2)',
+								'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+								'rgba(255, 99, 132, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1
+						}]
+					},
+					options: {
+					}
+				});
+			}
+		});
+	}
+	//test
 </script>
