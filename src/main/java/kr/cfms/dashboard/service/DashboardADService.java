@@ -49,5 +49,15 @@ public class DashboardADService {
 	public List<StockLackResultDTO> selectStockLackAll() {
 		return dashboardADMapper.selectStockLackAll();
 	}
+	public List<StockLackResultDTO> selectStockLackBySL(InOutSearchDTO inOutSearchDTO) {
+		return dashboardADMapper.selectStockLackBySL(inOutSearchDTO);
+	}
+	public List<StockLackResultDTO> selectStockLackByWH(InOutSearchDTO inOutSearchDTO) {
+		return dashboardADMapper.selectStockLackByWH(inOutSearchDTO);
+	}
+	public List<StockLackResultDTO> selectStockLackByWHAndSL(InOutSearchDTO inOutSearchDTO) {
+		return dashboardADMapper.selectStockLackByWHAndSL(inOutSearchDTO);
+	}
+
 }
 

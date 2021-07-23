@@ -88,4 +88,22 @@ public class DashboardADAjaxController {
 		List<StockLackResultDTO> stockLackAll = dashboardADService.selectStockLackAll();
 		return ResponseEntity.ok(stockLackAll);
 	}
+
+	@GetMapping("get/searchStockLackBySL")
+	public ResponseEntity<List<StockLackResultDTO>> searchStockLackBySL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		List<StockLackResultDTO> stockLackBySL = dashboardADService.selectStockLackBySL(inOutSearchDTO);
+		return ResponseEntity.ok(stockLackBySL);
+	}
+
+	@GetMapping("get/searchStockLackByWH")
+	public ResponseEntity<List<StockLackResultDTO>> searchStockLackByWH(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		List<StockLackResultDTO> stockLackByWH = dashboardADService.selectStockLackByWH(inOutSearchDTO);
+		return ResponseEntity.ok(stockLackByWH);
+	}
+
+	@GetMapping("get/searchStockLackByWHAndSL")
+	public ResponseEntity<List<StockLackResultDTO>> searchStockLackByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		List<StockLackResultDTO> stockLackByWHAndSL = dashboardADService.selectStockLackByWHAndSL(inOutSearchDTO);
+		return ResponseEntity.ok(stockLackByWHAndSL);
+	}
 }
