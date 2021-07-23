@@ -10,10 +10,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link href="//cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
 <script src="//cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
+<!-- 테이블 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 <!-- Latest compiled and minified Locales -->
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+
+
 
 <div class="mainContent" >
 	<div class="item-container item-wrapper" >
@@ -46,21 +51,6 @@
 				<span id="out-complete" style="font-size: 50px; color: #0a217f;">0</span>
 			</div>
 		</div>
-		<!-- 선택 -->
-
-		<div class="select-home" style="width: 100%; padding-bottom: 20px;  border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
-            padding: 20px 9px; background-color: #efefef;">
-			<div >
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd" data-type="month">한달</button>
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd" data-type="week">일주일</button>
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd" data-type="day">오늘</button>
-			</div>
-			<div style="display: flex" >
-				<input class="btn-success" data-width="160" id="input-data" data-style="slow" type="checkbox" checked data-toggle="toggle" data-on="셀러 " data-off="창고 " data-onstyle="light" data-offstyle="light">
-				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" ></select>
-				<select id="out-select" name="out-select" class="form-select" ></select>
-			</div>
-		</div>
 		<div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
                padding: 20px 0; background-color: #e2e2e2;">
 			<div style="width: 400px; height: 400px;">
@@ -70,6 +60,22 @@
 				<canvas id="myChart2" style="width: 300px; height: 300px;"></canvas>
 			</div>
 		</div>
+		<!-- 선택 -->
+
+		<div class="select-home" style="width: 100%; padding-bottom: 20px;  border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
+            padding: 20px 9px; background-color: #efefef;">
+			<div >
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-m btn-on-select" data-type="month">한달</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-w" data-type="week">일주일</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-t" data-type="day">오늘</button>
+			</div>
+			<div style="display: flex" >
+				<input class="btn-success" data-width="160" id="input-data" data-style="slow" type="checkbox" checked data-toggle="toggle" data-on="셀러 " data-off="창고 " data-onstyle="light" data-offstyle="light">
+				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" ></select>
+				<select id="out-select" name="out-select" class="form-select" ></select>
+			</div>
+		</div>
+
 
 		<div style="display: flex; width: 1047px ;border: 1px solid #D3D3D3;border-radius: 6px;padding: 9px; ">
 			<div style="display: flex; width: 450px ;flex-direction: column; margin: 0 auto;">
@@ -142,24 +148,25 @@
 				</div>
 			</div>
 		</div>
-		<div class="inventory-detail">
-			<table id="inventoryTable" class="table table-dark table-hover" data-height="450" style="text-align: center;">
-				<thead>
-				<tr>
-					<th data-field="">상품명</th>
-					<th data-field="">현재고량</th>
-					<th data-field="">결품수량</th>
-					<th data-field="">입고중인 상품 수</th>
-					<th data-field="">최종입고일</th>
-					<th data-field="">안전재고 수량 기준</th>
+		<div class="inventory-detail" style="overflow-y: scroll;">
+			<table id="inventoryTable" class="table table-dark table-hover" data-height="600" style="text-align: center;" no-records-found="dnjseogh">
+				<thead style="display: none;">
+				<tr >
+					<th data-field="goodsNm">상품명</th>
+					<th data-field="stkQty">현재고량</th>
+					<th data-field="missQty">결품수량</th>
+					<th data-field="inStkQty">입고중인 상품 수</th>
+					<th data-field="lastInOrdDt">최종입고일</th>
+					<th data-field="safeStkQty">안전재고 수량 기준</th>
 				</tr>
 				</thead>
+
 			</table>
 		</div>
 	</div>
 </div>
 <div style="position: relative; ">
-	<div class="accordion" id="accordionPanelsStayOpenExample" style=" width: 360px;position: fixed;right: 0;bottom: 0; z-index: 99;">
+	<div class="accordion" id="accordionPanelsStayOpenExample" style=" width: 300px;position: fixed;right: 0;bottom: 0; z-index: 99;">
 		<div class="accordion-item">
 
 			<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
@@ -174,8 +181,7 @@
 			</div>
 			<h2 class="accordion-header" id="panelsStayOpen-headingOne">
 				<button class="accordion-button cccc" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-					Accordion Item #1
-					<div >
+					<div style="margin-right: 10px;" >
 
 						<div style="position: relative; text-align: center">
                <span id="test-a" style="text-align: center; position: absolute;width: 20px;height: 20px;background-color: red;border-radius: 50%;
@@ -183,12 +189,20 @@
 							<a id="icon">   <span> <i  class="fas fa-bell fa-2x"></i></span> </a>
 						</div>
 					</div>
+					알림!
 				</button>
 			</h2>
 		</div>
 	</div>
 </div>
 <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+
+<style type="text/css">
+	.btn-on-select{
+		background-color: #0a217f !important;
+		color: whitesmoke;
+	}
+</style>
 <!--------------------------script----------------------------------->
 
 <script type="text/javascript">
@@ -196,15 +210,14 @@
 	$("#liveToastBtn").on("click",function (){
 		$(".toast-box").append("<div id=\"liveToast\" class=\"toast hide\" role=\"alert\" aria-live=\"assertive\" data-bs-autohide=\"false\" aria-atomic=\"true\">\n" +
 				"\t\t\t<div class=\"toast-header\">\n" +
-				"\t\t\t\t<img src=\"...\" class=\"rounded me-2\" alt=\"...\">\n" +
-				"\t\t\t\t<strong class=\"me-auto\">Bootstrap</strong>\n" +
-				"\t\t\t\t<small>11 mins ago</small>\n" +
+				"\t\t\t\t<strong class=\"me-auto\">알림!</strong>\n" +
+				"\t\t\t\t<small>온 시간 저장</small>\n" +
 				"\t\t\t\t<button type=\"button\" class=\"btn-close\" onclick=\"tititi();\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
 				"\t\t\t</div>\n" +
 				"\t\t\t<div class=\"toast-body\">\n" +
-				"\t\t\t\tHello, world! This is a toast message.\n" +
+				"\t\t\t\ㅁㅁㅁ 알림입니다. \n" +
 				"\t\t\t\t<div class=\"mt-2 pt-2 border-top\">\n" +
-				"\t\t\t\t\t<button type=\"button\" class=\"btn btn-primary btn-sm\">Take action</button>\n" +
+				"\t\t\t\t\t<button type=\"button\" class=\"btn btn-primary btn-sm\">바로가기!</button>\n" +
 				"\n" +
 				"\t\t\t\t</div>\n" +
 				"\t\t\t</div>\n" +
@@ -233,8 +246,6 @@
 	//전역변수
 	var leftselect = "";
 	var rightselect = "";
-	var sl = "sl";
-	var wh = "wh";
 	var today = new Date();
 	var toDate = "";
 	var fromDate = "";
@@ -243,68 +254,76 @@
 	//선택 스위치버튼
 	$("#out-select").empty();
 	$("#out-select").append('<option value="all" selected>wh</option>');
-	selectsl(sl,day);
+	selectsl(day);
+	stockSelectNone();
 	$('.tdwdmd').on('click', function(e) {
 		if ( $(this).data('type') === 'day' ) { // 오늘 클릭
+			$(".tdwdmd").removeClass('btn-on-select');
+			$(".btn-select-t").addClass('btn-on-select');  //버튼색↑
 			day = getDayType();
 			$("#out-select").empty();
 			$("#out-select").append('<option selected value="all">wh</option>');
-			selectsl(sl,day);
+			selectsl(day);
 
 		} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
+			$(".tdwdmd").removeClass('btn-on-select');
+			$(".btn-select-w").addClass('btn-on-select'); //버튼색↑
 			day = getWeekType();
 			$("#out-select").empty();
 			$("#out-select").append('<option selected value="all">wh</option>');
-			selectsl(sl,day);
+			selectsl(day);
 
 		} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
+			$(".tdwdmd").removeClass('btn-on-select');
+			$(".btn-select-m").addClass('btn-on-select'); //버튼색↑
 			day = getMonthType();
 			$("#out-select").empty();
 			$("#out-select").append('<option selected value="all">wh</option>');
-			selectsl(sl,day);
+			selectsl(day);
 		}
 	});
 	$(document).ready(function(){
 		getTotalSum();//전체 출/입고량 실행
 		$('#input-data').change(function() {
 			if ($(this).prop('checked')){
-				selectsl(sl,day);
+				selectsl(day);
 				$('.tdwdmd').on('click', function(e) {
 					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
 						day = getDayType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">wh</option>');
-						selectsl(sl,day);
+						selectsl(day);
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">wh</option>');
-						selectsl(sl,day);
+						selectsl(day);
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">wh</option>');
-						selectsl(sl,day);
+						selectsl(day);
 					}
 				});
 			}else {
-				selectwh(wh,day);
+				selectwh(day);
 				$('.tdwdmd').on('click', function(e) {
 					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
 						day = getDayType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
-						selectwh(wh,day);
+						selectwh(day);
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
-						selectwh(wh,day);
+
+						selectwh(day);
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
-						selectwh(wh,day);
+						selectwh(day);
 					}
 				});
 			}
@@ -623,13 +642,10 @@
 	}
 
 	//sl버튼
-	function selectsl(CenterName,day){
+	function selectsl(day){
 		$.ajax({
 			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterList',
 			type : 'GET',
-			data : {
-				CenterName : CenterName
-			},
 			dataType : 'json',
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
@@ -646,8 +662,10 @@
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
 					if ($("select[name=in-select]").val() === 'all'){
+						stockSelectNone();
 						selectAll(day,getDayType());
 					}else {
+						stockSelectSL(leftselect);
 						selectSL(day,getDayType(),leftselect);
 						$.ajax({
 							url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterListBySLCenterId',
@@ -666,7 +684,9 @@
 								$("#out-select").off('change');
 								$("#out-select").change(function (){
 									rightselect = $("select[name=out-select]").val();
+									stockSelectSLWH(leftselect,rightselect);
 									selectSLWH(day,getDayType(),leftselect,rightselect);
+
 								})
 							}
 						})
@@ -677,13 +697,10 @@
 	};
 
 	//wh버튼
-	function selectwh(CenterName,day){
+	function selectwh(day){
 		$.ajax({
 			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchWHCenterList',
 			type : 'GET',
-			data : {
-				CenterName : CenterName,
-			},
 			dataType : 'json',
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
@@ -700,8 +717,10 @@
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
 					if ($("select[name=in-select]").val() === 'all'){
+						stockSelectNone();
 						selectAll(day,getDayType());
 					}else {
+						stockSelectWH(leftselect);
 						selectWH(day,getDayType(),leftselect);
 						$.ajax({
 							url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchSLCenterListByWHCenterId',
@@ -720,6 +739,7 @@
 								$("#out-select").off('change');
 								$("#out-select").change(function (){
 									rightselect = $("select[name=out-select]").val();
+									stockSelectWHSL(leftselect,rightselect);
 									selectWHSL(day,getDayType(),leftselect,rightselect);
 								})
 							}
@@ -730,7 +750,29 @@
 		});
 	};
 
-	//차트 디테일 시작
+	//select data format
+	function getSelectData(data){
+		if(data.length>0){
+			for(var i in data){
+				var $a = data[0].inTobe.split('/');
+				var $b = data[0].inWorking.split('/');
+				var $c = data[0].inComplete.split('/');
+				var $d = data[0].inCancle.split('/');
+				var $e = data[0].outTobe;
+				var $f = data[0].outWorking;
+				var $g = data[0].outComplete;
+				var $h = data[0].outCancle;
+				$('#in_expected').text($a[0]);
+				$('#in_working').text($b[0]);
+				$('#in_complete').text($c[0]);
+				$('#in_cancel').text($d[0]);
+				$('#out_expected').text($e);
+				$('#out_working').text($f);
+				$('#out_complete').text($g);
+				$('#out_cancel').text($h);
+			}
+		}
+	}
 	//전체 선택
 	function selectAll(fromDate,toDate){
 		$.ajax({
@@ -743,26 +785,8 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				if(data.length>0){
-					for(var i in data){
-						var $a = data[0].inTobe.split('/');
-						var $b = data[0].inWorking.split('/');
-						var $c = data[0].inComplete.split('/');
-						var $d = data[0].inCancle.split('/');
-						var $e = data[0].outTobe;
-						var $f = data[0].outWorking;
-						var $g = data[0].outComplete;
-						var $h = data[0].outCancle;
-						$('#in_expected').text($a[0]);
-						$('#in_working').text($b[0]);
-						$('#in_complete').text($c[0]);
-						$('#in_cancel').text($d[0]);
-						$('#out_expected').text($e);
-						$('#out_working').text($f);
-						$('#out_complete').text($g);
-						$('#out_cancel').text($h);
-					}
-				}
+				console.log(data)
+				getSelectData(data);
 			},
 		});
 	}
@@ -781,26 +805,8 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				if(data.length>0){
-					for(var i in data){
-						var $a = data[0].inTobe.split('/');
-						var $b = data[0].inWorking.split('/');
-						var $c = data[0].inComplete.split('/');
-						var $d = data[0].inCancle.split('/');
-						var $e = data[0].outTobe;
-						var $f = data[0].outWorking;
-						var $g = data[0].outComplete;
-						var $h = data[0].outCancle;
-						$('#in_expected').text($a[0]);
-						$('#in_working').text($b[0]);
-						$('#in_complete').text($c[0]);
-						$('#in_cancel').text($d[0]);
-						$('#out_expected').text($e);
-						$('#out_working').text($f);
-						$('#out_complete').text($g);
-						$('#out_cancel').text($h);
-					}
-				}
+				console.log(data)
+				getSelectData(data);
 			},
 		});
 	}
@@ -819,26 +825,8 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				if(data.length>0){
-					for(var i in data){
-						var $a = data[0].inTobe.split('/');
-						var $b = data[0].inWorking.split('/');
-						var $c = data[0].inComplete.split('/');
-						var $d = data[0].inCancle.split('/');
-						var $e = data[0].outTobe;
-						var $f = data[0].outWorking;
-						var $g = data[0].outComplete;
-						var $h = data[0].outCancle;
-						$('#in_expected').text($a[0]);
-						$('#in_working').text($b[0]);
-						$('#in_complete').text($c[0]);
-						$('#in_cancel').text($d[0]);
-						$('#out_expected').text($e);
-						$('#out_working').text($f);
-						$('#out_complete').text($g);
-						$('#out_cancel').text($h);
-					}
-				}
+				console.log(data)
+				getSelectData(data);
 			},
 		});
 	}
@@ -859,27 +847,8 @@
 				dataType: 'json',
 				contentType: 'application/json;charset=UTF-8',
 				success:function (data){
-					console.log(data);
-					if(data.length>0){
-						for(var i in data){
-							var $a = data[0].inTobe.split('/');
-							var $b = data[0].inWorking.split('/');
-							var $c = data[0].inComplete.split('/');
-							var $d = data[0].inCancle.split('/');
-							var $e = data[0].outTobe;
-							var $f = data[0].outWorking;
-							var $g = data[0].outComplete;
-							var $h = data[0].outCancle;
-							$('#in_expected').text($a[0]);
-							$('#in_working').text($b[0]);
-							$('#in_complete').text($c[0]);
-							$('#in_cancel').text($d[0]);
-							$('#out_expected').text($e);
-							$('#out_working').text($f);
-							$('#out_complete').text($g);
-							$('#out_cancel').text($h);
-						}
-					}
+					console.log(data)
+					getSelectData(data);
 				},
 			});
 		}
@@ -901,27 +870,8 @@
 				dataType: 'json',
 				contentType: 'application/json;charset=UTF-8',
 				success:function (data){
-					console.log(data);
-					if(data.length>0){
-						for(var i in data){
-							var $a = data[0].inTobe.split('/');
-							var $b = data[0].inWorking.split('/');
-							var $c = data[0].inComplete.split('/');
-							var $d = data[0].inCancle.split('/');
-							var $e = data[0].outTobe;
-							var $f = data[0].outWorking;
-							var $g = data[0].outComplete;
-							var $h = data[0].outCancle;
-							$('#in_expected').text($a[0]);
-							$('#in_working').text($b[0]);
-							$('#in_complete').text($c[0]);
-							$('#in_cancel').text($d[0]);
-							$('#out_expected').text($e);
-							$('#out_working').text($f);
-							$('#out_complete').text($g);
-							$('#out_cancel').text($h);
-						}
-					}
+					console.log(data)
+					getSelectData(data);
 				},
 			});
 		}
@@ -932,12 +882,18 @@
 	//둘다 선택 안했을 때
 	function stockSelectNone(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchStockLackAll',
 			type: "GET",
 			datatype: 'json',
 			success: function (inventoryOut){
+				console.log("all실행");
+				console.log(inventoryOut);
+				$('#inventoryTable').bootstrapTable('destroy');
 				$('#inventoryTable').bootstrapTable({
-					data: inventoryOut
+					data: inventoryOut,
+					formatNoMatches: function () {
+						return 'No data found';
+					}
 				});
 			}
 		});
@@ -946,32 +902,44 @@
 	//셀러만 선택
 	function stockSelectSL(leftSelect){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchStockLackBySL',
 			type: "GET",
 			data: {
-				id: leftSelect
+				custId: leftSelect
 			},
 			datatype: 'json',
 			success: function (inventoryOut){
+				console.log("sl실행");
+				console.log(inventoryOut);
+				$('#inventoryTable').bootstrapTable('destroy');
 				$('#inventoryTable').bootstrapTable({
-					data: inventoryOut
+					data: inventoryOut,
+					formatNoMatches: function () {
+						return 'No data found';
+					}
 				});
+
 			}
+
 		});
 	}
 
 	//창고만 선택
-	function stockSelectWH(rightSelect){
+	function stockSelectWH(leftSelect){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchStockLackByWH',
 			type: "GET",
 			data: {
-				id: rightSelect
+				whId: leftSelect
 			},
 			datatype: 'json',
 			success: function (inventoryOut){
+				$('#inventoryTable').bootstrapTable('destroy');
 				$('#inventoryTable').bootstrapTable({
-					data: inventoryOut
+					data: inventoryOut,
+					formatNoMatches: function () {
+						return 'No data found';
+					}
 				});
 			}
 		});
@@ -980,16 +948,41 @@
 	//둘다 선택
 	function stockSelectSLWH(leftSelect, rightSelect){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchStockLackByWHAndSL',
 			type: "GET",
 			data: {
-				id: leftSelect,
-				id: rightSelect
+				custId: leftSelect,
+				whId: rightSelect
 			},
 			datatype: 'json',
 			success: function (inventoryOut){
+				$('#inventoryTable').bootstrapTable('destroy');
 				$('#inventoryTable').bootstrapTable({
-					data: inventoryOut
+					data: inventoryOut,
+					formatNoMatches: function () {
+						return 'No data found';
+					}
+				});
+			}
+		});
+	}
+	//둘다 선택
+	function stockSelectWHSL(leftSelect, rightSelect){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchStockLackByWHAndSL',
+			type: "GET",
+			data: {
+				custId: rightSelect,
+				whId: leftSelect
+			},
+			datatype: 'json',
+			success: function (inventoryOut){
+				$('#inventoryTable').bootstrapTable('destroy');
+				$('#inventoryTable').bootstrapTable({
+					data: inventoryOut,
+					formatNoMatches: function () {
+						return 'No data found';
+					}
 				});
 			}
 		});
@@ -1019,9 +1012,11 @@
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
 			type: "GET",
 			data: {
+				chartIn : getChart
 			},
 			datatype: 'json',
 			success: function (chartIn){
+				var getChart = new Array();
 				var ctx = document.getElementById('myChart').getContext('2d');
 				var myChart = new Chart(ctx, {
 					type: 'line',
@@ -1029,7 +1024,7 @@
 						labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
 						datasets: [{
 							label: '# of Votes',
-							data: [],
+							data: getChart,
 							backgroundColor: [
 								'rgba(255, 99, 132, 0.2)',
 								'rgba(54, 162, 235, 0.2)',
