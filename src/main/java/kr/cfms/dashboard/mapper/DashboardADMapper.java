@@ -1,9 +1,6 @@
 package kr.cfms.dashboard.mapper;
 
-import kr.cfms.dashboard.dto.CenterIdNameDTO;
-import kr.cfms.dashboard.dto.InOutResultDTO;
-import kr.cfms.dashboard.dto.InOutSearchDTO;
-import kr.cfms.dashboard.dto.TodayInOutDTO;
+import kr.cfms.dashboard.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -25,4 +22,6 @@ public interface DashboardADMapper {
 	List<InOutResultDTO> selectInOutStatusBySL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
 	List<InOutResultDTO> selectInOutStatusByWH(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
 	List<InOutResultDTO> selectInOutStatusByWHAndSL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
+
+	List<StockLackResultDTO> selectStockLackAll();
 }

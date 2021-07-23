@@ -795,4 +795,74 @@
 				#{inOutSearchDTO.toDate} AS to_dt
 			) AS a;
 	</select>
+
+	<select id="selectStockLackAll" resultType="StockLackResultDTO">
+		select * from
+			(select
+				 max(d.goods_cd) as goods_cd
+				  ,max(d.goods_nm) as goods_nm
+				  ,sum(d.in_ord_qty_cnf)-sum(d.out_qty) as stk_qty
+				  ,0 as miss_qty
+				  ,dd.in_stk_qty as in_stk_qty
+				  ,sum(d.in_ord_qty_cnf)-sum(d.out_qty)-max(d.safe_stk_qty) as ex_count
+				  ,ifnull(max(d.in_ord_dt),'입고이력 없음') as last_in_ord_dt
+				  ,max(d.safe_stk_qty) as safe_stk_qty
+			 from
+				 (
+					 select
+						 a.id as ord_id
+						  ,(select center_nm from cwt_mst_center where id = (select wh_id from cwt_in_ord_mst where id = a.mst_id) ) as wh_nm
+						  ,a.in_ord_dtl_no as in_ord_dtl_no
+						  ,b.id as goods_id
+						  ,b.goods_cd as goods_cd
+						  ,b.goods_nm as goods_nm
+						  ,b.safe_stk_qty as safe_stk_qty
+						  ,ifnull(a.in_ord_qty_cnf,0) as in_ord_qty_cnf
+						  ,a.item_check_code as item_check_code
+						  ,a.check_memo as check_memo
+						  ,a.in_ord_date_cnf as in_ord_date_cnf
+						  ,a.exp_dt as exp_dt
+						  ,a.in_ord_dt
+						  ,(select ifnull(sum(out_qty),0)
+							from cwt_rel_in_out
+							where 1=1
+							  and in_id = a.id
+							  and use_yn ='Y'
+							  and DATE_FORMAT(now(),'%Y-%m-%d') >= DATE_FORMAT(reg_date,'%Y-%m-%d')) out_qty
+					 from (select * from cwt_mst_goods
+						   where 1=1 and use_yn ='Y'
+						  ) b
+							  left join (select a.* , b.in_ord_dt
+										 from cwt_in_ord_dtl a
+												  join cwt_in_ord_mst b
+													   on b.id = a.mst_id and b.use_yn='Y'
+										 where 1 = 1 and a.use_yn ='Y'
+										   and b.in_stats = 'IN04'
+										   and a.in_stats not in ('INCAN')
+										   and a.item_check_code not in ('UNC')
+										   and a.in_approval_stats_cd in ('RQ2', 'AV1', 'AV2')
+										   and DATE_FORMAT(now(),'%Y-%m-%d') >= DATE_FORMAT(a.in_ord_date_cnf,'%Y-%m-%d')) a
+										on a.goods_id = b.id
+					 where 1=1) d
+					 left join (select
+									bb.goods_cd
+									 ,ifnull(aa.in_ord_qty_cnf,0) as in_stk_qty
+								from (select * from cwt_mst_goods
+									  where 1=1 and use_yn ='Y') bb
+										 left join (select aa.* , bb.in_ord_dt
+													from cwt_in_ord_dtl aa
+															 join cwt_in_ord_mst bb
+																  on bb.id = aa.mst_id and bb.use_yn='Y'
+													where 1 = 1 and aa.use_yn ='Y'
+													  and bb.in_stats in ('IN01', 'IN02', 'IN04')
+													  and aa.in_stats != 'INCAN'
+									 and aa.item_check_code != 'UNC'
+									 and aa.in_ord_date_cnf is null) aa
+												   on aa.goods_id = bb.id) dd
+							   on d.goods_cd = dd.goods_cd
+			 group by d.goods_cd) e
+		where 1 > e.ex_count
+		order by 6 asc
+		limit 10;
+	</select>
 </mapper>

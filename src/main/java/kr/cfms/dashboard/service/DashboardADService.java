@@ -1,9 +1,6 @@
 package kr.cfms.dashboard.service;
 
-import kr.cfms.dashboard.dto.CenterIdNameDTO;
-import kr.cfms.dashboard.dto.InOutResultDTO;
-import kr.cfms.dashboard.dto.InOutSearchDTO;
-import kr.cfms.dashboard.dto.TodayInOutDTO;
+import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.mapper.DashboardADMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,6 +44,10 @@ public class DashboardADService {
 	}
 	public List<InOutResultDTO> selectInOutStatusByWHAndSL(InOutSearchDTO inOutSearchDTO) {
 		return dashboardADMapper.selectInOutStatusByWHAndSL(inOutSearchDTO);
+	}
+
+	public List<StockLackResultDTO> selectStockLackAll() {
+		return dashboardADMapper.selectStockLackAll();
 	}
 }
 

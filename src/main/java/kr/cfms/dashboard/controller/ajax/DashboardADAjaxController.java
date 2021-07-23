@@ -1,9 +1,6 @@
 package kr.cfms.dashboard.controller.ajax;
 
-import kr.cfms.dashboard.dto.CenterIdNameDTO;
-import kr.cfms.dashboard.dto.InOutResultDTO;
-import kr.cfms.dashboard.dto.InOutSearchDTO;
-import kr.cfms.dashboard.dto.TodayInOutDTO;
+import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.DashboardADService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -81,5 +78,14 @@ public class DashboardADAjaxController {
 	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<InOutResultDTO> inOutStatusByWHAndSL = dashboardADService.selectInOutStatusByWHAndSL(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatusByWHAndSL);
+	}
+
+	/**
+	 * 재고부족
+	 */
+	@GetMapping("get/searchStockLackAll")
+	public ResponseEntity<List<StockLackResultDTO>> searchStockLackAll() {
+		List<StockLackResultDTO> stockLackAll = dashboardADService.selectStockLackAll();
+		return ResponseEntity.ok(stockLackAll);
 	}
 }
