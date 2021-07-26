@@ -51,7 +51,7 @@
 				<span id="out-complete" style="font-size: 50px; color: #0a217f;">0</span>
 			</div>
 		</div>
-		<div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
+	<!--	<div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
                padding: 20px 0; background-color: #e2e2e2;">
 			<div style="width: 400px; height: 400px;">
 				<canvas id="myChart" style="width: 300px; height: 300px;"></canvas>
@@ -59,7 +59,7 @@
 			<div>
 				<canvas id="myChart2" style="width: 300px; height: 300px;"></canvas>
 			</div>
-		</div>
+		</div> -->
 		<!-- 선택 -->
 
 		<div class="select-home" style="width: 100%; padding-bottom: 20px;  border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
@@ -77,7 +77,7 @@
 		</div>
 
 
-		<div style="display: flex; width: 1047px ;border: 1px solid #D3D3D3;border-radius: 6px;padding: 9px; ">
+		<div style="display: flex; width: 100% ;border: 1px solid #D3D3D3;border-radius: 6px;padding: 9px; ">
 			<div style="display: flex; width: 450px ;flex-direction: column; margin: 0 auto;">
 				<div class="span-font-size" style="margin-bottom: 15px">
 					<span>입고</span>
@@ -149,7 +149,7 @@
 			</div>
 		</div>
 		<div class="inventory-detail" style="overflow-y: scroll;">
-			<table id="inventoryTable" class="table table-dark table-hover" data-height="600" style="text-align: center;" no-records-found="dnjseogh">
+			<table id="inventoryTable" class="table table-dark text-center table-hover" data-height="600" style="text-align: center;" no-records-found="dnjseogh">
 				<thead style="display: none;">
 				<tr >
 					<th data-field="goodsNm">상품명</th>
@@ -197,10 +197,40 @@
 </div>
 <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
 
+<div class="wrap-loading display-none">
+
+	<div><img src="https://www.hanja4u.org/public/common/images/common/loading.gif" /></div>
+
+</div>
+
 <style type="text/css">
 	.btn-on-select{
 		background-color: #0a217f !important;
 		color: whitesmoke;
+	}
+    .bootstrap-table .fixed-table-container .table {
+        width: 100% !important;
+    }
+
+	.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+		position: fixed;
+		left:0;
+		right:0;
+		top:0;
+		bottom:0;
+		background: rgba(0,0,0,0.2); /*not in ie */
+		filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+	}
+
+	.wrap-loading div{ /*로딩 이미지*/
+		position: fixed;
+		top:50%;
+		left:50%;
+		margin-left: -21px;
+		margin-top: -21px;
+	}
+	.display-none{ /*감추기*/
+		display:none;
 	}
 </style>
 <!--------------------------script----------------------------------->
@@ -788,6 +818,14 @@
 				console.log(data)
 				getSelectData(data);
 			},
+			beforeSend:function(){
+			$('.wrap-loading').removeClass('display-none');
+			}
+			,complete:function(){
+			$('.wrap-loading').addClass('display-none');
+			},
+
+
 		});
 	}
 
@@ -808,6 +846,12 @@
 				console.log(data)
 				getSelectData(data);
 			},
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			}
+			,complete:function(){
+				$('.wrap-loading').addClass('display-none');
+			},
 		});
 	}
 
@@ -827,6 +871,12 @@
 			success:function (data){
 				console.log(data)
 				getSelectData(data);
+			},
+			beforeSend:function(){
+				$('.wrap-loading').removeClass('display-none');
+			}
+			,complete:function(){
+				$('.wrap-loading').addClass('display-none');
 			},
 		});
 	}
@@ -850,6 +900,12 @@
 					console.log(data)
 					getSelectData(data);
 				},
+				beforeSend:function(){
+					$('.wrap-loading').removeClass('display-none');
+				}
+				,complete:function(){
+					$('.wrap-loading').addClass('display-none');
+				},
 			});
 		}
 	}
@@ -872,6 +928,12 @@
 				success:function (data){
 					console.log(data)
 					getSelectData(data);
+				},
+				beforeSend:function(){
+					$('.wrap-loading').removeClass('display-none');
+				}
+				,complete:function(){
+					$('.wrap-loading').addClass('display-none');
 				},
 			});
 		}
