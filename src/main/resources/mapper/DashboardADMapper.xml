@@ -859,7 +859,7 @@
 			 group by d.goods_cd) e
 		where 1 > e.ex_count
 		order by 6 asc
-		limit 10;
+		limit 100;
 	</select>
 	<select id="selectStockLackBySL" parameterType="InOutSearchDTO" resultType="StockLackResultDTO">
 		select * from
