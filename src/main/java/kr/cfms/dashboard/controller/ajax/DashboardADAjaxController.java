@@ -3,6 +3,7 @@ package kr.cfms.dashboard.controller.ajax;
 import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.AlarmService;
 import kr.cfms.dashboard.service.DashboardADService;
+import kr.cfms.dashboard.vo.AlarmVO;
 import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -108,6 +109,15 @@ public class DashboardADAjaxController {
 	public ResponseEntity<List<StockLackResultDTO>> searchStockLackByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<StockLackResultDTO> stockLackByWHAndSL = dashboardADService.selectStockLackByWHAndSL(inOutSearchDTO);
 		return ResponseEntity.ok(stockLackByWHAndSL);
+	}
+
+	/**
+	 * 알림기능
+	 */
+	@GetMapping("get/searchAlarmAll")
+	public ResponseEntity<List<AlarmVO>> searchAlarmAll() {
+		List<AlarmVO> alarmAll = alarmService.selectAlarmAll();
+		return ResponseEntity.ok(alarmAll);
 	}
 
 	/**

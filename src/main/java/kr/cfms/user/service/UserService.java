@@ -22,7 +22,8 @@ public class UserService {
 		return userMapper.selectUserList(userVO);
 	}
 	
-	public String getUserStatusCode(String mid) {
+	public String
+	getUserStatusCode(String mid) {
 		return userMapper.getUserStatusCode(mid);
 	}
 	

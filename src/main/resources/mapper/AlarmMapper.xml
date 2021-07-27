@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.cfms.dashboard.mapper.AlarmMapper">
-	
+
+	<select id="selectAlarmAll" resultType="AlarmVO">
+		select
+		       id,
+		       type_cd,
+			   reg_date
+		from test_alarm_mst
+		where DATE_FORMAT(reg_date, "%Y-%m-%d") = CURDATE()
+		  and is_checked ='F'
+		  and type_cd is not null and type_cd !='';
+	</select>
+
+<!--테스트용 INSERT-->
 	<insert id="insertInApplyAlarm">
 		/*AlarmMapper.inertNotice*/
 		insert test_alarm_mst
