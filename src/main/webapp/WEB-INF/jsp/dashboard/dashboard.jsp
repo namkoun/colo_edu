@@ -148,8 +148,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="inventory-detail" style="overflow-y: scroll;">
-			<table id="inventoryTable" class="table table-dark text-center table-hover" data-height="600" style="text-align: center;" no-records-found="dnjseogh">
+		<div class="inventory-detail" >
+			<table id="inventoryTable" class="table table-dark text-center table-hover" data-height="450" style="text-align: center;" no-records-found="dnjseogh">
 				<thead style="display: none;">
 				<tr >
 					<th data-field="goodsNm">상품명</th>
@@ -280,12 +280,12 @@
 	var toDate = "";
 	var fromDate = "";
 	var day = getMonthType();
-
+	var one = -1;
 	//선택 스위치버튼
 	$("#out-select").empty();
 	$("#out-select").append('<option value="all" selected>wh</option>');
 	selectsl(day);
-	stockSelectNone();
+	stockSelectSL(one);
 	$('.tdwdmd').on('click', function(e) {
 		if ( $(this).data('type') === 'day' ) { // 오늘 클릭
 			$(".tdwdmd").removeClass('btn-on-select');
