@@ -26,6 +26,28 @@
 			<span>대시보드</span>
 			<h1>대시보드</h1>
 		</div>
+		<div class="Alert-Box">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">알림1</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">알림2</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">알림3</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">알림4</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="Alert1" role="tabpanel" aria-labelledby="inWE">...</div>
+				<div class="tab-pane fade" id="Alert2" role="tabpanel" aria-labelledby="outWE">...2</div>
+				<div class="tab-pane fade" id="Alert3" role="tabpanel" aria-labelledby="noOutSt">...3</div>
+				<div class="tab-pane fade" id="Alert4" role="tabpanel" aria-labelledby="join">...4</div>
+			</div>
+		</div>
 		<div class="p-box" style="display: flex; background-color: #f3f3f3;">
 			<h2>전체입고량</h2><h2>전체출고량</h2>
 		</div>
@@ -51,15 +73,15 @@
 				<span id="out-complete" style="font-size: 50px; color: #0a217f;">0</span>
 			</div>
 		</div>
-	<!--	<div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
-               padding: 20px 0; background-color: #e2e2e2;">
-			<div style="width: 400px; height: 400px;">
-				<canvas id="myChart" style="width: 300px; height: 300px;"></canvas>
-			</div>
-			<div>
-				<canvas id="myChart2" style="width: 300px; height: 300px;"></canvas>
-			</div>
-		</div> -->
+		<!--   <div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
+                      padding: 20px 0; background-color: #e2e2e2;">
+                <div style="width: 400px; height: 400px;">
+                   <canvas id="myChart" style="width: 300px; height: 300px;"></canvas>
+                </div>
+                <div>
+                   <canvas id="myChart2" style="width: 300px; height: 300px;"></canvas>
+                </div>
+             </div> -->
 		<!-- 선택 -->
 
 		<div class="select-home" style="width: 100%; padding-bottom: 20px;  border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
@@ -75,8 +97,6 @@
 				<select id="out-select" name="out-select" class="form-select" ></select>
 			</div>
 		</div>
-
-
 		<div style="display: flex; width: 100% ;border: 1px solid #D3D3D3;border-radius: 6px;padding: 9px; ">
 			<div style="display: flex; width: 450px ;flex-direction: column; margin: 0 auto;">
 				<div class="span-font-size" style="margin-bottom: 15px">
@@ -151,7 +171,7 @@
 		<div class="inventory-detail" >
 			<table id="inventoryTable" class="table table-dark text-center table-hover" data-height="450" style="text-align: center;" no-records-found="dnjseogh">
 				<thead style="display: none;">
-				<tr >
+				<tr>
 					<th data-field="goodsNm">상품명</th>
 					<th data-field="stkQty">현재고량</th>
 					<th data-field="missQty">결품수량</th>
@@ -208,9 +228,9 @@
 		background-color: #0a217f !important;
 		color: whitesmoke;
 	}
-    .bootstrap-table .fixed-table-container .table {
-        width: 100% !important;
-    }
+	.bootstrap-table .fixed-table-container .table {
+		width: 100% !important;
+	}
 
 	.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
 		position: fixed;
@@ -819,10 +839,10 @@
 				getSelectData(data);
 			},
 			beforeSend:function(){
-			$('.wrap-loading').removeClass('display-none');
+				$('.wrap-loading').removeClass('display-none');
 			}
 			,complete:function(){
-			$('.wrap-loading').addClass('display-none');
+				$('.wrap-loading').addClass('display-none');
 			},
 
 
