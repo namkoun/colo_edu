@@ -1,7 +1,9 @@
 package kr.cfms.dashboard.controller.ajax;
 
 import kr.cfms.dashboard.dto.*;
+import kr.cfms.dashboard.service.AlarmService;
 import kr.cfms.dashboard.service.DashboardADService;
+import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 public class DashboardADAjaxController {
 
 	private final DashboardADService dashboardADService;
+	private final AlarmService alarmService;
 
 	/**
 	 * 오늘의 출/입고 현황
@@ -105,5 +108,41 @@ public class DashboardADAjaxController {
 	public ResponseEntity<List<StockLackResultDTO>> searchStockLackByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<StockLackResultDTO> stockLackByWHAndSL = dashboardADService.selectStockLackByWHAndSL(inOutSearchDTO);
 		return ResponseEntity.ok(stockLackByWHAndSL);
+	}
+
+	/**
+	 * 테스트용
+	 */
+	//입고신청 등록
+	@PostMapping("add/insertInApplyAlarm")
+	public ResponseEntity<MessageVo> insertInApplyAlarm() {
+
+		alarmService.insertInApplyAlarm();
+
+		return ResponseEntity.ok(new MessageVo("알림 등록"));
+	}
+	//특수출고 등록
+	@PostMapping("add/insertOutSpecialAlarm")
+	public ResponseEntity<MessageVo> insertOutSpecialAlarm() {
+
+		alarmService.insertOutSpecialAlarm();
+
+		return ResponseEntity.ok(new MessageVo("알림 등록"));
+	}
+	//B2B출고 등록
+	@PostMapping("add/insertOutBtoBAlarm")
+	public ResponseEntity<MessageVo> insertOutBtoBAlarm() {
+
+		alarmService.insertOutBtoBAlarm();
+
+		return ResponseEntity.ok(new MessageVo("알림 등록"));
+	}
+	//회원가입 등록
+	@PostMapping("add/insertJoinAlarm")
+	public ResponseEntity<MessageVo> insertJoinAlarm() {
+
+		alarmService.insertJoinAlarm();
+
+		return ResponseEntity.ok(new MessageVo("알림 등록"));
 	}
 }

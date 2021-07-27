@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.dashboard.mapper.AlarmMapper">
+	
+	<insert id="insertInApplyAlarm">
+		/*AlarmMapper.inertNotice*/
+		insert test_alarm_mst
+			(
+				is_checked,
+				type_cd,
+				reg_date
+			)
+			values
+			(
+				'F'
+				,'IN01'
+				,now()
+			)
+	</insert>
+
+	<insert id="insertOutSpecialAlarm">
+		/*AlarmMapper.inertNotice*/
+		insert test_alarm_mst
+			(
+				is_checked,
+				type_cd,
+				reg_date
+			)
+			values
+			(
+				'F'
+				,'OTSP'
+				,now()
+			)
+	</insert>
+
+	<insert id="insertOutBtoBAlarm">
+		/*AlarmMapper.inertNotice*/
+		insert test_alarm_mst
+			(
+				is_checked,
+				type_cd,
+				reg_date
+			)
+			values
+			(
+				'F'
+				,'OTBB'
+				,now()
+			)
+	</insert>
+
+	<insert id="insertJoinAlarm">
+		/*AlarmMapper.inertNotice*/
+		insert test_alarm_mst
+			(
+				is_checked,
+				type_cd,
+				reg_date
+			)
+			values
+			(
+				'F'
+				,'JOIN'
+				,now()
+			)
+	</insert>
+
+</mapper>
