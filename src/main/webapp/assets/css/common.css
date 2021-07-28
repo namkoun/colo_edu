@@ -4658,7 +4658,7 @@ td {
 }
 .inventory-detail{
 	width: 100%;
-	height: 200px;
+
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
 	padding: 20px 0;
@@ -4718,11 +4718,26 @@ td {
 }
 .Alert-Box{
 	position: absolute;
-	right: 0;
+	margin-top: 15px;
+	right: -130px;
 	width: 297px;
 	z-index: 995;
 	border: 2px solid #000;
 	/*display: none;*/
+}
+
+.Alert-Box:after{
+	content:'';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: -17px;
+	margin: 0 auto;
+	width: 0;
+	height: 0;
+	border-bottom: 15px solid #000000;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
 }
 .tab-content{
 	background-color: white;
