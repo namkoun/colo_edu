@@ -1,8 +1,11 @@
 package kr.cfms.dashboard.controller.ajax;
 
+import kr.cfms.common.vo.session.UserInfo;
 import kr.cfms.dashboard.dto.*;
+import kr.cfms.dashboard.mapper.NotificationMapper;
 import kr.cfms.dashboard.service.AlarmService;
 import kr.cfms.dashboard.service.DashboardADService;
+import kr.cfms.dashboard.service.NotificationService;
 import kr.cfms.dashboard.vo.AlarmVO;
 import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
@@ -20,6 +24,7 @@ public class DashboardADAjaxController {
 
 	private final DashboardADService dashboardADService;
 	private final AlarmService alarmService;
+	private final NotificationService notificationService;
 
 	/**
 	 * 오늘의 출/입고 현황
@@ -112,7 +117,7 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 알림기능
+	 * 알림기능 테스트
 	 */
 	@GetMapping("get/searchAlarmAll")
 	public ResponseEntity<List<AlarmVO>> searchAlarmAll() {
@@ -154,5 +159,17 @@ public class DashboardADAjaxController {
 		alarmService.insertJoinAlarm();
 
 		return ResponseEntity.ok(new MessageVo("알림 등록"));
+	}
+
+	/**
+	 * notification test
+	 */
+	@PostMapping("add/insertNotificationInfo")
+	public ResponseEntity<MessageVo> insertNotificationInfo(HttpSession session) {
+
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+
+		notificationService.insertNotificationInfo();
+		return ResponseEntity.ok(new MessageVo("알림 정보 등록"));
 	}
 }
