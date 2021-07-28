@@ -4713,9 +4713,9 @@ td {
 }
 .Alert-Box{
 	position: absolute;
-	margin-top: 15px;
-	right: 0;
-	width: 297.5px;
+	margin-top: 20px;
+	right: -185px;
+	width: 298px;
 	z-index: 995;
 	box-sizing: border-box;
 	padding: 0;
@@ -4740,13 +4740,14 @@ td {
 	color: white;
 	box-sizing: border-box;
 	padding: 1px;
+	width: 25%;
 }
 .tab-content{
 	background-color: white;
 	height: 300px;
-	width: 296.5px;
+	width: 298px;
 	border: 2px solid #adb5bd;
-	border-top: none;
+	border-top: none !important;
 	border-radius: 0 0 5px 5px;
 }
 .nav-link{
