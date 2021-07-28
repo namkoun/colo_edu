@@ -4714,9 +4714,9 @@ td {
 .Alert-Box{
 	position: absolute;
 	margin-top: 20px;
-	right: -185px;
-	width: 298px;
-	z-index: 995;
+	right: -195px;
+	width: 440px;
+	z-index: 990;
 	box-sizing: border-box;
 	padding: 0;
 	/*display: none;*/
@@ -4726,14 +4726,14 @@ td {
 	content:'';
 	position: absolute;
 	left: 0;
-	right: 110px;
-	top: -17px;
+	right: -10px;
+	top: -15px;
 	margin: 0 auto;
 	width: 0;
 	height: 0;
-	border-bottom: 15px solid #000000;
-	border-left: 25px solid transparent;
-	border-right: 25px solid transparent;
+	border-bottom: 15px solid  #adb5bd;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
 }
 .nav-item{
 	background-color: #adb5bd;
@@ -4745,11 +4745,17 @@ td {
 .tab-content{
 	background-color: white;
 	height: 300px;
-	width: 298px;
+	width: 440px;
 	border: 2px solid #adb5bd;
 	border-top: none !important;
 	border-radius: 0 0 5px 5px;
 }
 .nav-link{
 	color: #0a0a0a !important;
+}
+.nav-item{
+	width: 25%;
+}
+.nav-tabs{
+	border-bottom: none !important;
 }
