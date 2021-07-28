@@ -4643,11 +4643,6 @@ td {
 .total-sum > span{
 	font-size: 40px;
 }
-
-.mainChart > div{
-	width: 400px;
-	height: 400px;
-}
 .chart-detail{
 	width: 100%;
 	height: 300px;
@@ -4719,10 +4714,11 @@ td {
 .Alert-Box{
 	position: absolute;
 	margin-top: 15px;
-	right: -130px;
-	width: 297px;
+	right: 0;
+	width: 297.5px;
 	z-index: 995;
-	border: 2px solid #000;
+	box-sizing: border-box;
+	padding: 0;
 	/*display: none;*/
 }
 
@@ -4730,7 +4726,7 @@ td {
 	content:'';
 	position: absolute;
 	left: 0;
-	right: 0;
+	right: 110px;
 	top: -17px;
 	margin: 0 auto;
 	width: 0;
@@ -4739,7 +4735,20 @@ td {
 	border-left: 25px solid transparent;
 	border-right: 25px solid transparent;
 }
+.nav-item{
+	background-color: #adb5bd;
+	color: white;
+	box-sizing: border-box;
+	padding: 1px;
+}
 .tab-content{
 	background-color: white;
 	height: 300px;
+	width: 296.5px;
+	border: 2px solid #adb5bd;
+	border-top: none;
+	border-radius: 0 0 5px 5px;
+}
+.nav-link{
+	color: #0a0a0a !important;
 }

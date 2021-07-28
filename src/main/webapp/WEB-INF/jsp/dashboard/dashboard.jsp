@@ -22,32 +22,51 @@
 
 <div class="mainContent" >
 	<div class="item-container item-wrapper" >
-		<div class="item-title">
-			<span>대시보드</span>
-			<h1>대시보드</h1>
-		</div>
-		<div class="Alert-Box">
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				<li class="nav-item" role="presentation">
-					<button class="nav-link active" id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">알림1</button>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button class="nav-link" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">알림2</button>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button class="nav-link" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">알림3</button>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button class="nav-link" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">알림4</button>
-				</li>
-			</ul>
-			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade show active" id="Alert1" role="tabpanel" aria-labelledby="inWE">...</div>
-				<div class="tab-pane fade" id="Alert2" role="tabpanel" aria-labelledby="outWE">...2</div>
-				<div class="tab-pane fade" id="Alert3" role="tabpanel" aria-labelledby="noOutSt">...3</div>
-				<div class="tab-pane fade" id="Alert4" role="tabpanel" aria-labelledby="join">...4</div>
+		<div class="item-title" style="display: flex; justify-content: space-between; margin-top: 15px;  background-color: white; border: 1px solid #D3D3D3; border-radius: 10px">
+			<div style="display:block;">
+				<span>대시보드</span>
+				<h1>대시보드</h1>
+			</div>
+
+			<div style=" margin-left: 550px" >
+
+				<div style="position: relative; text-align: center;">
+               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <span style="color: white">N</span>
+                   <span class="visually-hidden">unread messages</span>
+               </span>
+					<a id="ccccc">   <span > <i class="fas fa-bell fa-3x"></i></span> </a>
+				</div>
+				<div class="Alert-Box" id="Alert-Box" style="display: none;">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link " id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">알림1</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">알림2</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">알림3</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">알림4</button>
+						</li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="Alert14" role="tabpanel" aria-labelledby="inWE">탭을 섲택
+
+						</div>
+						<div class="tab-pane fade " id="Alert1" role="tabpanel" aria-labelledby="inWE">...
+
+						</div>
+						<div class="tab-pane fade" id="Alert2" role="tabpanel" aria-labelledby="outWE">...2</div>
+						<div class="tab-pane fade" id="Alert3" role="tabpanel" aria-labelledby="noOutSt">...3</div>
+						<div class="tab-pane fade" id="Alert4" role="tabpanel" aria-labelledby="join">...4</div>
+					</div>
+				</div>
 			</div>
 		</div>
+
 		<div class="p-box" style="display: flex; background-color: #f3f3f3;">
 			<h2>전체입고량</h2><h2>전체출고량</h2>
 		</div>
@@ -74,14 +93,14 @@
 			</div>
 		</div>
 		<!--   <div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
-                      padding: 20px 0; background-color: #e2e2e2;">
-                <div style="width: 400px; height: 400px;">
-                   <canvas id="myChart" style="width: 300px; height: 300px;"></canvas>
-                </div>
-                <div>
-                   <canvas id="myChart2" style="width: 300px; height: 300px;"></canvas>
-                </div>
-             </div> -->
+                          padding: 20px 0; background-color: #e2e2e2;">
+                    <div style="width: 400px; height: 400px;">
+                       <canvas id="myChart" style="width: 300px; height: 300px;"></canvas>
+                    </div>
+                    <div>
+                       <canvas id="myChart2" style="width: 300px; height: 300px;"></canvas>
+                    </div>
+                 </div> -->
 		<!-- 선택 -->
 
 		<div class="select-home" style="width: 100%; padding-bottom: 20px;  border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
@@ -205,7 +224,7 @@
 
 						<div style="position: relative; text-align: center">
                <span id="test-a" style="text-align: center; position: absolute;width: 20px;height: 20px;background-color: red;border-radius: 50%;
-               color: white;top: -3px;right: 10px">0</span>
+               color: white;top: -3px;right: 10px">n</span>
 							<a id="icon">   <span> <i  class="fas fa-bell fa-2x"></i></span> </a>
 						</div>
 					</div>
@@ -256,6 +275,19 @@
 <!--------------------------script----------------------------------->
 
 <script type="text/javascript">
+	//
+	$("#ccccc").on("click",function (){
+		if ($("#Alert-Box").css("display")=== "none"){
+
+			$("#Alert-Box").toggle();
+		}else {
+			$(".nav-link").removeClass("active");
+			$(".tab-pane").removeClass("show active");
+			$("#Alert14").addClass("show active");
+			$("#Alert-Box").hide();
+
+		}
+	})
 	////알림기능 시작
 	$("#liveToastBtn").on("click",function (){
 		$(".toast-box").append("<div id=\"liveToast\" class=\"toast hide\" role=\"alert\" aria-live=\"assertive\" data-bs-autohide=\"false\" aria-atomic=\"true\">\n" +
@@ -1086,51 +1118,4 @@
 		monthLater = new Date(today.valueOf() - 30 * 1000 * 3600 * 24);
 		return monthLater.getFullYear() + '-' + ('0' + (monthLater.getMonth() + 1)).slice(-2) + '-' + ('0' + monthLater.getDate()).slice(-2);
 	}
-
-	//chart
-
-	function chart1(){
-		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '',
-			type: "GET",
-			data: {
-				chartIn : getChart
-			},
-			datatype: 'json',
-			success: function (chartIn){
-				var getChart = new Array();
-				var ctx = document.getElementById('myChart').getContext('2d');
-				var myChart = new Chart(ctx, {
-					type: 'line',
-					data: {
-						labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-						datasets: [{
-							label: '# of Votes',
-							data: getChart,
-							backgroundColor: [
-								'rgba(255, 99, 132, 0.2)',
-								'rgba(54, 162, 235, 0.2)',
-								'rgba(255, 206, 86, 0.2)',
-								'rgba(75, 192, 192, 0.2)',
-								'rgba(153, 102, 255, 0.2)',
-								'rgba(255, 159, 64, 0.2)'
-							],
-							borderColor: [
-								'rgba(255, 99, 132, 1)',
-								'rgba(54, 162, 235, 1)',
-								'rgba(255, 206, 86, 1)',
-								'rgba(75, 192, 192, 1)',
-								'rgba(153, 102, 255, 1)',
-								'rgba(255, 159, 64, 1)'
-							],
-							borderWidth: 1
-						}]
-					},
-					options: {
-					}
-				});
-			}
-		});
-	}
-	//test
 </script>
