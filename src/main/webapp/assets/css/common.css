@@ -4700,7 +4700,6 @@ td {
 	font-size: 24px;
 	margin-bottom: 100px;
 	padding-bottom: 3px;
-	border-bottom: 1px solid #D3D3D3;
 }
 .display-flex-column-align-items-center{
 	display: flex; flex-direction: column; align-items: center
@@ -4825,7 +4824,26 @@ td {
 }
 .btn-on-select{
 	background-color: #0a217f !important;
-	color: whitesmoke;
+	color: whitesmoke !important;
+}
+.data-wrap{
+	display: flex;
+	width: 100%;
+	border: 1px solid #D3D3D3;
+	border-radius: 6px;
+	padding: 9px;
+}
+.data-wrap-sub{
+	display: flex;
+	width: 450px;
+	flex-direction: column;
+	margin: 0 auto;
+}
+.data-wrap-main{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin:10px 0;
 }
 .bootstrap-table .fixed-table-container .table {
 	width: 100% !important;
