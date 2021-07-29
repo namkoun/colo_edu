@@ -4662,7 +4662,6 @@ td {
 }
 .inventory-detail{
 	width: 100%;
-
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
 	padding: 20px 0;
@@ -4866,4 +4865,11 @@ td {
 }
 .display-none{ /*감추기*/
 	display:none;
+}
+.fixed-table-body{
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+.fixed-table-body::-webkit-scrollbar {
+display: none; /* Chrome, Safari, Opera*/
 }
