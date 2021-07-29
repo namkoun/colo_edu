@@ -4643,11 +4643,6 @@ td {
 .total-sum > span{
 	font-size: 40px;
 }
-
-.mainChart > div{
-	width: 400px;
-	height: 400px;
-}
 .chart-detail{
 	width: 100%;
 	height: 300px;
@@ -4658,7 +4653,7 @@ td {
 }
 .inventory-detail{
 	width: 100%;
-	height: 200px;
+
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
 	padding: 20px 0;
@@ -4714,4 +4709,53 @@ td {
 .toggle-group span:hover{
 	background-color: #0a217f;
 }
-.slow  .toggle-group { transition: left 0.7s; -webkit-transition: left 0.7s; }
+.slow  .toggle-group { transition: left 0.7s; -webkit-transition: left 0.7s;
+}
+.Alert-Box{
+	position: absolute;
+	margin-top: 20px;
+	right: -195px;
+	width: 440px;
+	z-index: 990;
+	box-sizing: border-box;
+	padding: 0;
+	/*display: none;*/
+}
+
+.Alert-Box:after{
+	content:'';
+	position: absolute;
+	left: 0;
+	right: -10px;
+	top: -15px;
+	margin: 0 auto;
+	width: 0;
+	height: 0;
+	border-bottom: 15px solid  #adb5bd;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+}
+.nav-item{
+	background-color: #adb5bd;
+	color: white;
+	box-sizing: border-box;
+	padding: 1px;
+	width: 25%;
+}
+.tab-content{
+	background-color: white;
+	height: 300px;
+	width: 440px;
+	border: 2px solid #adb5bd;
+	border-top: none !important;
+	border-radius: 0 0 5px 5px;
+}
+.nav-link{
+	color: #0a0a0a !important;
+}
+.nav-item{
+	width: 25%;
+}
+.nav-tabs{
+	border-bottom: none !important;
+}

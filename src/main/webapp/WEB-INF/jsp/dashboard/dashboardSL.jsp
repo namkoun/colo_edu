@@ -705,7 +705,7 @@
 
 	function inWearing(){ //입고신청
 		$.ajax({
-			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertNotificationInfo',
+			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertInApplyAlarm',
 			type : 'POST',
 			dataType : 'json',
 			contentType : 'application/json;charset=UTF-8',
