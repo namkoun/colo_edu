@@ -4633,7 +4633,6 @@ td {
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-around;
-	background-color: #f3f3f3;
 	border-bottom: 2px solid #0e0e0e;
 }
 .total-sum > div{
@@ -4658,18 +4657,14 @@ td {
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
 	padding: 20px 9px;
-	background-color: #efefef;
 }
 .inventory-detail{
 	width: 100%;
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
-	padding: 20px 0;
-	background-color: #f1f1f1;
 }
 .p-box{
 	display: flex;
-	background-color: #f3f3f3;
 	border-top: 2px solid #000;
 }
 .p-box > h2{
@@ -4709,8 +4704,6 @@ td {
 	font-size: 12px !important;
 	outline-style: none;
 	margin: 15px 0;
-
-
 }
 .toggle-group span{
 	background-color: #0a217f;
@@ -4727,7 +4720,7 @@ td {
 .Alert-Box{
 	position: absolute;
 	margin-top: 25px;
-	right: -185px;
+	right: -204px;
 	width: 440px;
 	z-index: 990;
 	box-sizing: border-box;
@@ -4749,7 +4742,7 @@ td {
 }
 .tab-content{
 	background-color: white;
-	height: 300px;
+	height: 400px;
 	width: 440px;
 	border: 2px solid #adb5bd;
 	border-top: none !important;
@@ -4828,9 +4821,7 @@ td {
 .data-wrap{
 	display: flex;
 	width: 100%;
-	border: 1px solid #D3D3D3;
-	border-radius: 6px;
-	padding: 9px;
+	border-bottom: 1px solid #000000;
 }
 .data-wrap-sub{
 	display: flex;
@@ -4872,4 +4863,43 @@ td {
 }
 .fixed-table-body::-webkit-scrollbar {
 display: none; /* Chrome, Safari, Opera*/
+}
+.fixed-table-border{
+	display: none;
+}
+.fa-bell:hover{
+	transform-origin: 50% 0%;
+	animation-name: shake;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-delay: 0.1s;
+}
+@keyframes shake{
+	0%{
+		transform: rotate(0deg);
+	}
+	10%{
+		transform: rotate(45deg);
+	}
+	20%{
+		transform: rotate(-45deg);
+	}
+	30%{
+		transform: rotate(30deg);
+	}
+	40%{
+		transform: rotate(-30deg);
+	}
+	50%{
+		transform: rotate(10deg);
+	}
+	60%{
+		transform: rotate(-10deg);
+	}
+	70%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(0deg);
+	}
 }
