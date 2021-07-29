@@ -244,11 +244,11 @@
 		<div style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black; background-color: #d3d3d3">
 			<div style="text-align: center">입고신청</div>
 			<form >
-				<div style="display: flex; align-items: center; justify-items: center; justify-content: center">
+				<div class="input-s" style="display: flex; align-items: center; justify-items: center; justify-content: center">
 					<!-- name:서버에서 받을 이름 , value: 보내줄이름 -->
-					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+					<div  style="display: flex; flex-direction: column; margin-right: 20px;">
 						<span>입고 예정일</span>
-						<input style="border: 1px solid black" type='date' name="" value=""/>
+						<input type='date' name="" value=""/>
 					</div>
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
@@ -263,7 +263,7 @@
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
 						<span>입고 센터</span>
-						<input style="border: 1px solid black" type="text" value="" name="">
+						<input  type="text" value="" name="">
 					</div>
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
@@ -283,14 +283,14 @@
 		</div>
 
 		<!-- 출고신청 -->
-		<div style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black;">
+		<div class="input-s" style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black;">
 			<div style="text-align: center">출고신청</div>
 			<form >
 				<div style="display: flex; align-items: center; justify-items: center; justify-content: center">
 					<!-- name:서버에서 받을 이름 , value: 보내줄이름 -->
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
 						<span>출고 예정일</span>
-						<input style="border: 1px solid black" type='date' name="" value=""/>
+						<input  type='date' name="" value=""/>
 					</div>
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
@@ -312,19 +312,19 @@
 		</div>
 
 		<!-- b2b출고 -->
-		<div style="width: 100%;margin: 0 auto; margin-bottom: 30px;  border: 1px solid black; background-color: #d3d3d3">
+		<div class="input-s" style="width: 100%;margin: 0 auto; margin-bottom: 30px;  border: 1px solid black; background-color: #d3d3d3">
 			<div style="text-align: center">b2b출고</div>
 			<form >
 				<div style="display: flex; align-items: center; justify-items: center; justify-content: center">
 					<!-- name:서버에서 받을 이름 , value: 보내줄이름 -->
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
 						<span>b2b출고 희망일</span>
-						<input style="border: 1px solid black" type='date' name="" value=""/>
+						<input  type='date' name="" value=""/>
 					</div>
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
 						<span>출고센터</span>
-						<input style="border: 1px solid black" type="text" value="" name="">
+						<input  type="text" value="" name="">
 					</div>
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
@@ -343,7 +343,7 @@
 		</div>
 
 		<!-- 회원가입 -->
-		<div style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black;">
+		<div class="input-s" style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black;">
 			<div style="text-align: center">회원가입</div>
 			<form >
 				<div style="display: flex; align-items: center; justify-items: center; justify-content: center">
@@ -351,12 +351,12 @@
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
 						<span>이메일</span>
-						<input style="border: 1px solid black" type="email" value="" name="">
+						<input  type="email" value="" name="">
 					</div>
 
 					<div style="display: flex; flex-direction: column; margin-right: 20px;">
 						<span>전화번호호</span>
-						<input style="border: 1px solid black" type="text" value="" name="">
+						<input type="text" value="" name="">
 					</div>
 
 					<input type="submit" value="회원가입" style="border: 1px solid black;">
@@ -412,7 +412,11 @@
 	width: 100%;
 	position: relative;
 }
-
+.input-s input,.input-s select{
+	border: 1px solid black;
+	width: 150px;
+	height: 40px;
+}
 #dashboard-background-image-top {
 	position: absolute;
 	width: 100%;
