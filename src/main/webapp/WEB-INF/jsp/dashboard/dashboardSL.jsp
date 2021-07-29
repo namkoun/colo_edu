@@ -5,9 +5,7 @@
 <fmt:formatDate var="year" value="${now}" pattern="yyyy" />
 <fmt:formatDate var="month" value="${now}" pattern="MM" />
 <fmt:formatDate var="day" value="${now}" pattern="dd" />
-<!-- chart.js  -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.0/Chart.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 <div class="mainContent" style="padding: 0px; position: relative; overflow-y: hidden;">
 	<div id="container">
 		<div id="dashboard-background-image-top"></div>
@@ -242,13 +240,132 @@
 			</div>
 		</div>
 
-		<div style="display: flex; width: 600px; margin-bottom: 20px; justify-content: space-between">
-			<button class="btn btn-primary" onclick="inWearing()" type="submit">입고신청</button>
-			<button class="btn btn-primary" onclick="releasebb()" type="submit">B2B출고</button>
-			<button class="btn btn-primary" onclick="releasesp()" type="submit">특수출고</button>
-			<button class="btn btn-primary" onclick="injoin()" type="submit">회원가입</button>
+		<!-- 입고신청 -->
+		<div style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black; background-color: #d3d3d3">
+			<div style="text-align: center">입고신청</div>
+			<form method="post" action="${contextPath}/insertInOrd">
+				<div class="input-s" style="display: flex; align-items: center; justify-items: center; justify-content: center">
+					<!-- name:서버에서 받을 이름 , value: 보내줄이름 -->
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>입고 주문번호</span>
+						<input type="text" value="" name="inOrdNo">
+					</div>
 
+					<div  style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>입고 예정일</span>
+						<input type='date' name="inOrdDt" value=""/>
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>입고 시간</span>
+						<select name="inOrdType">
+							<option value="">선택하기</option>
+							<option value="INAM">오전(9~11) 입고</option>
+							<option value="INPM">오후(13~15) 입고</option>
+							<option value="INSP">오후(15~16) 입고</option>
+						</select>
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>입고 센터</span>
+						<input type="text" value="" name="whId">
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>입고 방법</span>
+						<select name="inMethod">
+							<option value="">선택하기</option>
+							<option value="PC">택배</option>
+							<option value="PI">콜로세움차량</option>
+							<option value="CR">셀러섭외차량</option>
+						</select>
+					</div>
+
+					<input type="submit" value="입고신청" style="border: 1px solid black;">
+				</div>
+
+			</form>
 		</div>
+
+		<!-- 출고신청 -->
+		<div class="input-s" style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black;">
+			<div style="text-align: center">출고신청</div>
+			<form method="post" action="${contextPath}/insertOutOrd">
+				<div style="display: flex; align-items: center; justify-items: center; justify-content: center">
+					<!-- name:서버에서 받을 이름 , value: 보내줄이름 -->
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>출고 주문번호</span>
+						<input type="text" value="" name="outOrdNo">
+					</div>
+
+					<div  style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>출고 예정일</span>
+						<input type='date' name="outOrdDt" value=""/>
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>출고 타입</span>
+						<select name="outType">
+							<option value="">선택하기</option>
+							<option value="OTAM">오전(10:00)출고</option>
+							<option value="OTPM">오후(14:00)출고</option>
+							<option value="OTSP">특수(14:00이후)출고</option>
+							<option value="OTBB">B2B출고</option>
+						</select>
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>출고 방법</span>
+						<select name="outMethod">
+							<option value="">선택하기</option>
+							<option value="PC">택배</option>
+							<option value="PI">콜로세움차량</option>
+							<option value="CR">셀러섭외차량</option>
+						</select>
+					</div>
+					<input type="submit" value="출고신청" style="border: 1px solid black;">
+				</div>
+
+			</form>
+		</div>
+
+		<!-- 회원가입 -->
+		<div class="input-s" style="width: 100%;margin: 0 auto; margin-bottom: 30px; border: 1px solid black;">
+			<div style="text-align: center">회원가입</div>
+			<form method="post" action="${contextPath}/insertUser">
+				<div style="display: flex; align-items: center; justify-items: center; justify-content: center">
+					<!-- name:서버에서 받을 이름 , value: 보내줄이름 -->
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>회사id</span>
+						<input  type="text" value="" name="cmpId">
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>이메일</span>
+						<input  type="text" value="" name="mid">
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>회원 구분 코드</span>
+						<select name="memberTypeCode">
+							<option value="">선택하기</option>
+							<option value="SL">SL</option>
+							<option value="WH">WH</option>
+							<option value="AD">AD</option>
+						</select>
+					</div>
+
+					<div style="display: flex; flex-direction: column; margin-right: 20px;">
+						<span>전화번호</span>
+						<input type="text" value="" name="mobile">
+					</div>
+
+					<input type="submit" value="회원가입" style="border: 1px solid black;">
+				</div>
+
+			</form>
+		</div>
+
 		<!-- 게시판 -->
 		<div class="content-container board">
 			<div class="content-wrapper board dashboard-width-100">
@@ -296,7 +413,11 @@
 		width: 100%;
 		position: relative;
 	}
-
+	.input-s input,.input-s select{
+		border: 1px solid black;
+		width: 150px;
+		height: 40px;
+	}
 	#dashboard-background-image-top {
 		position: absolute;
 		width: 100%;
@@ -537,7 +658,7 @@
 	}
 	#line-chart, #pie-chart {
 		width: 50%;
-		background-color: rgba(255, 255, 255, 0);
+		background-color: rgba(255, 255, 255);
 		/*    background-color: rgba(255, 0, 0, 0.1);
          */
 	}
@@ -702,52 +823,6 @@
 </style>
 
 <script type="text/javascript">
-
-	function inWearing(){ //입고신청
-		$.ajax({
-			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertInApplyAlarm',
-			type : 'POST',
-			dataType : 'json',
-			contentType : 'application/json;charset=UTF-8',
-			success : function(Data) {
-				console.log("오류없음")
-			}
-		})
-	}
-	function releasebb(){ //b2b출고
-		$.ajax({
-			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertOutBtoBAlarm',
-			type : 'POST',
-			dataType : 'json',
-			contentType : 'application/json;charset=UTF-8',
-			success : function(Data) {
-				console.log("오류없음")
-			}
-		})
-	}
-	function releasesp(){ //특별출고
-		$.ajax({
-			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertOutSpecialAlarm',
-			type : 'POST',
-			dataType : 'json',
-			contentType : 'application/json;charset=UTF-8',
-			success : function(Data) {
-				console.log("오류없음")
-			}
-		})
-	}
-	function injoin(){ //회원가입
-		$.ajax({
-			url : '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertJoinAlarm',
-			type : 'POST',
-			dataType : 'json',
-			contentType : 'application/json;charset=UTF-8',
-			success : function(Data) {
-				console.log("오류없음")
-			}
-		})
-	}
-
 	var today = new Date();
 	var toDate = "";
 	var fromDate = "";
@@ -755,11 +830,6 @@
 	var goodsArr = new Array();
 
 	$(document).ready(function() {
-
-
-
-
-
 
 		/* loading wrapper 관련 CSS 설정 - 추후 수정 */
 		$('.loader-wrapper').css('transform', 'unset');
@@ -1088,7 +1158,7 @@
 			dataType : 'json',
 			contentType : 'application/json;charset=UTF-8',
 			success : function(outData) {
-				console.log(outData);
+
 				// 출고순위(파이차트) 데이터가 없는경우
 				if(outData.length == 0){
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.cfms.dashboard.mapper.TestInsertMapper">
+<!--테스트용 INSERT-->
+	<insert id="insertInOrd" parameterType="InOrdVO">
+		/*TestInsertMapper.insertInOrd*/
+		insert cwt_in_ord_mst
+			(
+				cust_id,
+				wh_id,
+				in_ord_no,
+				in_ord_dt,
+				in_ord_type,
+				in_method,
+				reg_date
+			)
+			values
+			(
+				#{inOrdVO.custId},
+				#{inOrdVO.whId},
+				#{inOrdVO.inOrdNo},
+				#{inOrdVO.inOrdDt},
+				#{inOrdVO.inOrdType},
+				#{inOrdVO.inMethod},
+				now()
+			)
+	</insert>
+
+	<insert id="insertOutOrd" parameterType="OutOrdVO">
+		/*TestInsertMapper.insertOutOrd*/
+		insert cwt_out_ord_mst
+			(
+				cust_id,
+				out_ord_no,
+				out_ord_dt,
+				out_type,
+				out_method,
+				reg_date
+			)
+			values
+			(
+				#{outOrdVO.custId},
+				#{outOrdVO.outOrdNo},
+				#{outOrdVO.outOrdDt},
+				#{outOrdVO.outType},
+				#{outOrdVO.outMethod},
+				now()
+			)
+	</insert>
+
+	<insert id="insertUser" parameterType="JoinVO">
+		/*TestInsertMapper.insertUser*/
+		insert cwt_user
+			(
+				cmp_id,
+				mid,
+				use_term_yn,
+				personal_info_term_yn,
+				cfms_service_term_yn,
+				marketing_term_yn,
+				first_join_yn,
+				member_type_code,
+				mobile,
+				reg_date
+			)
+			values
+			(
+				#{joinVO.cmpId},
+				#{joinVO.mid},
+				'N',
+				'N',
+				'N',
+				'N',
+				'Y',
+				#{joinVO.memberTypeCode},
+				#{joinVO.mobile},
+				now()
+			)
+	</insert>
+
+</mapper>
