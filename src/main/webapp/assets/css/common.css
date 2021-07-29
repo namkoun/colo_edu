@@ -4626,7 +4626,16 @@ td {
 	font-weight: 500;
 }
 /*운영 대쉬보드 CSS*/
-
+.total-sum{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 0 20px 0;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-around;
+	background-color: #f3f3f3;
+	border-bottom: 2px solid #0e0e0e;
+}
 .total-sum > div{
 	display: flex;
 	flex-flow: column wrap;
@@ -4643,13 +4652,13 @@ td {
 .total-sum > span{
 	font-size: 40px;
 }
-.chart-detail{
+.select-home{
 	width: 100%;
-	height: 300px;
+	padding-bottom: 20px;
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
-	padding: 20px 0;
-	background-color: #e9e9e9;
+	padding: 20px 9px;
+	background-color: #efefef;
 }
 .inventory-detail{
 	width: 100%;
@@ -4660,6 +4669,8 @@ td {
 	background-color: #f1f1f1;
 }
 .p-box{
+	display: flex;
+	background-color: #f3f3f3;
 	border-top: 2px solid #000;
 }
 .p-box > h2{
@@ -4711,29 +4722,19 @@ td {
 }
 .slow  .toggle-group { transition: left 0.7s; -webkit-transition: left 0.7s;
 }
+.bell-wrap{
+	margin-left: 550px;
+	position: relative;
+}
 .Alert-Box{
 	position: absolute;
-	margin-top: 20px;
-	right: -195px;
+	margin-top: 25px;
+	right: -185px;
 	width: 440px;
 	z-index: 990;
 	box-sizing: border-box;
 	padding: 0;
-	/*display: none;*/
-}
-
-.Alert-Box:after{
-	content:'';
-	position: absolute;
-	left: 0;
-	right: -10px;
-	top: -15px;
-	margin: 0 auto;
-	width: 0;
-	height: 0;
-	border-bottom: 15px solid  #adb5bd;
-	border-left: 15px solid transparent;
-	border-right: 15px solid transparent;
+	display: none;
 }
 .nav-item{
 	background-color: #adb5bd;
@@ -4742,6 +4743,12 @@ td {
 	padding: 1px;
 	width: 25%;
 }
+.nav-item:first-child{
+	border-radius: 5px 0 0 0;
+}
+.nav-item:last-child{
+	border-radius: 0 5px 0 0;
+}
 .tab-content{
 	background-color: white;
 	height: 300px;
@@ -4749,13 +4756,96 @@ td {
 	border: 2px solid #adb5bd;
 	border-top: none !important;
 	border-radius: 0 0 5px 5px;
+	overflow: hidden;
+	overflow-y: scroll;
 }
 .nav-link{
 	color: #0a0a0a !important;
+	font-size: 0.9rem;
 }
 .nav-item{
+	position: relative;
 	width: 25%;
 }
 .nav-tabs{
 	border-bottom: none !important;
+}
+.msg-count{
+	position: relative;
+	text-align: center;
+}
+.msg-wrap{
+	position: relative;
+	display:flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px;
+	box-sizing: border-box;
+	border-bottom: 1px solid #f1f1f1;
+}
+.msg-text{
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+}
+.msg-text b{
+	color: black;
+}
+.msg-day{
+	margin-right: 10px;
+	width: 80px;
+}
+.msg-been{
+	position: absolute;
+	z-index: 996;
+	top: 0;
+	right: 0;
+	margin-top: 10px;
+	background-color: rgba(0, 36, 156, 0.7);
+	margin-right: 5px;
+	width:10px;
+	height: 10px;
+	border-radius: 50%;
+}
+.msg-smallBeen{
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background-color: rgba(0, 36, 156, 0.7);
+	z-index: 999;
+	right: 25px;
+	top: 10px;
+	position: absolute;
+}
+.fa-bell{
+	color: #0a0a0a;
+}
+.fa-bell:hover{
+	color: #0a217f;
+}
+.btn-on-select{
+	background-color: #0a217f !important;
+	color: whitesmoke;
+}
+.bootstrap-table .fixed-table-container .table {
+	width: 100% !important;
+}
+.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+	position: fixed;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background: rgba(0,0,0,0.2); /*not in ie */
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+}
+.wrap-loading div{ /*로딩 이미지*/
+	position: fixed;
+	top:50%;
+	left:50%;
+	margin-left: -21px;
+	margin-top: -21px;
+}
+.display-none{ /*감추기*/
+	display:none;
 }
