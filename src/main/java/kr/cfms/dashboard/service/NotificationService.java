@@ -24,4 +24,8 @@ public class NotificationService {
     public void insertNewInfo(AdNotificationVO adNotificationVO) {
         notificationMapper.insertNewInfo(adNotificationVO);
     }
+
+    public Integer selectIsReadNotification(AdNotificationVO adNotificationVO) {
+        return notificationMapper.selectIsReadNotification(adNotificationVO);
+    }
 }

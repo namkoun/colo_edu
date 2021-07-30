@@ -14,4 +14,6 @@ public interface NotificationMapper {
     List<Long> selectNewInfoId(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
 
     void insertNewInfo(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
+
+    Integer selectIsReadNotification(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
 }

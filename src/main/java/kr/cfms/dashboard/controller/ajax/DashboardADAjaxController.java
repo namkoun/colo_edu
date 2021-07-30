@@ -5,7 +5,6 @@ import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.DashboardADService;
 import kr.cfms.dashboard.service.NotificationService;
 import kr.cfms.dashboard.vo.AdNotificationVO;
-import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -116,7 +115,6 @@ public class DashboardADAjaxController {
 	/**
 	 * 새로운 알림정보 조회
 	 */
-
 	@PostMapping("add/insertNewInfo")
 	public ResponseEntity<Integer> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		Integer isExist = 0;
@@ -126,7 +124,7 @@ public class DashboardADAjaxController {
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<Long> infoIdList = notificationService.selectNewInfoId(adNotificationVO);
 
-		if(infoIdList != null) {
+		if (infoIdList.size() != 0) {
 			isExist = 1;
 			//값 넣어줌
 			adNotificationVO.setReadYn("N");
@@ -135,6 +133,25 @@ public class DashboardADAjaxController {
 				notificationService.insertNewInfo(adNotificationVO);
 			}
 		}
-		return ResponseEntity.ok(isExist);
+		return ResponseEntity.ok(isExist);  // 새로운 알림 있으면 1, 없으면 0
+	}
+
+	/**
+	 * 안 읽은 알림 있는지 체크 (종)
+	 */
+	@GetMapping("get/searchIsReadNotification")
+	public ResponseEntity<Integer> selectIsReadNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		Integer isRead = 0;
+
+		// ad_mid로 검색
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO);
+
+		// 있으면 isRead=1
+		if (countNotRead>0) isRead = 1;
+		log.info("isRead:::::::::", isRead);
+
+		return ResponseEntity.ok(isRead);
 	}
 }

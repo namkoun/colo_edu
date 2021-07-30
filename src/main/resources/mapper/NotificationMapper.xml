@@ -17,4 +17,10 @@
         values
             (#{adNotificationVO.infoId}, #{adNotificationVO.adMid}, 'N');
     </insert>
+
+    <select id="selectIsReadNotification" parameterType="AdNotificationVO" resultType="Integer">
+        select ifnull(count(read_yn),0) from cwt_ad_notification
+        where read_yn = 'N'
+          and ad_mid =#{adNotificationVO.adMid};
+    </select>
 </mapper>
