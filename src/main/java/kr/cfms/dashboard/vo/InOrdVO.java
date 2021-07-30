@@ -11,6 +11,7 @@ import org.apache.ibatis.type.Alias;
 @Alias("InOrdVO")
 public class InOrdVO {
 
+    private long id;
     private long custId;  //세션에서 찾음
     private long whId;
     private String inOrdNo;

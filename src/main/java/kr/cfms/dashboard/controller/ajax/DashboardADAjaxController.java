@@ -2,11 +2,9 @@ package kr.cfms.dashboard.controller.ajax;
 
 import kr.cfms.common.vo.session.UserInfo;
 import kr.cfms.dashboard.dto.*;
-import kr.cfms.dashboard.mapper.NotificationMapper;
-import kr.cfms.dashboard.service.AlarmService;
 import kr.cfms.dashboard.service.DashboardADService;
 import kr.cfms.dashboard.service.NotificationService;
-import kr.cfms.dashboard.vo.AlarmVO;
+import kr.cfms.dashboard.vo.AdNotificationVO;
 import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +21,6 @@ import java.util.List;
 public class DashboardADAjaxController {
 
 	private final DashboardADService dashboardADService;
-	private final AlarmService alarmService;
 	private final NotificationService notificationService;
 
 	/**
@@ -117,59 +114,22 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 알림기능 테스트
+	 * 새로운 알림정보 조회
 	 */
-	@GetMapping("get/searchAlarmAll")
-	public ResponseEntity<List<AlarmVO>> searchAlarmAll() {
-		List<AlarmVO> alarmAll = alarmService.selectAlarmAll();
-		return ResponseEntity.ok(alarmAll);
-	}
 
-	/**
-	 * 테스트용
-	 */
-	//입고신청 등록
-	@PostMapping("add/insertInApplyAlarm")
-	public ResponseEntity<MessageVo> insertInApplyAlarm() {
-
-		alarmService.insertInApplyAlarm();
-
-		return ResponseEntity.ok(new MessageVo("알림 등록"));
-	}
-	//특수출고 등록
-	@PostMapping("add/insertOutSpecialAlarm")
-	public ResponseEntity<MessageVo> insertOutSpecialAlarm() {
-
-		alarmService.insertOutSpecialAlarm();
-
-		return ResponseEntity.ok(new MessageVo("알림 등록"));
-	}
-	//B2B출고 등록
-	@PostMapping("add/insertOutBtoBAlarm")
-	public ResponseEntity<MessageVo> insertOutBtoBAlarm() {
-
-		alarmService.insertOutBtoBAlarm();
-
-		return ResponseEntity.ok(new MessageVo("알림 등록"));
-	}
-	//회원가입 등록
-	@PostMapping("add/insertJoinAlarm")
-	public ResponseEntity<MessageVo> insertJoinAlarm() {
-
-		alarmService.insertJoinAlarm();
-
-		return ResponseEntity.ok(new MessageVo("알림 등록"));
-	}
-
-	/**
-	 * notification test
-	 */
-	@PostMapping("add/insertNotificationInfo")
-	public ResponseEntity<MessageVo> insertNotificationInfo(HttpSession session) {
-
+	@PostMapping("add/insertNewInfo")
+	public ResponseEntity<MessageVo> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//새로운 알림 정보 가져와서
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<Long> infoIdList = notificationService.selectNewInfoId(adNotificationVO);
 
-		notificationService.insertNotificationInfo();
-		return ResponseEntity.ok(new MessageVo("알림 정보 등록"));
+		//값 넣어줌
+		adNotificationVO.setReadYn("N");
+		for (int i = 0; i < infoIdList.size(); i++) {
+			adNotificationVO.setInfoId(infoIdList.get(i));
+			notificationService.insertNewInfo(adNotificationVO);
+		}
+		return ResponseEntity.ok(new MessageVo("성공"));
 	}
 }

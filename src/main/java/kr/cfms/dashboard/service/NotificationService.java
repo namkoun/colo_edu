@@ -1,8 +1,7 @@
 package kr.cfms.dashboard.service;
 
-import kr.cfms.dashboard.mapper.AlarmMapper;
 import kr.cfms.dashboard.mapper.NotificationMapper;
-import kr.cfms.dashboard.vo.AlarmVO;
+import kr.cfms.dashboard.vo.AdNotificationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,11 @@ public class NotificationService {
 
     private final NotificationMapper notificationMapper;
 
-    public void insertNotificationInfo() {
-        notificationMapper.insertNotificationInfo();
+    public List<Long> selectNewInfoId(AdNotificationVO adNotificationVO) {
+        return notificationMapper.selectNewInfoId(adNotificationVO);
+    }
+
+    public void insertNewInfo(AdNotificationVO adNotificationVO) {
+        notificationMapper.insertNewInfo(adNotificationVO);
     }
 }

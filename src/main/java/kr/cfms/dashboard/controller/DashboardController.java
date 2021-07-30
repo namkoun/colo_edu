@@ -4,9 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.cfms.dashboard.dto.InOrdNotificationDTO;
 import kr.cfms.dashboard.service.TestInsertService;
 import kr.cfms.dashboard.vo.InOrdVO;
 import kr.cfms.dashboard.vo.JoinVO;
+import kr.cfms.dashboard.vo.NotificationInfoVO;
 import kr.cfms.dashboard.vo.OutOrdVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,13 +97,30 @@ public class DashboardController {
 		return "dashboard/privacy";
 	}
 
+	/**
+	 * test input
+	 */
 	@PostMapping("insertInOrd")
-	public String insertInOrd(HttpSession session, @ModelAttribute InOrdVO inOrdVO) {
+	public String insertInOrd(HttpSession session, @ModelAttribute InOrdVO inOrdVO, @ModelAttribute NotificationInfoVO notificationInfoVO) {
 
+		//insert in_ord_mst
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		inOrdVO.setCustId(userInfo.getCenterId());
+		Long inMstId = testInsertService.insertInOrd(inOrdVO);
 
-		testInsertService.insertInOrd(inOrdVO);
+		//select 업체명, 창고명, 입고예정날짜, 입고타입
+		InOrdNotificationDTO inOrdNotificationDTO = testInsertService.selectInOrdMstById(inMstId);
+
+		//insert notification_info
+		String typeCd = notificationInfoVO.makeTypeCd(inOrdNotificationDTO.getInOrdType());
+		String content = notificationInfoVO.makeContent(inOrdNotificationDTO.getCustCenterNm()
+														, inOrdNotificationDTO.getWhCenterNm()
+														, inOrdNotificationDTO.getInOrdType()
+														, inOrdNotificationDTO.getInOrdDt());
+		notificationInfoVO.setInMstId(inMstId);
+		notificationInfoVO.setTypeCd(typeCd);
+		notificationInfoVO.setContent(content);
+		testInsertService.insertNotificationInfo(notificationInfoVO);
 
 		return "redirect:/";
 	}
@@ -124,4 +143,6 @@ public class DashboardController {
 
         return "redirect:/";
     }
+
+
 }

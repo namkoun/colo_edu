@@ -2,23 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.cfms.dashboard.mapper.NotificationMapper">
+    <select id="selectNewInfoId" parameterType="AdNotificationVO" resultType="Long">
+        select ni.id
+        from cwt_notification_info as ni
+                 left join (select id, info_id from cwt_ad_notification
+                            where ad_mid = #{adNotificationVO.adMid}) as an
+                           on ni.id = an.info_id
+        where an.info_id is null;
+    </select>
 
-<!--테스트용 INSERT-->
-	<insert id="insertNotificationInfo">
-		/*NotificationMapper.insertNotificationInfo*/
--- 		test:: 12, IN01
-		insert cwt_notification_info
-			(
-				cust_id,
-				type_cd,
-				reg_date
-			)
-			values
-			(
-				12,
-				'IN01',
-				now()
-			);
-	</insert>
-
+    <insert id="insertNewInfo" parameterType="AdNotificationVO">
+        insert into cwt_ad_notification
+            (info_id, ad_mid, read_yn)
+        values
+            (#{adNotificationVO.infoId}, #{adNotificationVO.adMid}, 'N');
+    </insert>
 </mapper>
