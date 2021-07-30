@@ -141,7 +141,7 @@ public class DashboardADAjaxController {
 	 */
 	@GetMapping("get/searchIsReadNotification")
 	public ResponseEntity<Integer> selectIsReadNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		Integer isRead = 0;
+		Integer isRead = 1;
 
 		// ad_mid로 검색
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
@@ -149,8 +149,7 @@ public class DashboardADAjaxController {
 		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO);
 
 		// 있으면 isRead=1
-		if (countNotRead>0) isRead = 1;
-		log.info("isRead:::::::::", isRead);
+		if (countNotRead>0) isRead = 0;
 
 		return ResponseEntity.ok(isRead);
 	}
