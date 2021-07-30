@@ -259,6 +259,7 @@
 			success:function (data){
 				console.log("all 받기 성공");
 				console.log(data);
+
 			//	if (data.id === 'f'){
 
 			//	}
@@ -273,18 +274,26 @@
 
 	}
 
-	 setInterval(notiall, 30000);
+	var settimeout1 = setInterval(notiall, 3000);
+	var settimeout2 = "";
 	var test1 = {"id":"콜로세움 에서dsadasdsadsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa출고 됬었다!"}
 	$("#test123").text(test1.id);
-	$("#ccccc").on("click",function (){
+	$("#ccccc").off().on("click",function (){
 		if ($("#Alert-Box").css("display")=== "none"){
+			clearInterval(settimeout1);
+			$("#Alert-Box").show();
 
-			$("#Alert-Box").toggle();
-
+			clearInterval(settimeout1);
+			clearInterval(settimeout2);
 		}else {
+
 			$("#Alert-Box").hide();
 
+			 settimeout2 = setInterval(notiall, 3000);
+
 		}
+
+
 	})
 	////알림기능 시작
 	$("#liveToastBtn").on("click",function (){
