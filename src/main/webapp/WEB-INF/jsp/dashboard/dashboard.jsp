@@ -18,59 +18,109 @@
 <!-- Latest compiled and minified Locales -->
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
 
-
-
 <div class="mainContent" >
 	<div class="item-container item-wrapper" >
-		<div class="item-title" style="display: flex; justify-content: space-between; margin-top: 15px;  background-color: white; border: 1px solid #D3D3D3; border-radius: 10px">
+		<div class="item-title" style="display: flex; justify-content: space-between; margin-top: 15px;  background-color: white; ">
 			<div style="display:block;">
 				<span>대시보드</span>
 				<h1>대시보드</h1>
 			</div>
-
-			<div style=" margin-left: 550px" >
-
-				<div style="position: relative; text-align: center;">
+			<div class="bell-wrap">
+				<div class="msg-count">
                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         <span style="color: white">N</span>
                    <span class="visually-hidden">unread messages</span>
                </span>
-					<a id="ccccc">   <span > <i class="fas fa-bell fa-3x"></i></span> </a>
+					<a id="ccccc"><span ><i class="fas fa-bell fa-3x"></i></span></a>
 				</div>
-				<div class="Alert-Box" id="Alert-Box" style="display: none;">
+				<div class="Alert-Box" id="Alert-Box">
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item" role="presentation">
-							<button class="nav-link " id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">알림1</button>
+						<li class="nav-item " role="presentation">
+							<span class="msg-smallBeen"></span>
+							<button class="nav-link active" id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">&nbsp;&nbsp;입고신청&nbsp;</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">알림2</button>
+							<span class="msg-smallBeen"></span>
+							<button class="nav-link" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">&nbsp;&nbsp;출고신청&nbsp;</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">알림3</button>
+							<span class="msg-smallBeen"></span>
+							<button class="nav-link" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">미진행출고</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">알림4</button>
+							<span class="msg-smallBeen"></span>
+							<button class="nav-link" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">&nbsp;회원가입</button>
 						</li>
 					</ul>
 					<div class="tab-content" id="myTabContent">
-						<div class="tab-pane fade show active" id="Alert14" role="tabpanel" aria-labelledby="inWE">탭을 섲택
-
+						<div class="tab-pane fade show active " id="Alert1" role="tabpanel" aria-labelledby="inWE"  >
+							<div class="msg-wrap">
+								<div class="msg-day">
+									<span>2021-07-29</span>
+									<span>17 : 59</span>
+								</div>
+								<a>
+									<div class="msg-text">
+										<span id="test123"><b>히스월드</b>에서&nbsp;<b>경기파주센터</b>로</span>
+										<span> <b>2021-09-30</b>에 <b>오전</b> 입고신청이 접수되었습니다.</span>
+									</div>
+								</a>
+								<div><div class="msg-been"></div></div>
+							</div>
 						</div>
-						<div class="tab-pane fade " id="Alert1" role="tabpanel" aria-labelledby="inWE">...
-
+						<div class="tab-pane fade" id="Alert2" role="tabpanel" aria-labelledby="outWE">
+							<div class="msg-wrap">
+								<div class="msg-day">
+									<span>2021-07-29</span>
+									<span>17시59분</span>
+								</div>
+								<a>
+									<div class="msg-text">
+										<span><b>히스월드</b>에서</span>
+										<span> <b>2021-09-30</b>에 <b>오전</b> 출고신청이 접수되었습니다.</span>
+									</div>
+								</a>
+								<div><div class="msg-been"></div></div>
+							</div>
 						</div>
-						<div class="tab-pane fade" id="Alert2" role="tabpanel" aria-labelledby="outWE">...2</div>
-						<div class="tab-pane fade" id="Alert3" role="tabpanel" aria-labelledby="noOutSt">...3</div>
-						<div class="tab-pane fade" id="Alert4" role="tabpanel" aria-labelledby="join">...4</div>
+						<div class="tab-pane fade" id="Alert3" role="tabpanel" aria-labelledby="noOutSt">
+							<div class="msg-wrap">
+								<div class="msg-day">
+									<span>2021-07-29</span>
+									<span>17시59분</span>
+								</div>
+								<a>
+									<div class="msg-text">
+										<span><b>콜로세움 코퍼레이션</b>에서&nbsp;<b>2021-07-26</b>기준</span>
+										<span><b>3일</b>&nbsp;지난 출고&nbsp;<b>7</b>건이 있습니다.</span>
+									</div>
+								</a>
+								<div><div class="msg-been"></div></div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="Alert4" role="tabpanel" aria-labelledby="join">
+							<div class="msg-wrap">
+								<div class="msg-day">
+									<span>2021-07-29</span>
+									<span>17시59분</span>
+								</div>
+								<a>
+									<div class="msg-text">
+										<span>(<b>SL</b>)<b>콜로세움코퍼레이션</b>(이)가</span>
+										<span><b>회원가입</b>했습니다. 연락처(<b>010-1234-5959</b>)</span>
+									</div>
+								</a>
+								<div><div class="msg-been"></div></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="p-box" style="display: flex; background-color: #f3f3f3;">
+		<div class="p-box">
 			<h2>전체입고량</h2><h2>전체출고량</h2>
 		</div>
-		<div class="total-sum" style="width: 100%; box-sizing: border-box; padding: 0 0 20px 0; display: flex; flex-flow: row nowrap; justify-content: space-around; background-color: #f3f3f3; border-bottom: 2px solid #0e0e0e;">
+		<div class="total-sum">
 			<div>
 				<p>입고신청</p>
 				<img src="${contextPath}/assets/images/icon/dashboard/in-object.png" alt="" style="width: 100px; height: 100px;">
@@ -92,19 +142,8 @@
 				<span id="out-complete" style="font-size: 50px; color: #0a217f;">0</span>
 			</div>
 		</div>
-		<!--   <div class="mainChart" style="display: flex; justify-content: space-around; flex-flow: row nowrap; border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
-                          padding: 20px 0; background-color: #e2e2e2;">
-                    <div style="width: 400px; height: 400px;">
-                       <canvas id="myChart" style="width: 300px; height: 300px;"></canvas>
-                    </div>
-                    <div>
-                       <canvas id="myChart2" style="width: 300px; height: 300px;"></canvas>
-                    </div>
-                 </div> -->
 		<!-- 선택 -->
-
-		<div class="select-home" style="width: 100%; padding-bottom: 20px;  border-bottom: 2px solid #0e0e0e; box-sizing: border-box;
-            padding: 20px 9px; background-color: #efefef;">
+		<div class="select-home">
 			<div >
 				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-m btn-on-select" data-type="month">한달</button>
 				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-w" data-type="week">일주일</button>
@@ -116,12 +155,12 @@
 				<select id="out-select" name="out-select" class="form-select" ></select>
 			</div>
 		</div>
-		<div style="display: flex; width: 100% ;border: 1px solid #D3D3D3;border-radius: 6px;padding: 9px; ">
-			<div style="display: flex; width: 450px ;flex-direction: column; margin: 0 auto;">
-				<div class="span-font-size" style="margin-bottom: 15px">
+		<div class="data-wrap">
+			<div class="data-wrap-sub" style="display: flex; width: 450px ;flex-direction: column; margin: 0 auto;">
+				<div class="span-font-size">
 					<span>입고</span>
 				</div>
-				<div style="display: flex; justify-content: space-between;align-items: center; margin:10px 0;">
+				<div class="data-wrap-main">
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img style="margin-left: 5px;" src="${contextPath}/assets/images/icon/dashboard/in1.png" /> </span>
 						<span>입고 예정</span>
@@ -152,11 +191,11 @@
 				</div>
 			</div>
 			<!-- 출고 -->         <!-- width값 조정 -->
-			<div style="display: flex;width: 450px ;flex-direction: column; margin: 0 auto;">
-				<div class="span-font-size" style="margin-bottom: 15px">
+			<div class="data-wrap-sub">
+				<div class="span-font-size">
 					<span>출고</span>
 				</div>
-				<div style="display: flex; justify-content: space-between;align-items: center;margin:10px 0;">
+				<div class="data-wrap-main">
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img style="margin-left: 5px;" src="${contextPath}/assets/images/icon/dashboard/out1.png" /> </span>
 						<span>출고 예정</span>
@@ -187,9 +226,10 @@
 				</div>
 			</div>
 		</div>
+		<!-- 재고 테이블 -->
 		<div class="inventory-detail" >
 			<table id="inventoryTable" class="table table-dark text-center table-hover" data-height="450" style="text-align: center;" no-records-found="dnjseogh">
-				<thead style="display: none;">
+				<thead class="bootstrap-tableView" style="display: none;">
 				<tr>
 					<th data-field="goodsNm">상품명</th>
 					<th data-field="stkQty">현재고량</th>
@@ -199,91 +239,49 @@
 					<th data-field="safeStkQty">안전재고 수량 기준</th>
 				</tr>
 				</thead>
-
 			</table>
 		</div>
 	</div>
 </div>
-<div style="position: relative; ">
-	<div class="accordion" id="accordionPanelsStayOpenExample" style=" width: 300px;position: fixed;right: 0;bottom: 0; z-index: 99;">
-		<div class="accordion-item">
-
-			<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-				<div class="accordion-body">
-					<div class="toast-container">
-						<div class="toast-box" style="z-index: 1000">
-
-
-						</div>
-					</div>
-				</div>
-			</div>
-			<h2 class="accordion-header" id="panelsStayOpen-headingOne">
-				<button class="accordion-button cccc" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-					<div style="margin-right: 10px;" >
-
-						<div style="position: relative; text-align: center">
-               <span id="test-a" style="text-align: center; position: absolute;width: 20px;height: 20px;background-color: red;border-radius: 50%;
-               color: white;top: -3px;right: 10px">n</span>
-							<a id="icon">   <span> <i  class="fas fa-bell fa-2x"></i></span> </a>
-						</div>
-					</div>
-					알림!
-				</button>
-			</h2>
-		</div>
-	</div>
-</div>
 <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
-
 <div class="wrap-loading display-none">
-
 	<div><img src="https://www.hanja4u.org/public/common/images/common/loading.gif" /></div>
-
 </div>
-
-<style type="text/css">
-	.btn-on-select{
-		background-color: #0a217f !important;
-		color: whitesmoke;
-	}
-	.bootstrap-table .fixed-table-container .table {
-		width: 100% !important;
-	}
-
-	.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
-		position: fixed;
-		left:0;
-		right:0;
-		top:0;
-		bottom:0;
-		background: rgba(0,0,0,0.2); /*not in ie */
-		filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
-	}
-
-	.wrap-loading div{ /*로딩 이미지*/
-		position: fixed;
-		top:50%;
-		left:50%;
-		margin-left: -21px;
-		margin-top: -21px;
-	}
-	.display-none{ /*감추기*/
-		display:none;
-	}
-</style>
 <!--------------------------script----------------------------------->
-
 <script type="text/javascript">
-	//
+	//알림 시작
+	function notiall() {
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertNewInfo',
+			type: 'POST',
+			dataType: 'json',
+			contentType: 'application/json;charset=UTF-8',
+			success:function (data){
+				console.log("all 받기 성공");
+				console.log(data);
+			//	if (data.id === 'f'){
+
+			//	}
+			},
+			error:function(request, status, error){
+
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+			}
+
+	})
+
+	}
+
+	 setInterval(notiall, 30000);
+	var test1 = {"id":"콜로세움 에서dsadasdsadsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa출고 됬었다!"}
+	$("#test123").text(test1.id);
 	$("#ccccc").on("click",function (){
 		if ($("#Alert-Box").css("display")=== "none"){
 
 			$("#Alert-Box").toggle();
+
 		}else {
-			$(".nav-link").removeClass("active");
-			$(".tab-pane").removeClass("show active");
-			$("#Alert14").addClass("show active");
 			$("#Alert-Box").hide();
 
 		}
@@ -364,7 +362,10 @@
 			selectsl(day);
 		}
 	});
+
 	$(document).ready(function(){
+
+
 		getTotalSum();//전체 출/입고량 실행
 		$('#input-data').change(function() {
 			if ($(this).prop('checked')){
@@ -394,6 +395,7 @@
 						day = getDayType();
 						$("#out-select").empty();
 						$("#out-select").append('<option selected value="all">sl</option>');
+
 						selectwh(day);
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
@@ -410,9 +412,7 @@
 				});
 			}
 		})
-
 // datepicker Korean option
-
 		function initDatePickers() {
 			$.datepicker.regional['ko'] = {
 				closeText: '닫기',
@@ -443,7 +443,6 @@
 				monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 			};
 			$('#schMonth').monthpicker(options);
-
 // make year selector
 			for (var i = currentYear; i >= startYear; i--) {
 				if ($("#schYear").attr("pathValue") == i) {
@@ -475,7 +474,6 @@
 										disabledMonths: []
 									}, options);
 							settings.dateSeparator = settings.pattern.replace(/(mmm|mm|m|yyyy|yy|y)/ig, '');
-
 // If the plugin hasn't been initialized yet for this element
 							if (!data) {
 								$(this).data('monthpicker', {
@@ -606,7 +604,6 @@
 							}
 							monthpicker.trigger('monthpicker-change-year', $(this).val());
 						});
-
 // mount years combo
 						for (var i = settings.startYear; i <= settings.finalYear; i++) {
 							var option = $('<option class="mtz-monthpicker" />').attr('value', i).append(i);
@@ -616,7 +613,6 @@
 							combo.append(option);
 						}
 						header.append(combo).appendTo(container);
-
 // mount months table
 						for (var i = 1; i <= 12; i++) {
 							td = $('<td class="ui-state-default mtz-monthpicker mtz-monthpicker-month" style="padding:5px;cursor:default;" />').attr('data-month', i);
@@ -696,9 +692,7 @@
 			initDatePickers();
 		});
 	});
-
 	//전체 출/입고량
-
 	function getTotalSum(){
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchTodayInOut',
@@ -722,7 +716,6 @@
 			},
 		});
 	}
-
 	//sl버튼
 	function selectsl(day){
 		$.ajax({
@@ -737,9 +730,7 @@
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
-
 				$("#in-select").unbind("change");
-
 //sl 선택후 wh부분
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
@@ -768,7 +759,6 @@
 									rightselect = $("select[name=out-select]").val();
 									stockSelectSLWH(leftselect,rightselect);
 									selectSLWH(day,getDayType(),leftselect,rightselect);
-
 								})
 							}
 						})
@@ -777,7 +767,6 @@
 			}
 		});
 	};
-
 	//wh버튼
 	function selectwh(day){
 		$.ajax({
@@ -792,9 +781,7 @@
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
-
 				$("#in-select").unbind("change");
-
 //wh 선택후 sl부분
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
@@ -831,7 +818,6 @@
 			}
 		});
 	};
-
 	//select data format
 	function getSelectData(data){
 		if(data.length>0){
@@ -880,7 +866,6 @@
 
 		});
 	}
-
 	//둘다선택(셀러기준)
 	function selectSLWH(fromDate,toDate,leftSelect,rightSelect){
 		$.ajax({
@@ -906,7 +891,6 @@
 			},
 		});
 	}
-
 	//둘다선택(창고기준)
 	function selectWHSL(fromDate,toDate,leftSelect,rightSelect){
 		$.ajax({
@@ -932,7 +916,6 @@
 			},
 		});
 	}
-
 	//셀러만 선택
 	function selectSL(fromDate,toDate,leftSelect){
 		if($("select[name=in-select]").val() === 'all'){
@@ -961,7 +944,6 @@
 			});
 		}
 	}
-
 	//창고만 선택
 	function selectWH(fromDate,toDate,leftselect){
 		if($("select[name=in-select]").val() === 'all'){
@@ -990,9 +972,7 @@
 			});
 		}
 	}
-
 	//재고부족 테이블 시작
-
 	//둘다 선택 안했을 때
 	function stockSelectNone(){
 		$.ajax({
@@ -1012,7 +992,6 @@
 			}
 		});
 	}
-
 	//셀러만 선택
 	function stockSelectSL(leftSelect){
 		$.ajax({
@@ -1037,7 +1016,6 @@
 
 		});
 	}
-
 	//창고만 선택
 	function stockSelectWH(leftSelect){
 		$.ajax({
@@ -1058,7 +1036,6 @@
 			}
 		});
 	}
-
 	//둘다 선택
 	function stockSelectSLWH(leftSelect, rightSelect){
 		$.ajax({
@@ -1101,18 +1078,15 @@
 			}
 		});
 	}
-
 	// return today, YYYY-MM-DD
 	function getDayType() {
 		return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
 	}
-
 	// return 1 week ago, YYYY-MM-DD
 	function getWeekType() {
 		weekLater = new Date(today.valueOf() - 7 * 1000 * 3600 * 24);
 		return weekLater.getFullYear() + '-' + ('0' + (weekLater.getMonth() + 1)).slice(-2) + '-' + ('0' + weekLater.getDate()).slice(-2);
 	}
-
 	// return 1 month ago, YYYY-MM-DD
 	function getMonthType() {
 		monthLater = new Date(today.valueOf() - 30 * 1000 * 3600 * 24);
