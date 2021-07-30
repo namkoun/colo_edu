@@ -25,15 +25,35 @@
     </select>
 
     <select id="selectNotificationList" parameterType="AdNotificationVO" resultType="NotificationListDTO">
+--         select
+--                an.id as id,
+--                ni.create_dt as createDt,
+--                ni.content as content,
+--                an.read_yn as readYn,
+--                ni.type_cd as typeCd
+--         from cwt_ad_notification as an
+--                  join cwt_notification_info as ni
+--                       on an.info_id = ni.id
+--         where ad_mid =#{adNotificationVO.adMid}
+--         order by an.read_yn, ni.create_dt desc;
+
         select
-               ni.create_dt as createDt,
-               ni.content as content,
-               an.read_yn as readYn,
-               ni.type_cd as typeCd
+            an.id as id,
+            ni.create_dt as createDt,
+            ni.content as content,
+            an.read_yn as readYn,
+            ni.type_cd as typeCd
         from cwt_ad_notification as an
                  join cwt_notification_info as ni
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
+          and ni.type_cd =#{adNotificationVO.typeCd}
         order by an.read_yn, ni.create_dt desc;
     </select>
+
+    <update id="updateReadYn" parameterType="long">
+        UPDATE cwt_ad_notification
+        SET read_yn = 'Y'
+        WHERE id =#{id};
+    </update>
 </mapper>

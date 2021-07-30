@@ -33,4 +33,8 @@ public class NotificationService {
     public List<NotificationListDTO> selectNotificationList(AdNotificationVO adNotificationVO) {
         return notificationMapper.selectNotificationList(adNotificationVO);
     }
+
+    public void readNotificationByTypeCd(long id) {
+        notificationMapper.updateReadYn(id);
+    }
 }

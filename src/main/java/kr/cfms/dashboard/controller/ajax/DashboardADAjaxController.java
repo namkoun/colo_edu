@@ -5,6 +5,8 @@ import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.DashboardADService;
 import kr.cfms.dashboard.service.NotificationService;
 import kr.cfms.dashboard.vo.AdNotificationVO;
+import kr.cfms.dashboard.vo.NoticeVO;
+import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -157,7 +159,6 @@ public class DashboardADAjaxController {
 	/**
 	 * 알림 종류 버튼 클릭시
 	 * 1. select 알림리스트 (알림날짜 기준)
-	 * 2. update read_yn ='Y'
 	 */
 	@GetMapping("get/searchNotificationList")
 	public ResponseEntity<List<NotificationListDTO>> selectNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
@@ -168,4 +169,23 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(notificationList);
 	}
 
+	/**
+	 * 알림 종류 버튼 클릭시
+	 * 1. select 알림리스트 (알림날짜 기준)
+	 * 2. update read_yn ='Y'
+	 */
+	@PostMapping("add/readNotificationByTypeCd")
+	public ResponseEntity<List<NotificationListDTO>> readNotificationByTypeCd(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//1. select 알림리스트 (알림날짜 기준)
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> notificationList = notificationService.selectNotificationList(adNotificationVO);
+
+		//2. update read_yn ='Y'
+		for (int i = 0; i < notificationList.size(); i++) {
+			notificationService.readNotificationByTypeCd(notificationList.get(i).getId());
+		}
+
+		return ResponseEntity.ok(notificationList);
+	}
 }

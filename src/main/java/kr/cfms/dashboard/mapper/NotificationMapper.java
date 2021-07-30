@@ -19,4 +19,6 @@ public interface NotificationMapper {
     Integer selectIsReadNotification(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
 
     List<NotificationListDTO> selectNotificationList(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
+
+    void updateReadYn(@Param("id") long id);
 }
