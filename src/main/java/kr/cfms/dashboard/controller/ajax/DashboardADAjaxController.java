@@ -118,18 +118,23 @@ public class DashboardADAjaxController {
 	 */
 
 	@PostMapping("add/insertNewInfo")
-	public ResponseEntity<MessageVo> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+	public ResponseEntity<Integer> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		Integer isExist = 0;
+
 		//새로운 알림 정보 가져와서
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<Long> infoIdList = notificationService.selectNewInfoId(adNotificationVO);
 
-		//값 넣어줌
-		adNotificationVO.setReadYn("N");
-		for (int i = 0; i < infoIdList.size(); i++) {
-			adNotificationVO.setInfoId(infoIdList.get(i));
-			notificationService.insertNewInfo(adNotificationVO);
+		if(infoIdList != null) {
+			isExist = 1;
+			//값 넣어줌
+			adNotificationVO.setReadYn("N");
+			for (int i = 0; i < infoIdList.size(); i++) {
+				adNotificationVO.setInfoId(infoIdList.get(i));
+				notificationService.insertNewInfo(adNotificationVO);
+			}
 		}
-		return ResponseEntity.ok(new MessageVo("성공"));
+		return ResponseEntity.ok(isExist);
 	}
 }
