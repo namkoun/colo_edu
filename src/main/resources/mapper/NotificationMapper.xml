@@ -23,4 +23,17 @@
         where read_yn = 'N'
           and ad_mid =#{adNotificationVO.adMid};
     </select>
+
+    <select id="selectNotificationList" parameterType="AdNotificationVO" resultType="NotificationListDTO">
+        select
+               ni.create_dt as createDt,
+               ni.content as content,
+               an.read_yn as readYn,
+               ni.type_cd as typeCd
+        from cwt_ad_notification as an
+                 join cwt_notification_info as ni
+                      on an.info_id = ni.id
+        where ad_mid =#{adNotificationVO.adMid}
+        order by an.read_yn, ni.create_dt desc;
+    </select>
 </mapper>

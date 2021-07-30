@@ -149,8 +149,23 @@ public class DashboardADAjaxController {
 		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO);
 
 		// 있으면 isRead=1
-		if (countNotRead>0) isRead = 0;
+		if (countNotRead > 0) isRead = 0;
 
 		return ResponseEntity.ok(isRead);
 	}
+
+	/**
+	 * 알림 종류 버튼 클릭시
+	 * 1. select 알림리스트 (알림날짜 기준)
+	 * 2. update read_yn ='Y'
+	 */
+	@GetMapping("get/searchNotificationList")
+	public ResponseEntity<List<NotificationListDTO>> selectNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> notificationList = notificationService.selectNotificationList(adNotificationVO);
+
+		return ResponseEntity.ok(notificationList);
+	}
+
 }

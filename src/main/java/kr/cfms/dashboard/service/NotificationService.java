@@ -1,5 +1,6 @@
 package kr.cfms.dashboard.service;
 
+import kr.cfms.dashboard.dto.NotificationListDTO;
 import kr.cfms.dashboard.mapper.NotificationMapper;
 import kr.cfms.dashboard.vo.AdNotificationVO;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,9 @@ public class NotificationService {
 
     public Integer selectIsReadNotification(AdNotificationVO adNotificationVO) {
         return notificationMapper.selectIsReadNotification(adNotificationVO);
+    }
+
+    public List<NotificationListDTO> selectNotificationList(AdNotificationVO adNotificationVO) {
+        return notificationMapper.selectNotificationList(adNotificationVO);
     }
 }
