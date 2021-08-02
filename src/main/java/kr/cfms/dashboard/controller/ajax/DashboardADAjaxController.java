@@ -210,7 +210,7 @@ public class DashboardADAjaxController {
 	}
 
 	// 회원가입 알림
-	@PostMapping("add/readUnFinishedOutNotification")
+	@PostMapping("add/readJoinNotification")
 	public ResponseEntity<List<NotificationListDTO>> selectJoinNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		//1. select 알림리스트 (알림날짜 기준)
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
