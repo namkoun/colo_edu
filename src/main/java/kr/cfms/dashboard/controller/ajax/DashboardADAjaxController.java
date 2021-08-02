@@ -170,7 +170,7 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(InOrdNotificationList);
 	}
 	@PostMapping("add/readInOrdNotification")
-	public ResponseEntity<MessageVo> readInOrdNotification(@ModelAttribute List<Long> idList) {
+	public ResponseEntity<MessageVo> readInOrdNotification(@RequestBody List<Long> idList) {
 		//1. select 알림리스트 (알림날짜 기준)
 //		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 //		adNotificationVO.setAdMid(userInfo.getMid());
