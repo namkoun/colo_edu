@@ -162,19 +162,26 @@ public class DashboardADAjaxController {
 	 * 2. update read_yn ='Y'
 	 */
 	// 입고신청 알림
-	@PostMapping("add/readInOrdNotification")
-	public ResponseEntity<List<NotificationListDTO>> readInOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		//1. select 알림리스트 (알림날짜 기준)
+	@GetMapping("get/searchInOrdNotification")
+	public ResponseEntity<List<NotificationListDTO>> searchInOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> InOrdNotificationList = notificationService.selectInOrdNotificationList(adNotificationVO);
+		return ResponseEntity.ok(InOrdNotificationList);
+	}
+	@PostMapping("add/readInOrdNotification")
+	public ResponseEntity<MessageVo> readInOrdNotification(@ModelAttribute List<Long> idList) {
+		//1. select 알림리스트 (알림날짜 기준)
+//		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+//		adNotificationVO.setAdMid(userInfo.getMid());
+//		List<NotificationListDTO> InOrdNotificationList = notificationService.selectInOrdNotificationList(adNotificationVO);
 
 		//2. update read_yn ='Y'
-		for (int i = 0; i < InOrdNotificationList.size(); i++) {
-			notificationService.updateReadYn(InOrdNotificationList.get(i).getId());
+		for (int i = 0; i < idList.size(); i++) {
+			notificationService.updateReadYn(idList.get(i));
 		}
 
-		return ResponseEntity.ok(InOrdNotificationList);
+		return ResponseEntity.ok(new MessageVo("finish"));
 	}
 
 	// 출고신청 알림
