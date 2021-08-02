@@ -151,11 +151,16 @@ public class DashboardController {
 	}
 
     @PostMapping("insertUser")
-    public String insertUser(@ModelAttribute JoinVO joinVO) {
+    public String insertUser(@ModelAttribute JoinVO joinVO, @ModelAttribute NotificationInfoVO notificationInfoVO) {
 		//insert cwt_user
-        testInsertService.insertUser(joinVO);
+		Long userId = testInsertService.insertUser(joinVO);
 
-        //select 
+//		// select userType, custCenterNm, typeCd, phone
+//		OutOrdNotificationDTO outOrdNotificationDTO = testInsertService.selectUserById(userId);
+//
+//		//insert notification_info
+//		notificationInfoVO.setUserId();
+//		testInsertService.insertJoinNotificationInfo(notificationInfoVO);
         return "redirect:/";
     }
 

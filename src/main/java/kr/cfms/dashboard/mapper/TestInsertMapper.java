@@ -19,6 +19,7 @@ public interface TestInsertMapper {
      */
     Integer insertInOrdNotificationInfo(@Param("notificationInfoVO") NotificationInfoVO notificationInfoVO);
     Integer insertOutOrdNotificationInfo(@Param("notificationInfoVO") NotificationInfoVO notificationInfoVO);
+    Integer insertJoinNotificationInfo(@Param("notificationInfoVO") NotificationInfoVO notificationInfoVO);
 
     /**
      * 업체명, 신청일시, 신청종류

@@ -40,6 +40,9 @@ public class TestInsertService {
     public void insertOutOrdNotificationInfo(NotificationInfoVO notificationInfoVO) {
         testInsertMapper.insertOutOrdNotificationInfo(notificationInfoVO);
     }
+    public void insertJoinNotificationInfo(NotificationInfoVO notificationInfoVO) {
+        testInsertMapper.insertJoinNotificationInfo(notificationInfoVO);
+    }
 
     public InOrdNotificationDTO selectInOrdMstById(long inMstId) {
         return testInsertMapper.selectInOrdMstById(inMstId);
@@ -47,4 +50,7 @@ public class TestInsertService {
     public OutOrdNotificationDTO selectOutOrdMstById(long outMstId) {
         return testInsertMapper.selectOutOrdMstById(outMstId);
     }
+//    public JoinNotificationDTO selectUserById(long userId) {
+//        return testInsertMapper.selectUserById(userId);
+//    }
 }

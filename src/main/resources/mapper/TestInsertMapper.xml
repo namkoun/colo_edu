@@ -123,6 +123,28 @@
 		)
 	</insert>
 
+	<insert id="insertJoinNotificationInfo" parameterType="NotificationInfoVO">
+		/*TestInsertMapper.insertOutOrdNotificationInfo*/
+		insert cwt_notification_info
+			(
+				user_id,
+				type_cd,
+				content,
+				create_dt,
+				reg_date,
+				mod_date
+			)
+			values
+			(
+		#{notificationInfoVO.userId},
+		#{notificationInfoVO.typeCd},
+		#{notificationInfoVO.content},
+		now(),
+		now(),
+		now()
+		)
+	</insert>
+
 	<select id="selectInOrdMstById" parameterType="long" resultType="InOrdNotificationDTO">
 		select
 			(select center_nm from cwt_mst_center
