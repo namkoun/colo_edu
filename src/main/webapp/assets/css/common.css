@@ -876,6 +876,10 @@ td {
 	padding: 1.0625rem 0 0.875rem 0.75rem;
 	border-bottom: 1px solid #cccccc;
 	position: relative;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 15px;
+	background-color: white;
 }
 
 .item-title span {
@@ -4618,6 +4622,7 @@ td {
 	border-radius: 4px;
 	color: #364fa4;
 	font-weight: 500;
+	z-index: 999;
 }
 #voc-manage-btn:hover {
 	border: 0;
@@ -4653,10 +4658,17 @@ td {
 }
 .select-home{
 	width: 100%;
+	height: 150px;
 	padding-bottom: 20px;
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
 	padding: 20px 9px;
+}
+.select-wrap{
+	display: flex;
+	position: absolute;
+	margin-top: 70px;
+	z-index: 998;
 }
 .inventory-detail{
 	width: 100%;
@@ -4717,12 +4729,18 @@ td {
 	margin-left: 450px;
 	position: relative;
 }
+.close-wrap{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 980;
+}
 .Alert-Box{
 	position: absolute;
 	margin-top: 65px;
 	right: 0;
 	width: 440px;
-	z-index: 991;
+	z-index: 999;
 	box-sizing: border-box;
 	padding: 0;
 	display: none;
@@ -4911,4 +4929,8 @@ display: none; /* Chrome, Safari, Opera*/
 }
 .bell-on-off{
 	margin-left: 65px;
+}
+.tdwdmd{
+	position: absolute;
+	z-index: 998;
 }
