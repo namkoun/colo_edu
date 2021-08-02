@@ -26,8 +26,8 @@
 				<h1>대시보드</h1>
 			</div>
 			<div class="bell-wrap">
-				<div class="msg-count">
-               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+				<div class="msg-count" >
+               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger bell-on-off">
                         <span style="color: white">N</span>
                    <span class="visually-hidden">unread messages</span>
                </span>
@@ -37,81 +37,33 @@
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item " role="presentation">
 							<span class="msg-smallBeen"></span>
-							<button class="nav-link active" id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">&nbsp;&nbsp;입고신청&nbsp;</button>
+							<button class="nav-link ac ac1 show active " id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">&nbsp;&nbsp;입고신청&nbsp;</button>
 						</li>
 						<li class="nav-item" role="presentation">
 							<span class="msg-smallBeen"></span>
-							<button class="nav-link" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">&nbsp;&nbsp;출고신청&nbsp;</button>
+							<button class="nav-link ac" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">&nbsp;&nbsp;출고신청&nbsp;</button>
 						</li>
 						<li class="nav-item" role="presentation">
 							<span class="msg-smallBeen"></span>
-							<button class="nav-link" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">미진행출고</button>
+							<button class="nav-link ac" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">미진행출고</button>
 						</li>
 						<li class="nav-item" role="presentation">
 							<span class="msg-smallBeen"></span>
-							<button class="nav-link" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">&nbsp;회원가입</button>
+							<button class="nav-link ac" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">&nbsp;회원가입</button>
 						</li>
 					</ul>
 					<div class="tab-content" id="myTabContent">
-						<div class="tab-pane fade show active " id="Alert1" role="tabpanel" aria-labelledby="inWE"  >
-							<div class="msg-wrap">
-								<div class="msg-day">
-									<span>2021-07-29</span>
-									<span>17 : 59</span>
-								</div>
-								<a>
-									<div class="msg-text">
-										<span id="test123"><b>히스월드</b>에서&nbsp;<b>경기파주센터</b>로</span>
-										<span> <b>2021-09-30</b>에 <b>오전</b> 입고신청이 접수되었습니다.</span>
-									</div>
-								</a>
-								<div><div class="msg-been"></div></div>
-							</div>
+						<div class="tab-pane fade ac ac2 show active " id="Alert1" role="tabpanel" aria-labelledby="inWE"  >
+							<%--                  입고신청--%>
 						</div>
-						<div class="tab-pane fade" id="Alert2" role="tabpanel" aria-labelledby="outWE">
-							<div class="msg-wrap">
-								<div class="msg-day">
-									<span>2021-07-29</span>
-									<span>17시59분</span>
-								</div>
-								<a>
-									<div class="msg-text">
-										<span><b>히스월드</b>에서</span>
-										<span> <b>2021-09-30</b>에 <b>오전</b> 출고신청이 접수되었습니다.</span>
-									</div>
-								</a>
-								<div><div class="msg-been"></div></div>
-							</div>
+						<div class="tab-pane fade ac" id="Alert2" role="tabpanel" aria-labelledby="outWE">
+							<%--출고신청--%>
 						</div>
-						<div class="tab-pane fade" id="Alert3" role="tabpanel" aria-labelledby="noOutSt">
-							<div class="msg-wrap">
-								<div class="msg-day">
-									<span>2021-07-29</span>
-									<span>17시59분</span>
-								</div>
-								<a>
-									<div class="msg-text">
-										<span><b>콜로세움 코퍼레이션</b>에서&nbsp;<b>2021-07-26</b>기준</span>
-										<span><b>3일</b>&nbsp;지난 출고&nbsp;<b>7</b>건이 있습니다.</span>
-									</div>
-								</a>
-								<div><div class="msg-been"></div></div>
-							</div>
+						<div class="tab-pane fade ac" id="Alert3" role="tabpanel" aria-labelledby="noOutSt">
+							<%--미진행출고건--%>
 						</div>
-						<div class="tab-pane fade" id="Alert4" role="tabpanel" aria-labelledby="join">
-							<div class="msg-wrap">
-								<div class="msg-day">
-									<span>2021-07-29</span>
-									<span>17시59분</span>
-								</div>
-								<a>
-									<div class="msg-text">
-										<span>(<b>SL</b>)<b>콜로세움코퍼레이션</b>(이)가</span>
-										<span><b>회원가입</b>했습니다. 연락처(<b>010-1234-5959</b>)</span>
-									</div>
-								</a>
-								<div><div class="msg-been"></div></div>
-							</div>
+						<div class="tab-pane fade ac" id="Alert4" role="tabpanel" aria-labelledby="join">
+							<%--회원가입--%>
 						</div>
 					</div>
 				</div>
@@ -250,6 +202,40 @@
 <!--------------------------script----------------------------------->
 <script type="text/javascript">
 	//알림 시작
+
+	function selectNoti(typeCd){
+		console.log(typeCd);
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readNotificationByTypeCd',
+			type: 'POST',
+			data:{
+				typeCd : typeCd,
+
+			},
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data){
+				console.log("123");
+				console.log(data);
+				for (let i = 0; i<data.length; i++){
+						$("#Alert1").append("<div class=\"msg-wrap\">\n" +
+								"\t\t\t\t\t\t\t\t<div class=\"msg-day\">\n" +
+								data[i].createDt +
+								"\t\t\t\t\t\t\t\t</div>\n" +
+								"\t\t\t\t\t\t\t\t<a>\n" +
+								"\t\t\t\t\t\t\t\t\t<div class=\"msg-text\">\n" +
+								data[i].content+
+								"\t\t\t\t\t\t\t\t\t</div>\n" +
+								"\t\t\t\t\t\t\t\t</a>\n" +
+								"\t\t\t\t\t\t\t\t<div><div class=\"msg-been\"></div></div>\n" +
+								"\t\t\t\t\t\t\t</div>");
+				}
+			},
+			error:function(request, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
 	function notiall() {
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertNewInfo',
@@ -260,36 +246,55 @@
 				console.log("all 받기 성공");
 				console.log(data);
 
-			//	if (data.id === 'f'){
-
-			//	}
 			},
 			error:function(request, status, error){
-
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
 			}
 
-	})
+		})
+	}
+	function notibell() {
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchIsReadNotification',
+			type: 'GET',
+			dataType: 'json',
+			contentType: 'application/json;charset=UTF-8',
+			success:function (data){
+				console.log("bell 받기 성공");
+				console.log(data);
+				if (data === 0){
+					$(".bell-on-off").show();
+				}else{
+					$(".bell-on-off").hide();
+				}
+			},
+			error:function(request, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
 
+		})
 	}
 
-	var settimeout1 = setInterval(notiall, 3000);
-	var settimeout2 = "";
+	var setInterall= setInterval(notiall, 3000);
+	var setInterbell =setInterval(notibell,3000);
 	var test1 = {"id":"콜로세움 에서dsadasdsadsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa출고 됬었다!"}
 	$("#test123").text(test1.id);
 	$("#ccccc").off().on("click",function (){
 		if ($("#Alert-Box").css("display")=== "none"){
-			clearInterval(settimeout1);
+			clearInterval(setInterall);
+			clearInterval(setInterbell);
+			$(".ac").removeClass('show active');
+			$(".ac1").addClass('show active');
+			$(".ac2").addClass('show active');
 			$("#Alert-Box").show();
-
-			clearInterval(settimeout1);
-			clearInterval(settimeout2);
+			var aaaaaa1 = "IN01"
+			selectNoti(aaaaaa1);
+			clearInterval(setInterall);
+			clearInterval(setInterbell);
 		}else {
-
 			$("#Alert-Box").hide();
-
-			 settimeout2 = setInterval(notiall, 3000);
+			setInterall = setInterval(notiall, 3000);
+			setInterbell = setInterval(notibell, 3000);
 
 		}
 
