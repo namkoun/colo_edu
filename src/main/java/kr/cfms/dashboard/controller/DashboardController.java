@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import kr.cfms.dashboard.dto.InOrdNotificationDTO;
+import kr.cfms.dashboard.dto.OutOrdNotificationDTO;
 import kr.cfms.dashboard.service.TestInsertService;
 import kr.cfms.dashboard.vo.InOrdVO;
 import kr.cfms.dashboard.vo.JoinVO;
@@ -112,35 +113,49 @@ public class DashboardController {
 		InOrdNotificationDTO inOrdNotificationDTO = testInsertService.selectInOrdMstById(inMstId);
 
 		//insert notification_info
-		String typeCd = notificationInfoVO.makeTypeCd(inOrdNotificationDTO.getInOrdType());
-		String content = notificationInfoVO.makeContent(inOrdNotificationDTO.getCustCenterNm()
+		String typeCd = notificationInfoVO.inOrdTypeCd(inOrdNotificationDTO.getInOrdType());
+		String content = notificationInfoVO.inOrdContent(inOrdNotificationDTO.getCustCenterNm()
 														, inOrdNotificationDTO.getWhCenterNm()
 														, inOrdNotificationDTO.getInOrdType()
 														, inOrdNotificationDTO.getInOrdDt());
 		notificationInfoVO.setInMstId(inMstId);
 		notificationInfoVO.setTypeCd(typeCd);
 		notificationInfoVO.setContent(content);
-		testInsertService.insertNotificationInfo(notificationInfoVO);
+		testInsertService.insertInOrdNotificationInfo(notificationInfoVO);
 
 		return "redirect:/";
 	}
 
 	@PostMapping("insertOutOrd")
-	public String insertOutOrd(HttpSession session, @ModelAttribute OutOrdVO outOrdVO) {
+	public String insertOutOrd(HttpSession session, @ModelAttribute OutOrdVO outOrdVO, @ModelAttribute NotificationInfoVO notificationInfoVO) {
 
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		outOrdVO.setCustId(userInfo.getCenterId());
 
-		testInsertService.insertOutOrd(outOrdVO);
+		Long outMstId = testInsertService.insertOutOrd(outOrdVO);
+
+		//select 업체명, 출고예정날짜, 출고타입
+		OutOrdNotificationDTO outOrdNotificationDTO = testInsertService.selectOutOrdMstById(outMstId);
+
+		//insert notification_info
+		String typeCd = notificationInfoVO.outOrdTypeCd(outOrdNotificationDTO.getOutOrdType());
+		String content = notificationInfoVO.outOrdContent(outOrdNotificationDTO.getCustCenterNm()
+														, outOrdNotificationDTO.getOutOrdType()
+														, outOrdNotificationDTO.getOutOrdType());
+		notificationInfoVO.setOutMstId(outMstId);
+		notificationInfoVO.setTypeCd(typeCd);
+		notificationInfoVO.setContent(content);
+		testInsertService.insertOutOrdNotificationInfo(notificationInfoVO);
 
 		return "redirect:/";
 	}
 
     @PostMapping("insertUser")
     public String insertUser(@ModelAttribute JoinVO joinVO) {
-
+		//insert cwt_user
         testInsertService.insertUser(joinVO);
 
+        //select 
         return "redirect:/";
     }
 
