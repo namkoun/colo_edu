@@ -4714,15 +4714,15 @@ td {
 .slow  .toggle-group { transition: left 0.7s; -webkit-transition: left 0.7s;
 }
 .bell-wrap{
-	margin-left: 550px;
+	margin-left: 450px;
 	position: relative;
 }
 .Alert-Box{
 	position: absolute;
-	margin-top: 25px;
-	right: -204px;
+	margin-top: 65px;
+	right: 0;
 	width: 440px;
-	z-index: 990;
+	z-index: 991;
 	box-sizing: border-box;
 	padding: 0;
 	display: none;
@@ -4902,4 +4902,13 @@ display: none; /* Chrome, Safari, Opera*/
 	100%{
 		transform: rotate(0deg);
 	}
+}
+#ccccc{
+	position: absolute;
+	z-index: 990;
+	width: 100px;
+	height: 300px;
+}
+.bell-on-off{
+	margin-left: 65px;
 }
