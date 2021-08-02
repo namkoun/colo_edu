@@ -1,6 +1,7 @@
 package kr.cfms.dashboard.mapper;
 
 import kr.cfms.dashboard.dto.NotificationListDTO;
+import kr.cfms.dashboard.dto.IdList;
 import kr.cfms.dashboard.vo.AdNotificationVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,5 +24,6 @@ public interface NotificationMapper {
     List<NotificationListDTO> selectUnFinishedOutNotificationList(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
     List<NotificationListDTO> selectJoinNotificationList(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
 
-    void updateReadYn(@Param("id") long id);
+    void updateReadYn(@Param("id") Long id);
+    void updateTest(@Param("idList") IdList idList);
 }

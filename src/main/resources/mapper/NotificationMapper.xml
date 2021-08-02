@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.cfms.dashboard.mapper.NotificationMapper">
     <select id="selectNewInfoId" parameterType="AdNotificationVO" resultType="Long">
         select ni.id
@@ -84,9 +84,15 @@
         order by an.read_yn, ni.create_dt desc;
     </select>
 
-    <update id="updateReadYn" parameterType="long">
+    <update id="updateReadYn" parameterType="Long">
         UPDATE cwt_ad_notification
         SET read_yn = 'Y'
         WHERE id =#{id};
+    </update>
+
+    <update id="updateTest" parameterType="IdList">
+        UPDATE cwt_ad_notification
+        SET read_yn = 'Y'
+        WHERE id =#{idList.id};
     </update>
 </mapper>

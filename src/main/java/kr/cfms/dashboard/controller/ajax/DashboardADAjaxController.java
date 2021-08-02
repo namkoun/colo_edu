@@ -3,9 +3,9 @@ package kr.cfms.dashboard.controller.ajax;
 import kr.cfms.common.vo.session.UserInfo;
 import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.DashboardADService;
+import kr.cfms.dashboard.dto.IdList;
 import kr.cfms.dashboard.service.NotificationService;
 import kr.cfms.dashboard.vo.AdNotificationVO;
-import kr.cfms.dashboard.vo.NoticeVO;
 import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -170,16 +170,8 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(InOrdNotificationList);
 	}
 	@PostMapping("add/readInOrdNotification")
-	public ResponseEntity<MessageVo> readInOrdNotification(@RequestBody List<Long> idList) {
-		//1. select 알림리스트 (알림날짜 기준)
-//		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-//		adNotificationVO.setAdMid(userInfo.getMid());
-//		List<NotificationListDTO> InOrdNotificationList = notificationService.selectInOrdNotificationList(adNotificationVO);
-
-		//2. update read_yn ='Y'
-		for (int i = 0; i < idList.size(); i++) {
-			notificationService.updateReadYn(idList.get(i));
-		}
+	public ResponseEntity<MessageVo> readInOrdNotification(Long id) {
+		notificationService.updateReadYn(id);
 
 		return ResponseEntity.ok(new MessageVo("finish"));
 	}
