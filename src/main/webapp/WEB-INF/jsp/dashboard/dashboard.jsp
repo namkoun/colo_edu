@@ -33,28 +33,29 @@
                </span>
 					<a id="ccccc"><span ><i class="fas fa-bell fa-3x"></i></span></a>
 				</div>
+			</div>
 				<div class="Alert-Box" id="Alert-Box">
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item " role="presentation">
-							<span class="msg-smallBeen"></span>
-							<button class="nav-link ac ac1 show active " id="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">&nbsp;&nbsp;입고신청&nbsp;</button>
+							<span class="msg-smallBeen msg-smallBeen1"></span>
+							<button class="nav-link ac ac1 show active " id="inWE" data-type="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">&nbsp;&nbsp;입고신청&nbsp;</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<span class="msg-smallBeen"></span>
-							<button class="nav-link ac" id="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">&nbsp;&nbsp;출고신청&nbsp;</button>
+							<span class="msg-smallBeen msg-smallBeen2"></span>
+							<button class="nav-link ac" id="outWE" data-type="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">&nbsp;&nbsp;출고신청&nbsp;</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<span class="msg-smallBeen"></span>
-							<button class="nav-link ac" id="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">미진행출고</button>
+							<span class="msg-smallBeen msg-smallBeen3"></span>
+							<button class="nav-link ac" id="noOutSt" data-type="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">미진행출고</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<span class="msg-smallBeen"></span>
-							<button class="nav-link ac" id="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">&nbsp;회원가입</button>
+							<span class="msg-smallBeen msg-smallBeen4"></span>
+							<button class="nav-link ac" id="join"  data-type="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">&nbsp;회원가입</button>
 						</li>
 					</ul>
 					<div class="tab-content" id="myTabContent">
 						<div class="tab-pane fade ac ac2 show active " id="Alert1" role="tabpanel" aria-labelledby="inWE"  >
-							<%--                  입고신청--%>
+							<%--입고신청--%>
 						</div>
 						<div class="tab-pane fade ac" id="Alert2" role="tabpanel" aria-labelledby="outWE">
 							<%--출고신청--%>
@@ -68,7 +69,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
 		<div class="p-box">
 			<h2>전체입고량</h2><h2>전체출고량</h2>
 		</div>
@@ -194,6 +194,7 @@
 			</table>
 		</div>
 	</div>
+
 </div>
 <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
 <div class="wrap-loading display-none">
@@ -202,40 +203,181 @@
 <!--------------------------script----------------------------------->
 <script type="text/javascript">
 	//알림 시작
-
-	function selectNoti(typeCd){
-		console.log(typeCd);
+ var selectNotiinar = new Array();
+	//입고 알림
+	function selectNotiin(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readNotificationByTypeCd',
-			type: 'POST',
-			data:{
-				typeCd : typeCd,
-
-			},
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchInOrdNotification',
+			type: 'GET',
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
 			success:function (data){
-				console.log("123");
+				console.log("통신성공");
 				console.log(data);
+				$("#Alert1").empty();
+
+					for (let i = 0; i<data.length; i++){
+							$("#Alert1").append("<div class=\"msg-wrap\">\n" +
+									"\t\t\t\t\t\t\t\t<div class=\"msg-day\">\n" +
+									data[i].createDt.substr(2,8) +"<br>"+data[i].createDt.substr(11,5)+
+									"\t\t\t\t\t\t\t\t</div>\n" +
+									"\t\t\t\t\t\t\t\t<a>\n" +
+									"\t\t\t\t\t\t\t\t\t<div class=\"msg-text\">\n" +
+									data[i].content+
+									"\t\t\t\t\t\t\t\t\t</div>\n" +
+									"\t\t\t\t\t\t\t\t</a>\n" +
+									"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been1\"></div></div>\n" +
+									"\t\t\t\t\t\t\t</div>");
+						if (data[i].readYn == "N"){
+							$(".msg-been1").show();
+							$(".msg-smallBeen1").show();
+
+						}else {
+							$(".msg-been1").hide();
+							$(".msg-smallBeen1").hide();
+						}
+							var datas = new Object();
+							datas.id = data[i].id;
+						selectNotiinar.push(datas);
+					}
+
+
+
+			}
+
+		});
+	}
+	var jsonData = JSON.stringify(selectNotiinar) ;
+
+	function selectNotiinup(testList){
+		console.log(jsonData);
+
+
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readInOrdNotification',
+			type: 'POST',
+			data:{
+				idList : testList,
+			},
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data) {
+			console.log("업댓 완료")
+			}
+		})
+	}
+	//출고 알림
+	function selectNotiout(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readOutOrdNotification',
+			type: 'POST',
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data){
+				console.log("통신성공");
+				console.log(data);
+				$("#Alert2").empty();
 				for (let i = 0; i<data.length; i++){
-						$("#Alert1").append("<div class=\"msg-wrap\">\n" +
-								"\t\t\t\t\t\t\t\t<div class=\"msg-day\">\n" +
-								data[i].createDt +
-								"\t\t\t\t\t\t\t\t</div>\n" +
-								"\t\t\t\t\t\t\t\t<a>\n" +
-								"\t\t\t\t\t\t\t\t\t<div class=\"msg-text\">\n" +
-								data[i].content+
-								"\t\t\t\t\t\t\t\t\t</div>\n" +
-								"\t\t\t\t\t\t\t\t</a>\n" +
-								"\t\t\t\t\t\t\t\t<div><div class=\"msg-been\"></div></div>\n" +
-								"\t\t\t\t\t\t\t</div>");
+					$("#Alert2").append("<div class=\"msg-wrap\">\n" +
+							"\t\t\t\t\t\t\t\t<div class=\"msg-day\">\n" +
+							data[i].createDt.substr(2,8) +"<br>"+data[i].createDt.substr(11,5)+
+							"\t\t\t\t\t\t\t\t</div>\n" +
+							"\t\t\t\t\t\t\t\t<a>\n" +
+							"\t\t\t\t\t\t\t\t\t<div class=\"msg-text\">\n" +
+							data[i].content+
+							"\t\t\t\t\t\t\t\t\t</div>\n" +
+							"\t\t\t\t\t\t\t\t</a>\n" +
+							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been2\"></div></div>\n" +
+							"\t\t\t\t\t\t\t</div>");
+				}
+				if (data.readYn === 'n'){
+					$(".msg-been2").show();
+					$(".msg-smallBeen2").show();
+
+				}else {
+					$(".msg-been2").hide();
+					$(".msg-smallBeen2").hide();
+				}
+			}
+
+		});
+	}
+	//미진행출고 알림
+	function selectNotino(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readUnFinishedOutNotification',
+			type: 'POST',
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data){
+				console.log("통신성공");
+				console.log(data);
+				$("#Alert3").empty();
+				for (let i = 0; i<data.length; i++){
+					$("#Alert3").append("<div class=\"msg-wrap\">\n" +
+							"\t\t\t\t\t\t\t\t<div class=\"msg-day\">\n" +
+							data[i].createDt.substr(2,8) +"<br>"+data[i].createDt.substr(11,5)+
+							"\t\t\t\t\t\t\t\t</div>\n" +
+							"\t\t\t\t\t\t\t\t<a>\n" +
+							"\t\t\t\t\t\t\t\t\t<div class=\"msg-text\">\n" +
+							data[i].content+
+							"\t\t\t\t\t\t\t\t\t</div>\n" +
+							"\t\t\t\t\t\t\t\t</a>\n" +
+							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been3\"></div></div>\n" +
+							"\t\t\t\t\t\t\t</div>");
+				}
+				if (data.readYn === 'n'){
+					$(".msg-been3").show();
+					$(".msg-smallBeen3").show();
+
+				}else {
+					$(".msg-been3").hide();
+					$(".msg-smallBeen3").hide();
+				}
+			}
+
+		});
+	}
+	//회원가입 알림
+	function selectNotijo(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readJoinNotification',
+			type: 'POST',
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data){
+				console.log("통신성공");
+				console.log(data);
+				$("#Alert4").empty();
+				for (let i = 0; i<data.length; i++){
+					$("#Alert4").append("<div class=\"msg-wrap\">\n" +
+							"\t\t\t\t\t\t\t\t<div class=\"msg-day\">\n" +
+							data[i].createDt.substr(2,8) +"<br>"+data[i].createDt.substr(11,5)+
+							"\t\t\t\t\t\t\t\t</div>\n" +
+							"\t\t\t\t\t\t\t\t<a>\n" +
+							"\t\t\t\t\t\t\t\t\t<div class=\"msg-text\">\n" +
+							data[i].content+
+							"\t\t\t\t\t\t\t\t\t</div>\n" +
+							"\t\t\t\t\t\t\t\t</a>\n" +
+							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been4\"></div></div>\n" +
+							"\t\t\t\t\t\t\t</div>");
+				}
+				if (data.readYn === 'n'){
+					$(".msg-been4").show();
+					$(".msg-smallBeen4").show();
+
+				}else {
+					$(".msg-been4").hide();
+					$(".msg-smallBeen4").hide();
 				}
 			},
 			error:function(request, status, error){
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
+
 		});
 	}
+
 	function notiall() {
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertNewInfo',
@@ -275,11 +417,11 @@
 		})
 	}
 
-	var setInterall= setInterval(notiall, 3000);
-	var setInterbell =setInterval(notibell,3000);
+	var setInterall= setInterval(notiall, 30000);
+	var setInterbell =setInterval(notibell,30000);
 	var test1 = {"id":"콜로세움 에서dsadasdsadsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa출고 됬었다!"}
 	$("#test123").text(test1.id);
-	$("#ccccc").off().on("click",function (){
+	$("#ccccc, #Alert-Box").off().hover(function (){
 		if ($("#Alert-Box").css("display")=== "none"){
 			clearInterval(setInterall);
 			clearInterval(setInterbell);
@@ -287,19 +429,33 @@
 			$(".ac1").addClass('show active');
 			$(".ac2").addClass('show active');
 			$("#Alert-Box").show();
-			var aaaaaa1 = "IN01"
-			selectNoti(aaaaaa1);
+			//var aaaaaa1 = "IN01"
+			selectNotiin();
+			console.log(selectNotiinar);
+			selectNotiinup(selectNotiinar);
+
 			clearInterval(setInterall);
 			clearInterval(setInterbell);
+
+			$(".nav-link").off().on("click",function (){
+				if ($(this).data('type') === "inWE"){
+					selectNotiin();
+
+				}else if($(this).data('type') === 'outWE'){
+					selectNotiout();
+				}else if($(this).data('type') === 'noOutSt'){
+					selectNotino();
+				}else if($(this).data('type') === 'join'){
+					selectNotijo();
+				}
+			})
+
 		}else {
 			$("#Alert-Box").hide();
-			setInterall = setInterval(notiall, 3000);
-			setInterbell = setInterval(notibell, 3000);
-
+			setInterall = setInterval(notiall, 30000);
+			setInterbell = setInterval(notibell, 30000);
 		}
-
-
-	})
+	});
 	////알림기능 시작
 	$("#liveToastBtn").on("click",function (){
 		$(".toast-box").append("<div id=\"liveToast\" class=\"toast hide\" role=\"alert\" aria-live=\"assertive\" data-bs-autohide=\"false\" aria-atomic=\"true\">\n" +
