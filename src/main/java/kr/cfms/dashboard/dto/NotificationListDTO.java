@@ -10,6 +10,7 @@ import org.apache.ibatis.type.Alias;
 @ToString
 @Alias("NotificationListDTO")
 public class NotificationListDTO {
+    private long id;
     private String createDt;
     private String content;
     private String readYn;

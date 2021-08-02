@@ -27,7 +27,7 @@
 			)
 	</insert>
 
-	<insert id="insertOutOrd" parameterType="OutOrdVO">
+	<insert id="insertOutOrd" parameterType="OutOrdVO" useGeneratedKeys="true" keyProperty="id">
 		/*TestInsertMapper.insertOutOrd*/
 		insert cwt_out_ord_mst
 			(
@@ -79,8 +79,8 @@
 			)
 	</insert>
 
-	<insert id="insertNotificationInfo" parameterType="NotificationInfoVO">
-		/*TestInsertMapper.insertUser*/
+	<insert id="insertInOrdNotificationInfo" parameterType="NotificationInfoVO">
+		/*TestInsertMapper.insertInOrdNotificationInfo*/
 		insert cwt_notification_info
 			(
 				in_mst_id,
@@ -101,21 +101,57 @@
 			)
 	</insert>
 
+	<insert id="insertOutOrdNotificationInfo" parameterType="NotificationInfoVO">
+		/*TestInsertMapper.insertOutOrdNotificationInfo*/
+		insert cwt_notification_info
+			(
+				out_mst_id,
+				type_cd,
+				content,
+				create_dt,
+				reg_date,
+				mod_date
+			)
+			values
+			(
+		#{notificationInfoVO.outMstId},
+		#{notificationInfoVO.typeCd},
+		#{notificationInfoVO.content},
+		now(),
+		now(),
+		now()
+		)
+	</insert>
+
 	<select id="selectInOrdMstById" parameterType="long" resultType="InOrdNotificationDTO">
 		select
 			(select center_nm from cwt_mst_center
 			 where id =(select cust_id from cwt_in_ord_mst
-						where id =1)) as custCenterNm
+						where id =#{inMstId})) as custCenterNm
 		    ,
 			(select center_nm from cwt_mst_center
 			 where id =(select wh_id from cwt_in_ord_mst
-						where id =1)) as whCenterNm
+						where id =#{inMstId})) as whCenterNm
 		    ,
 			(select in_ord_dt from cwt_in_ord_mst
-			 where id =1) as inOrdDt
+			 where id =#{inMstId}) as inOrdDt
 		    ,
 			(select in_ord_type from cwt_in_ord_mst
-			 where id =1) as inOrdType
+			 where id =#{inMstId}) as inOrdType
+
+	</select>
+
+	<select id="selectOutOrdMstById" parameterType="long" resultType="OutOrdNotificationDTO">
+		select
+			(select center_nm from cwt_mst_center
+			 where id =(select cust_id from cwt_out_ord_mst
+						where id =#{outMstId})) as custCenterNm
+				,
+			(select out_ord_dt from cwt_out_ord_mst
+			 where id =#{outMstId}) as outOrdDt
+				,
+			(select out_type from cwt_out_ord_mst
+			 where id =#{outMstId}) as outOrdType
 
 	</select>
 </mapper>

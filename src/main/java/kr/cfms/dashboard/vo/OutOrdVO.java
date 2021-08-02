@@ -10,6 +10,7 @@ import org.apache.ibatis.type.Alias;
 @ToString
 @Alias("OutOrdVO")
 public class OutOrdVO {
+    private long id;
     private long custId;
     private String outOrdNo;
 

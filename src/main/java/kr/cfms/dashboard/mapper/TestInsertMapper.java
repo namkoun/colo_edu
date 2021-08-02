@@ -1,6 +1,7 @@
 package kr.cfms.dashboard.mapper;
 
 import kr.cfms.dashboard.dto.InOrdNotificationDTO;
+import kr.cfms.dashboard.dto.OutOrdNotificationDTO;
 import kr.cfms.dashboard.vo.InOrdVO;
 import kr.cfms.dashboard.vo.JoinVO;
 import kr.cfms.dashboard.vo.NotificationInfoVO;
@@ -16,18 +17,19 @@ public interface TestInsertMapper {
     /**
      * 셀러 입/출고 신청시 insert notification_info
      */
-    Integer insertNotificationInfo(@Param("notificationInfoVO") NotificationInfoVO notificationInfoVO);
+    Integer insertInOrdNotificationInfo(@Param("notificationInfoVO") NotificationInfoVO notificationInfoVO);
+    Integer insertOutOrdNotificationInfo(@Param("notificationInfoVO") NotificationInfoVO notificationInfoVO);
 
     /**
      * 업체명, 신청일시, 신청종류
-     *
      */
     InOrdNotificationDTO selectInOrdMstById(@Param("inMstId") long inMstId);
+    OutOrdNotificationDTO selectOutOrdMstById(@Param("outMstId") long outMstId);
 
     /**
-     * 셀러 입/출고 신청 테스트용
+     * 셀러 - 입고신청,출고신청,회원가입 테스트용
      */
     Long insertInOrd(@Param("inOrdVO") InOrdVO inOrdVO);
-    Integer insertOutOrd(@Param("outOrdVO") OutOrdVO outOrdVO);
-    Integer insertUser(@Param("joinVO") JoinVO joinVO);
+    Long insertOutOrd(@Param("outOrdVO") OutOrdVO outOrdVO);
+    Long insertUser(@Param("joinVO") JoinVO joinVO);
 }

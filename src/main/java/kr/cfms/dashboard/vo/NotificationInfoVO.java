@@ -21,16 +21,27 @@ public class NotificationInfoVO {
     private String regDate;
     private String modDate;
 
-    //알림 종류 만들기
-    public String makeTypeCd(String inOrdType) {
+    /**
+     * 알림 종류
+     */
+    //입고신청
+    public String inOrdTypeCd(String inOrdType) {
         String realTypeCd = "";
         if(inOrdType.equals("INAM") || inOrdType.equals("INPM") || inOrdType.equals("INSP")) realTypeCd = "IN01";
-
+        return realTypeCd;
+    }
+    //출고신청
+    public String outOrdTypeCd(String outOrdType) {
+        String realTypeCd = "";
+        if(outOrdType.equals("OTAM") || outOrdType.equals("OTBB") || outOrdType.equals("OTPM") || outOrdType.equals("OTSP")) realTypeCd = "OS01";
         return realTypeCd;
     }
 
-    //알림 내용 만들기
-    public String makeContent(String custCenterNm, String whCenterNm, String inOrdType, String inOrdDate) {
+    /**
+     * 알림 내용
+     */
+    //입고신청
+    public String inOrdContent(String custCenterNm, String whCenterNm, String inOrdType, String inOrdDate) {
         String realInOrdType;
         if(inOrdType.equals("INAM")) realInOrdType = "오전(9~11) 입고";
         else if(inOrdType.equals("INPM")) realInOrdType = "오후(13~15) 입고";
@@ -41,4 +52,18 @@ public class NotificationInfoVO {
                 + inOrdDate + "에 " + realInOrdType + "신청이 접수되었습니다.";
         return content;
     }
+    //출고신청
+    public String outOrdContent(String custCenterNm, String outOrdType, String outOrdDate) {
+        String realInOrdType;
+        if(outOrdDate.equals("OTAM")) realInOrdType = "오전(10:00)출고";
+        else if(outOrdDate.equals("OTBB")) realInOrdType = "B2B출고";
+        else if(outOrdDate.equals("OTPM")) realInOrdType = "오후(14:00)출고";
+        else if(outOrdDate.equals("OTSP")) realInOrdType = "특수(14:00이후)출고";
+        else realInOrdType = "출고";
+
+        String content = custCenterNm + "에서<br>"
+                + outOrdType + "에 " + realInOrdType + "신청이 접수되었습니다.";
+        return content;
+    }
+
 }

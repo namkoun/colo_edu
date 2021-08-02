@@ -1,6 +1,7 @@
 package kr.cfms.dashboard.service;
 
 import kr.cfms.dashboard.dto.InOrdNotificationDTO;
+import kr.cfms.dashboard.dto.OutOrdNotificationDTO;
 import kr.cfms.dashboard.mapper.TestInsertMapper;
 import kr.cfms.dashboard.vo.InOrdVO;
 import kr.cfms.dashboard.vo.JoinVO;
@@ -24,17 +25,26 @@ public class TestInsertService {
         testInsertMapper.insertInOrd(inOrdVO);
         return inOrdVO.getId();
     }
-    public void insertOutOrd(OutOrdVO outOrdVO) {
+    public Long insertOutOrd(OutOrdVO outOrdVO) {
         testInsertMapper.insertOutOrd(outOrdVO);
+        return outOrdVO.getId();
     }
-    public void insertUser(JoinVO joinVO) {
+    public Long insertUser(JoinVO joinVO) {
         testInsertMapper.insertUser(joinVO);
+        return joinVO.getId();
     }
 
-    public void insertNotificationInfo(NotificationInfoVO notificationInfoVO) {
-        testInsertMapper.insertNotificationInfo(notificationInfoVO);
+    public void insertInOrdNotificationInfo(NotificationInfoVO notificationInfoVO) {
+        testInsertMapper.insertInOrdNotificationInfo(notificationInfoVO);
+    }
+    public void insertOutOrdNotificationInfo(NotificationInfoVO notificationInfoVO) {
+        testInsertMapper.insertOutOrdNotificationInfo(notificationInfoVO);
     }
 
     public InOrdNotificationDTO selectInOrdMstById(long inMstId) {
-        return testInsertMapper.selectInOrdMstById(inMstId); }
+        return testInsertMapper.selectInOrdMstById(inMstId);
+    }
+    public OutOrdNotificationDTO selectOutOrdMstById(long outMstId) {
+        return testInsertMapper.selectOutOrdMstById(outMstId);
+    }
 }

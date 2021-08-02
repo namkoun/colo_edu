@@ -5,6 +5,8 @@ import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.DashboardADService;
 import kr.cfms.dashboard.service.NotificationService;
 import kr.cfms.dashboard.vo.AdNotificationVO;
+import kr.cfms.dashboard.vo.NoticeVO;
+import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -127,7 +129,7 @@ public class DashboardADAjaxController {
 		if (infoIdList.size() != 0) {
 			isExist = 1;
 			//값 넣어줌
-			adNotificationVO.setReadYn("N");
+//			adNotificationVO.setReadYn("N");
 			for (int i = 0; i < infoIdList.size(); i++) {
 				adNotificationVO.setInfoId(infoIdList.get(i));
 				notificationService.insertNewInfo(adNotificationVO);
@@ -148,7 +150,7 @@ public class DashboardADAjaxController {
 		adNotificationVO.setAdMid(userInfo.getMid());
 		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO);
 
-		// 있으면 isRead=1
+		// 있으면 isRead=0
 		if (countNotRead > 0) isRead = 0;
 
 		return ResponseEntity.ok(isRead);
@@ -159,13 +161,74 @@ public class DashboardADAjaxController {
 	 * 1. select 알림리스트 (알림날짜 기준)
 	 * 2. update read_yn ='Y'
 	 */
-	@GetMapping("get/searchNotificationList")
-	public ResponseEntity<List<NotificationListDTO>> selectNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+	// 입고신청 알림
+	@GetMapping("get/searchInOrdNotification")
+	public ResponseEntity<List<NotificationListDTO>> searchInOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
-		List<NotificationListDTO> notificationList = notificationService.selectNotificationList(adNotificationVO);
+		List<NotificationListDTO> InOrdNotificationList = notificationService.selectInOrdNotificationList(adNotificationVO);
+		return ResponseEntity.ok(InOrdNotificationList);
+	}
+	@PostMapping("add/readInOrdNotification")
+	public ResponseEntity<MessageVo> readInOrdNotification(@ModelAttribute List<Long> idList) {
+		//1. select 알림리스트 (알림날짜 기준)
+//		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+//		adNotificationVO.setAdMid(userInfo.getMid());
+//		List<NotificationListDTO> InOrdNotificationList = notificationService.selectInOrdNotificationList(adNotificationVO);
 
-		return ResponseEntity.ok(notificationList);
+		//2. update read_yn ='Y'
+		for (int i = 0; i < idList.size(); i++) {
+			notificationService.updateReadYn(idList.get(i));
+		}
+
+		return ResponseEntity.ok(new MessageVo("finish"));
 	}
 
+	// 출고신청 알림
+	@PostMapping("add/readOutOrdNotification")
+	public ResponseEntity<List<NotificationListDTO>> readOutOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//1. select 알림리스트 (알림날짜 기준)
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> OutOrdNotificationList = notificationService.selectOutOrdNotificationList(adNotificationVO);
+
+		//2. update read_yn ='Y'
+		for (int i = 0; i < OutOrdNotificationList.size(); i++) {
+			notificationService.updateReadYn(OutOrdNotificationList.get(i).getId());
+		}
+
+		return ResponseEntity.ok(OutOrdNotificationList);
+	}
+
+	// 미진행 출고건 알림
+	@PostMapping("add/readUnFinishedOutNotification")
+	public ResponseEntity<List<NotificationListDTO>> readUnFinishedOutNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//1. select 알림리스트 (알림날짜 기준)
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> unFinishedOutNotificationList = notificationService.selectUnFinishedOutNotificationList(adNotificationVO);
+
+		//2. update read_yn ='Y'
+		for (int i = 0; i < unFinishedOutNotificationList.size(); i++) {
+			notificationService.updateReadYn(unFinishedOutNotificationList.get(i).getId());
+		}
+
+		return ResponseEntity.ok(unFinishedOutNotificationList);
+	}
+
+	// 회원가입 알림
+	@PostMapping("add/readJoinNotification")
+	public ResponseEntity<List<NotificationListDTO>> selectJoinNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//1. select 알림리스트 (알림날짜 기준)
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> joinNotificationList = notificationService.selectJoinNotificationList(adNotificationVO);
+
+		//2. update read_yn ='Y'
+		for (int i = 0; i < joinNotificationList.size(); i++) {
+			notificationService.updateReadYn(joinNotificationList.get(i).getId());
+		}
+
+		return ResponseEntity.ok(joinNotificationList);
+	}
 }

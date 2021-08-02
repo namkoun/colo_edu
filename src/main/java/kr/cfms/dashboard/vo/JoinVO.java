@@ -10,6 +10,7 @@ import org.apache.ibatis.type.Alias;
 @ToString
 @Alias("JoinVO")
 public class JoinVO {
+    private long id;
     private long cmpId;
     private String mid;  //이메일
     private String memberTypeCode;
