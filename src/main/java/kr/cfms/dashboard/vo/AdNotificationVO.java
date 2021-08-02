@@ -13,4 +13,5 @@ public class AdNotificationVO {
     private long infoId;
     private String adMid;
     private String readYn;
+    private String typeCd;
 }

@@ -150,7 +150,7 @@ public class DashboardADAjaxController {
 		adNotificationVO.setAdMid(userInfo.getMid());
 		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO);
 
-		// 있으면 isRead=1
+		// 있으면 isRead=0
 		if (countNotRead > 0) isRead = 0;
 
 		return ResponseEntity.ok(isRead);
