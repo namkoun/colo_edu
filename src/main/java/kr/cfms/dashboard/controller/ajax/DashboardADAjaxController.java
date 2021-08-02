@@ -129,7 +129,7 @@ public class DashboardADAjaxController {
 		if (infoIdList.size() != 0) {
 			isExist = 1;
 			//값 넣어줌
-			adNotificationVO.setReadYn("N");
+//			adNotificationVO.setReadYn("N");
 			for (int i = 0; i < infoIdList.size(); i++) {
 				adNotificationVO.setInfoId(infoIdList.get(i));
 				notificationService.insertNewInfo(adNotificationVO);
@@ -159,33 +159,69 @@ public class DashboardADAjaxController {
 	/**
 	 * 알림 종류 버튼 클릭시
 	 * 1. select 알림리스트 (알림날짜 기준)
-	 */
-	@GetMapping("get/searchNotificationList")
-	public ResponseEntity<List<NotificationListDTO>> selectNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-		adNotificationVO.setAdMid(userInfo.getMid());
-		List<NotificationListDTO> notificationList = notificationService.selectNotificationList(adNotificationVO);
-
-		return ResponseEntity.ok(notificationList);
-	}
-
-	/**
-	 * 알림 종류 버튼 클릭시
-	 * 1. select 알림리스트 (알림날짜 기준)
 	 * 2. update read_yn ='Y'
 	 */
-	@PostMapping("add/readNotificationByTypeCd")
-	public ResponseEntity<List<NotificationListDTO>> readNotificationByTypeCd(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+	// 입고신청 알림
+	@PostMapping("add/readInOrdNotification")
+	public ResponseEntity<List<NotificationListDTO>> readInOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		//1. select 알림리스트 (알림날짜 기준)
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
-		List<NotificationListDTO> notificationList = notificationService.selectNotificationList(adNotificationVO);
+		List<NotificationListDTO> InOrdNotificationList = notificationService.selectInOrdNotificationList(adNotificationVO);
 
 		//2. update read_yn ='Y'
-		for (int i = 0; i < notificationList.size(); i++) {
-			notificationService.readNotificationByTypeCd(notificationList.get(i).getId());
+		for (int i = 0; i < InOrdNotificationList.size(); i++) {
+			notificationService.updateReadYn(InOrdNotificationList.get(i).getId());
 		}
 
-		return ResponseEntity.ok(notificationList);
+		return ResponseEntity.ok(InOrdNotificationList);
+	}
+
+	// 출고신청 알림
+	@PostMapping("add/readOutOrdNotification")
+	public ResponseEntity<List<NotificationListDTO>> readOutOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//1. select 알림리스트 (알림날짜 기준)
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> OutOrdNotificationList = notificationService.selectOutOrdNotificationList(adNotificationVO);
+
+		//2. update read_yn ='Y'
+		for (int i = 0; i < OutOrdNotificationList.size(); i++) {
+			notificationService.updateReadYn(OutOrdNotificationList.get(i).getId());
+		}
+
+		return ResponseEntity.ok(OutOrdNotificationList);
+	}
+
+	// 미진행 출고건 알림
+	@PostMapping("add/readUnFinishedOutNotification")
+	public ResponseEntity<List<NotificationListDTO>> readUnFinishedOutNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//1. select 알림리스트 (알림날짜 기준)
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> unFinishedOutNotificationList = notificationService.selectUnFinishedOutNotificationList(adNotificationVO);
+
+		//2. update read_yn ='Y'
+		for (int i = 0; i < unFinishedOutNotificationList.size(); i++) {
+			notificationService.updateReadYn(unFinishedOutNotificationList.get(i).getId());
+		}
+
+		return ResponseEntity.ok(unFinishedOutNotificationList);
+	}
+
+	// 회원가입 알림
+	@PostMapping("add/readUnFinishedOutNotification")
+	public ResponseEntity<List<NotificationListDTO>> selectJoinNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		//1. select 알림리스트 (알림날짜 기준)
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		List<NotificationListDTO> joinNotificationList = notificationService.selectJoinNotificationList(adNotificationVO);
+
+		//2. update read_yn ='Y'
+		for (int i = 0; i < joinNotificationList.size(); i++) {
+			notificationService.updateReadYn(joinNotificationList.get(i).getId());
+		}
+
+		return ResponseEntity.ok(joinNotificationList);
 	}
 }
