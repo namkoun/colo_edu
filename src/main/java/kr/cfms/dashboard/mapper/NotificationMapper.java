@@ -25,5 +25,6 @@ public interface NotificationMapper {
     List<NotificationListDTO> selectJoinNotificationList(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
 
     void updateReadYn(@Param("id") Long id);
+    void updateReadYnn(@Param("adNotificationVO") AdNotificationVO adNotificationVO);
     void updateTest(@Param("idList") IdList idList);
 }

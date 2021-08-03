@@ -56,6 +56,9 @@ public class NotificationService {
     public void updateReadYn(Long id) {
         notificationMapper.updateReadYn(id);
     }
+    public void updateReadYnn(AdNotificationVO adNotificationVO) {
+        notificationMapper.updateReadYnn(adNotificationVO);
+    }
 
     public void updateTest(IdList idList) {
         notificationMapper.updateTest(idList);
