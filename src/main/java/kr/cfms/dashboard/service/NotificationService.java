@@ -1,6 +1,7 @@
 package kr.cfms.dashboard.service;
 
 import kr.cfms.dashboard.dto.NotificationListDTO;
+import kr.cfms.dashboard.dto.NotificationResultDTO;
 import kr.cfms.dashboard.mapper.NotificationMapper;
 import kr.cfms.dashboard.vo.AdNotificationVO;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,13 @@ public class NotificationService {
      */
     public Integer selectIsReadNotification(AdNotificationVO adNotificationVO) {
         return notificationMapper.selectIsReadNotification(adNotificationVO);
+    }
+
+    /**
+     * 알림 종류별 안 읽은 알림 있는지 체크
+     */
+    public NotificationResultDTO selectIsReadNotificationByTypeCd(AdNotificationVO adNotificationVO) {
+        return notificationMapper.selectIsReadNotificationByTypeCd(adNotificationVO);
     }
 
 

@@ -24,6 +24,45 @@
           and ad_mid =#{adNotificationVO.adMid};
     </select>
 
+    <select id="selectIsReadNotificationByTypeCd" parameterType="AdNotificationVO" resultType="NotificationResultDTO">
+        select
+            (select
+                 count(an.read_yn)
+             from cwt_ad_notification as an
+                      join cwt_notification_info as ni
+                           on an.info_id = ni.id
+             where type_cd='IN01'
+               and ad_mid =#{adNotificationVO.adMid}
+               and read_yn='N') as countInOrd
+                ,
+            (select
+                 count(an.read_yn)
+             from cwt_ad_notification as an
+                      join cwt_notification_info as ni
+                           on an.info_id = ni.id
+             where type_cd='OS01'
+               and ad_mid =#{adNotificationVO.adMid}
+               and read_yn='N') as countOutOrd
+                ,
+            (select
+                 count(an.read_yn)
+             from cwt_ad_notification as an
+                      join cwt_notification_info as ni
+                           on an.info_id = ni.id
+             where type_cd='UFOT'
+               and ad_mid =#{adNotificationVO.adMid}
+               and read_yn='N') as countUnFinishOut
+                ,
+            (select
+                 count(an.read_yn)
+             from cwt_ad_notification as an
+                      join cwt_notification_info as ni
+                           on an.info_id = ni.id
+             where type_cd='JOIN'
+               and ad_mid =#{adNotificationVO.adMid}
+               and read_yn='N') as countJoin
+    </select>
+
     <select id="selectInOrdNotificationList" parameterType="AdNotificationVO" resultType="NotificationListDTO">
         select
             an.id as id,

@@ -138,10 +138,10 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 안 읽은 알림 있는지 체크 (종)
+	 * 안 읽은 알림 있는지 체크
 	 */
 	@GetMapping("get/searchIsReadNotification")
-	public ResponseEntity<Integer> selectIsReadNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+	public ResponseEntity<Integer> searchIsReadNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		Integer isRead = 1;
 
 		// ad_mid로 검색
@@ -153,6 +153,18 @@ public class DashboardADAjaxController {
 		if (countNotRead > 0) isRead = 0;
 
 		return ResponseEntity.ok(isRead);
+	}
+
+	/**
+	 * 알림 종류별 안 읽은 알림 있는지 체크
+	 */
+	@GetMapping("get/searchIsReadNotificationByTypeCd")
+	public ResponseEntity<NotificationResultDTO> searchIsReadNotificationByTypeCd(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+		adNotificationVO.setAdMid(userInfo.getMid());
+		NotificationResultDTO notificationResultDTO = notificationService.selectIsReadNotificationByTypeCd(adNotificationVO);
+
+		return ResponseEntity.ok(notificationResultDTO);
 	}
 
 	/**
