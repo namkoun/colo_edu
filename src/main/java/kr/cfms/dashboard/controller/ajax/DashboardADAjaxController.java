@@ -172,7 +172,7 @@ public class DashboardADAjaxController {
 
 
 	// 출고신청 알림
-	@PostMapping("add/readOutOrdNotification")
+	@GetMapping("get/readOutOrdNotification")
 	public ResponseEntity<List<NotificationListDTO>> readOutOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
@@ -182,7 +182,7 @@ public class DashboardADAjaxController {
 	}
 
 	// 미진행 출고건 알림
-	@PostMapping("add/readUnFinishedOutNotification")
+	@GetMapping("get/readUnFinishedOutNotification")
 	public ResponseEntity<List<NotificationListDTO>> readUnFinishedOutNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
@@ -192,7 +192,7 @@ public class DashboardADAjaxController {
 	}
 
 	// 회원가입 알림
-	@PostMapping("add/readJoinNotification")
+	@GetMapping("get/readJoinNotification")
 	public ResponseEntity<List<NotificationListDTO>> selectJoinNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
