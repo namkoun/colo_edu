@@ -36,6 +36,10 @@ public class NotificationInfoVO {
         if(outOrdType.equals("OTAM") || outOrdType.equals("OTBB") || outOrdType.equals("OTPM") || outOrdType.equals("OTSP")) realTypeCd = "OS01";
         return realTypeCd;
     }
+    //회원가입
+    public String joinTypeCd() {
+        return "JOIN";
+    }
 
     /**
      * 알림 내용
@@ -66,4 +70,8 @@ public class NotificationInfoVO {
         return content;
     }
 
+    //회원가입
+    public String joinContent(String memberTypeCod, String cmpNm, String mobile) {
+        return "(<b>"+memberTypeCod+"</b>)<b>"+cmpNm+"</b>(이)가<br><b>회원가입</b>했습니다. 연락처(<b>"+mobile+"</b>)";
+    }
 }

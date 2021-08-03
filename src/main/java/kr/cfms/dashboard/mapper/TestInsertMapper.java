@@ -1,6 +1,7 @@
 package kr.cfms.dashboard.mapper;
 
 import kr.cfms.dashboard.dto.InOrdNotificationDTO;
+import kr.cfms.dashboard.dto.JoinNotificationDTO;
 import kr.cfms.dashboard.dto.OutOrdNotificationDTO;
 import kr.cfms.dashboard.vo.InOrdVO;
 import kr.cfms.dashboard.vo.JoinVO;
@@ -26,6 +27,7 @@ public interface TestInsertMapper {
      */
     InOrdNotificationDTO selectInOrdMstById(@Param("inMstId") long inMstId);
     OutOrdNotificationDTO selectOutOrdMstById(@Param("outMstId") long outMstId);
+    JoinNotificationDTO selectUserById(@Param("userId") long userId);
 
     /**
      * 셀러 - 입고신청,출고신청,회원가입 테스트용

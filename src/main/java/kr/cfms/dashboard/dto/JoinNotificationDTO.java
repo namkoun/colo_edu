@@ -11,9 +11,7 @@ import org.apache.ibatis.type.Alias;
 @Alias("JoinNotificationDTO")
 public class JoinNotificationDTO {
 
-    //memberTypeCode, custCenterNm, typeCd, phone
     private String memberTypeCode; //회원구분코드
-    private String custCenterNm;   //출고 예정날짜
-    private String typeCd;         //출고 타입
+    private String cmpNm;          //회사명
     private String mobile;         //개인 휴대폰
 }

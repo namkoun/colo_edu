@@ -4,8 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import kr.cfms.dashboard.dto.InOrdNotificationDTO;
-import kr.cfms.dashboard.dto.OutOrdNotificationDTO;
+import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.TestInsertService;
 import kr.cfms.dashboard.vo.InOrdVO;
 import kr.cfms.dashboard.vo.JoinVO;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.cfms.common.util.session.SessionUserInfoUtil;
 import kr.cfms.common.vo.session.UserInfo;
-import kr.cfms.dashboard.dto.NoticeDTO;
-import kr.cfms.dashboard.dto.NoticeSearchDTO;
 import kr.cfms.dashboard.service.NoticeService;
 import kr.cfms.user.service.AuthService;
 import kr.cfms.user.service.UserService;
@@ -139,9 +136,9 @@ public class DashboardController {
 
 		//insert notification_info
 		String typeCd = notificationInfoVO.outOrdTypeCd(outOrdNotificationDTO.getOutOrdType());
-		String content = notificationInfoVO.outOrdContent(outOrdNotificationDTO.getCustCenterNm()
-														, outOrdNotificationDTO.getOutOrdType()
-														, outOrdNotificationDTO.getOutOrdType());
+		String content = notificationInfoVO.outOrdContent(outOrdNotificationDTO.getCustCenterNm(),
+													      outOrdNotificationDTO.getOutOrdType(),
+														  outOrdNotificationDTO.getOutOrdType());
 		notificationInfoVO.setOutMstId(outMstId);
 		notificationInfoVO.setTypeCd(typeCd);
 		notificationInfoVO.setContent(content);
@@ -155,12 +152,16 @@ public class DashboardController {
 		//insert cwt_user
 		Long userId = testInsertService.insertUser(joinVO);
 
-//		// select userType, custCenterNm, typeCd, phone
-//		OutOrdNotificationDTO outOrdNotificationDTO = testInsertService.selectUserById(userId);
-//
-//		//insert notification_info
-//		notificationInfoVO.setUserId();
-//		testInsertService.insertJoinNotificationInfo(notificationInfoVO);
+		// select userType, custCenterNm, typeCd, phone
+		JoinNotificationDTO joinNotificationDTO = testInsertService.selectUserById(userId);
+
+		//insert notification_info
+		notificationInfoVO.setUserId(userId);
+		notificationInfoVO.setTypeCd(notificationInfoVO.joinTypeCd());
+		notificationInfoVO.setContent(notificationInfoVO.joinContent(joinNotificationDTO.getMemberTypeCode(),
+																	 joinNotificationDTO.getCmpNm(),
+																	 joinNotificationDTO.getMobile()));
+		testInsertService.insertJoinNotificationInfo(notificationInfoVO);
         return "redirect:/";
     }
 

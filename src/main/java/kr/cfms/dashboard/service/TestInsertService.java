@@ -1,6 +1,7 @@
 package kr.cfms.dashboard.service;
 
 import kr.cfms.dashboard.dto.InOrdNotificationDTO;
+import kr.cfms.dashboard.dto.JoinNotificationDTO;
 import kr.cfms.dashboard.dto.OutOrdNotificationDTO;
 import kr.cfms.dashboard.mapper.TestInsertMapper;
 import kr.cfms.dashboard.vo.InOrdVO;
@@ -50,7 +51,7 @@ public class TestInsertService {
     public OutOrdNotificationDTO selectOutOrdMstById(long outMstId) {
         return testInsertMapper.selectOutOrdMstById(outMstId);
     }
-//    public JoinNotificationDTO selectUserById(long userId) {
-//        return testInsertMapper.selectUserById(userId);
-//    }
+    public JoinNotificationDTO selectUserById(long userId) {
+        return testInsertMapper.selectUserById(userId);
+    }
 }
