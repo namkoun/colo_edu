@@ -863,7 +863,9 @@ td {
 	width: 100%;
 	box-sizing: border-box;
 }
-
+/*.common-wrapper::-webkit-scrollbar {
+	display: none; !* Chrome, Safari, Opera*!
+}*/
 .mainContent .item-container {
 	/* position: relative; */
 	height: 100%;
@@ -874,7 +876,7 @@ td {
 
 .item-title {
 	padding: 1.0625rem 0 0.875rem 0.75rem;
-	border-bottom: 1px solid #cccccc;
+	border-bottom: 2px solid #cccccc;
 	position: relative;
 	display: flex;
 	justify-content: space-between;
@@ -4640,6 +4642,7 @@ td {
 	width: 50%;
 	font-weight: bold;
 	margin: 30px 0 0 10px;
+	border-left: 2px;
 }
 .total-sum{
 	width: 100%;
@@ -4669,7 +4672,7 @@ td {
 .select-home{
 	width: 100%;
 	height: 120px;
-	border-bottom: 2px solid #0e0e0e;
+	border-bottom: 2px solid #cccccc;
 	box-sizing: border-box;
 	padding: 0 10px;
 }
@@ -4680,6 +4683,8 @@ td {
 	z-index: 998;
 }
 .inventory-detail{
+	position: relative;
+	z-index: 981;
 	width: 100%;
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
@@ -4693,7 +4698,7 @@ td {
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 10px;
-	box-shadow: 3px 5px 1px rgba(16, 24, 32, 0.2);
+	box-shadow: 7px 6px 4px rgba(16, 24, 32, 0.2);
 }
 .span-img-icon img{
 	width: 40px;
@@ -4703,6 +4708,7 @@ td {
 	font-size: 24px;
 	margin-bottom: 100px;
 	padding-bottom: 3px;
+	font-weight: bold;
 }
 .display-flex-column-align-items-center{
 	display: flex; flex-direction: column; align-items: center
@@ -4731,7 +4737,6 @@ td {
 .close-wrap{
 	position: absolute;
 	width: 100%;
-	height: 100%;
 	z-index: 980;
 }
 .Alert-Box{
@@ -4840,14 +4845,21 @@ td {
 }
 .data-wrap{
 	display: flex;
+	align-items: center;
+	height: 300px;
 	width: 100%;
-	border-bottom: 1px solid #000000;
+	border-bottom: 1px solid #cccccc;
 }
 .data-wrap-sub{
 	display: flex;
-	width: 450px;
+	width: 48%;
 	flex-direction: column;
 	margin: 0 auto;
+	box-sizing: border-box;
+	padding: 0 10px;
+	border: 2px solid #0a217f;
+	border-radius: 5px;
+	box-shadow: 7px 6px 4px rgba(16, 24, 32, 0.2);
 }
 .data-wrap-main{
 	display: flex;
@@ -4860,6 +4872,7 @@ td {
 }
 .wrap-loading{ /*화면 전체를 어둡게 합니다.*/
 	position: fixed;
+	z-index: 9999;
 	left:0;
 	right:0;
 	top:0;
