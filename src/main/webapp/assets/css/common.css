@@ -863,7 +863,9 @@ td {
 	width: 100%;
 	box-sizing: border-box;
 }
-
+/*.common-wrapper::-webkit-scrollbar {
+	display: none; !* Chrome, Safari, Opera*!
+}*/
 .mainContent .item-container {
 	/* position: relative; */
 	height: 100%;
@@ -874,7 +876,7 @@ td {
 
 .item-title {
 	padding: 1.0625rem 0 0.875rem 0.75rem;
-	border-bottom: 1px solid #cccccc;
+	border-bottom: 2px solid #cccccc;
 	position: relative;
 	display: flex;
 	justify-content: space-between;
@@ -4631,9 +4633,20 @@ td {
 	font-weight: 500;
 }
 /*운영 대쉬보드 CSS*/
+.p-box{
+	position: absolute;
+	display: flex;
+	width: 100%;
+}
+.p-box > h2{
+	width: 50%;
+	font-weight: bold;
+	margin: 30px 0 0 10px;
+	border-left: 2px;
+}
 .total-sum{
 	width: 100%;
-	height: 300px;
+	height: 250px;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-around;
@@ -4651,62 +4664,51 @@ td {
 	color: rgb(6, 3, 141);
 	font-weight: bold;
 	border: 2px solid rgb(6, 3, 141);
-	margin-top: 40px;
+	margin-top: 50px;
 }
 .total-sum > span{
 	font-size: 40px;
 }
 .select-home{
 	width: 100%;
-	height: 150px;
-	padding-bottom: 20px;
-	border-bottom: 2px solid #0e0e0e;
+	height: 120px;
+	border-bottom: 2px solid #cccccc;
 	box-sizing: border-box;
-	padding: 20px 9px;
+	padding: 0 10px;
 }
 .select-wrap{
 	display: flex;
 	position: absolute;
-	margin-top: 70px;
+	margin-top: 50px;
 	z-index: 998;
 }
 .inventory-detail{
+	position: relative;
+	z-index: 981;
 	width: 100%;
 	border-bottom: 2px solid #0e0e0e;
 	box-sizing: border-box;
-}
-.p-box{
-	position: absolute;
-	display: flex;
-	width: 100%;
-}
-.p-box > h2{
-	width: 50%;
-	font-weight: bold;
-	margin: 40px 0 0 10px;
 }
 .span-img-icon{
 	border: 1px solid #D3D3D3;
 	border-radius: 50%;
 	width: 80px;
 	height: 80px;
-
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 10px;
-	box-shadow: 3px 5px 1px rgba(16, 24, 32, 0.2);
-
+	box-shadow: 7px 6px 4px rgba(16, 24, 32, 0.2);
 }
 .span-img-icon img{
 	width: 40px;
 	height: 40px;
-
 }
 .span-font-size span{
 	font-size: 24px;
 	margin-bottom: 100px;
 	padding-bottom: 3px;
+	font-weight: bold;
 }
 .display-flex-column-align-items-center{
 	display: flex; flex-direction: column; align-items: center
@@ -4724,7 +4726,9 @@ td {
 .toggle-group span:hover{
 	background-color: #0a217f;
 }
-.slow  .toggle-group { transition: left 0.7s; -webkit-transition: left 0.7s;
+.slow  .toggle-group {
+	transition: left 0.7s;
+	-webkit-transition: left 0.7s;
 }
 .bell-wrap{
 	margin-left: 450px;
@@ -4733,17 +4737,16 @@ td {
 .close-wrap{
 	position: absolute;
 	width: 100%;
-	height: 100%;
 	z-index: 980;
 }
 .Alert-Box{
 	position: absolute;
 	margin-top: 65px;
 	right: 0;
-	width: 440px;
+	width: 540px;
 	z-index: 999;
 	box-sizing: border-box;
-	padding: 0;
+	padding: 0px;
 	display: none;
 }
 .nav-item{
@@ -4751,7 +4754,9 @@ td {
 	color: white;
 	box-sizing: border-box;
 	padding: 1px;
-	width: 25%;
+}
+.nav-item li{
+	width: 100%;
 }
 .nav-item:first-child{
 	border-radius: 5px 0 0 0;
@@ -4762,7 +4767,7 @@ td {
 .tab-content{
 	background-color: white;
 	height: 400px;
-	width: 440px;
+	width: 540px;
 	border: 2px solid #adb5bd;
 	border-top: none !important;
 	border-radius: 0 0 5px 5px;
@@ -4772,6 +4777,7 @@ td {
 .nav-link{
 	color: #0a0a0a !important;
 	font-size: 0.9rem;
+	width: 100%;
 }
 .nav-item{
 	position: relative;
@@ -4788,7 +4794,7 @@ td {
 	position: relative;
 	display:flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: start;
 	padding: 10px;
 	box-sizing: border-box;
 	border-bottom: 1px solid #f1f1f1;
@@ -4810,9 +4816,9 @@ td {
 	z-index: 996;
 	top: 0;
 	right: 0;
-	margin-top: 10px;
+	margin-top: 12px;
 	background-color: rgba(0, 36, 156, 0.7);
-	margin-right: 5px;
+	margin-right: 15px;
 	width:10px;
 	height: 10px;
 	border-radius: 50%;
@@ -4823,7 +4829,7 @@ td {
 	border-radius: 50%;
 	background-color: rgba(0, 36, 156, 0.7);
 	z-index: 999;
-	right: 25px;
+	right: 35px;
 	top: 10px;
 	position: absolute;
 }
@@ -4839,14 +4845,21 @@ td {
 }
 .data-wrap{
 	display: flex;
+	align-items: center;
+	height: 300px;
 	width: 100%;
-	border-bottom: 1px solid #000000;
+	border-bottom: 1px solid #cccccc;
 }
 .data-wrap-sub{
 	display: flex;
-	width: 450px;
+	width: 48%;
 	flex-direction: column;
 	margin: 0 auto;
+	box-sizing: border-box;
+	padding: 0 10px;
+	border: 2px solid #0a217f;
+	border-radius: 5px;
+	box-shadow: 7px 6px 4px rgba(16, 24, 32, 0.2);
 }
 .data-wrap-main{
 	display: flex;
@@ -4859,6 +4872,7 @@ td {
 }
 .wrap-loading{ /*화면 전체를 어둡게 합니다.*/
 	position: fixed;
+	z-index: 9999;
 	left:0;
 	right:0;
 	top:0;

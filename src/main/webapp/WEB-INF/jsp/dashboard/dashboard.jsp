@@ -19,15 +19,16 @@
 <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
 
 <div class="mainContent" >
+	<div class="close-wrap"></div>
 	<div class="item-container item-wrapper" >
-		<div class="item-title" style="display: flex; justify-content: space-between; margin-top: 15px;  background-color: white; ">
+		<div class="item-title">
 			<div style="display:block;">
 				<span>대시보드</span>
 				<h1>대시보드</h1>
 			</div>
 			<div class="bell-wrap">
 				<div class="msg-count" >
-               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger bell-on-off">
+               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger bell-on-off" style="display: none;">
                         <span style="color: white">N</span>
                    <span class="visually-hidden">unread messages</span>
                </span>
@@ -37,19 +38,19 @@
 			<div class="Alert-Box" id="Alert-Box">
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item " role="presentation">
-						<span class="msg-smallBeen msg-smallBeen1"></span>
+						<span class="msg-smallBeen msg-smallBeen1" style="display: none;"></span>
 						<button class="nav-link ac ac1 show active " id="inWE" data-type="inWE" data-bs-toggle="tab" data-bs-target="#Alert1" type="button" role="tab" aria-controls="home" aria-selected="true">&nbsp;&nbsp;입고신청&nbsp;</button>
 					</li>
 					<li class="nav-item" role="presentation">
-						<span class="msg-smallBeen msg-smallBeen2"></span>
+						<span class="msg-smallBeen msg-smallBeen2" style="display: none;"></span>
 						<button class="nav-link ac" id="outWE" data-type="outWE" data-bs-toggle="tab" data-bs-target="#Alert2" type="button" role="tab" aria-controls="profile" aria-selected="false">&nbsp;&nbsp;출고신청&nbsp;</button>
 					</li>
 					<li class="nav-item" role="presentation">
-						<span class="msg-smallBeen msg-smallBeen3"></span>
+						<span class="msg-smallBeen msg-smallBeen3" style="display: none;"></span>
 						<button class="nav-link ac" id="noOutSt" data-type="noOutSt" data-bs-toggle="tab" data-bs-target="#Alert3" type="button" role="tab" aria-controls="contact" aria-selected="false">미진행출고</button>
 					</li>
 					<li class="nav-item" role="presentation">
-						<span class="msg-smallBeen msg-smallBeen4"></span>
+						<span class="msg-smallBeen msg-smallBeen4" style="display: none;"></span>
 						<button class="nav-link ac" id="join"  data-type="join" data-bs-toggle="tab" data-bs-target="#Alert4" type="button" role="tab" aria-controls="contact" aria-selected="false">&nbsp;회원가입</button>
 					</li>
 				</ul>
@@ -70,7 +71,7 @@
 			</div>
 		</div>
 		<div class="p-box">
-			<h2>전체입고량</h2><h2>전체출고량</h2>
+			<h2>오늘전체입고량</h2><h2>오늘전체출고량</h2>
 		</div>
 		<div class="total-sum">
 			<div>
@@ -96,19 +97,19 @@
 		</div>
 		<!-- 선택 -->
 		<div class="select-home">
-			<div >
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-m btn-on-select" data-type="month">한달</button>
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-w" data-type="week">일주일</button>
+			<div>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-m btn-on-select" data-type="month" style="margin-left: 120px;">한달</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-w" style="margin-left: 55px;" data-type="week">일주일</button>
 				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-t" data-type="day">오늘</button>
 			</div>
-			<div style="display: flex" >
+			<div class="select-wrap">
 				<input class="btn-success" data-width="160" id="input-data" data-style="slow" type="checkbox" checked data-toggle="toggle" data-on="셀러 " data-off="창고 " data-onstyle="light" data-offstyle="light">
 				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" ></select>
 				<select id="out-select" name="out-select" class="form-select" ></select>
 			</div>
 		</div>
 		<div class="data-wrap">
-			<div class="data-wrap-sub" style="display: flex; width: 450px ;flex-direction: column; margin: 0 auto;">
+			<div class="data-wrap-sub">
 				<div class="span-font-size">
 					<span>입고</span>
 				</div>
@@ -180,7 +181,7 @@
 		</div>
 		<!-- 재고 테이블 -->
 		<div class="inventory-detail" >
-			<table id="inventoryTable" class="table table-dark text-center table-hover" data-height="450" style="text-align: center;" no-records-found="dnjseogh">
+			<table id="inventoryTable" class="table table-dark text-center table-hover" data-height="450" style="text-align: center;">
 				<thead class="bootstrap-tableView" style="display: none;">
 				<tr>
 					<th data-field="goodsNm">상품명</th>
@@ -194,20 +195,14 @@
 			</table>
 		</div>
 	</div>
-
 </div>
-<button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
 <div class="wrap-loading display-none">
 	<div><img src="https://www.hanja4u.org/public/common/images/common/loading.gif" /></div>
 </div>
 <!--------------------------script----------------------------------->
 <script type="text/javascript">
 	//알림 시작
-	var selectNotiinar = new Array();
-	var currentId;
-	var idList ={
-		id : currentId
-	};
+
 	//입고 알림
 	function selectNotiin(){
 		$.ajax({
@@ -216,11 +211,9 @@
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
 			success:function (data){
-				selectNotiinar.length=0;
 				console.log("통신성공");
 				console.log(data);
 				$("#Alert1").empty();
-
 				for (let i = 0; i<data.length; i++){
 					$("#Alert1").append("<div class=\"msg-wrap\">\n" +
 							"\t\t\t\t\t\t\t\t<div class=\"msg-day\">\n" +
@@ -233,35 +226,32 @@
 							"\t\t\t\t\t\t\t\t</a>\n" +
 							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been1\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
-					console.log(typeof data[i].id);
-					selectNotiinup(data[i].id);
-
 					if (data[i].readYn == "N"){
 						$(".msg-been1").show();
 						$(".msg-smallBeen1").show();
-
 					}else {
 						$(".msg-been1").hide();
 						$(".msg-smallBeen1").hide();
 					}
+					var adNotification = {
+						id: data[i].id
+					}
+					selectNotiinup(adNotification);
 				}
-
-
 			}
-
 		});
 	}
-
+	//입고업뎃
 	function selectNotiinup(id){
 		console.log(id);
-
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readInOrdNotification',
 			type: 'POST',
-			data: {id: id},
+			data: JSON.stringify(id),
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data) {
+
 				console.log("업댓 완료")
 			}
 		})
@@ -269,12 +259,12 @@
 	//출고 알림
 	function selectNotiout(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readOutOrdNotification',
-			type: 'POST',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/readOutOrdNotification',
+			type: 'GET',
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
 			success:function (data){
-				console.log("통신성공");
+				console.log("통신성공(출고)");
 				console.log(data);
 				$("#Alert2").empty();
 				for (let i = 0; i<data.length; i++){
@@ -289,28 +279,30 @@
 							"\t\t\t\t\t\t\t\t</a>\n" +
 							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been2\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
-				}
-				if (data.readYn === 'n'){
-					$(".msg-been2").show();
-					$(".msg-smallBeen2").show();
-
-				}else {
-					$(".msg-been2").hide();
-					$(".msg-smallBeen2").hide();
+					if (data[i].readYn == "N"){
+						$(".msg-been2").show();
+						$(".msg-smallBeen2").show();
+					}else {
+						$(".msg-been2").hide();
+						$(".msg-smallBeen2").hide();
+					}
+					var adNotification = {
+						id: data[i].id
+					}
+					selectNotiinup(adNotification);
 				}
 			}
-
 		});
 	}
 	//미진행출고 알림
 	function selectNotino(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readUnFinishedOutNotification',
-			type: 'POST',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/readUnFinishedOutNotification',
+			type: 'GET',
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
 			success:function (data){
-				console.log("통신성공");
+				console.log("통신성공(미진행)");
 				console.log(data);
 				$("#Alert3").empty();
 				for (let i = 0; i<data.length; i++){
@@ -325,28 +317,30 @@
 							"\t\t\t\t\t\t\t\t</a>\n" +
 							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been3\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
-				}
-				if (data.readYn === 'n'){
-					$(".msg-been3").show();
-					$(".msg-smallBeen3").show();
-
-				}else {
-					$(".msg-been3").hide();
-					$(".msg-smallBeen3").hide();
+					if (data[i].readYn == "N"){
+						$(".msg-been3").show();
+						$(".msg-smallBeen3").show();
+					}else {
+						$(".msg-been3").hide();
+						$(".msg-smallBeen3").hide();
+					}
+					var adNotification = {
+						id: data[i].id
+					}
+					selectNotiinup(adNotification);
 				}
 			}
-
 		});
 	}
 	//회원가입 알림
 	function selectNotijo(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readJoinNotification',
-			type: 'POST',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/readJoinNotification',
+			type: 'GET',
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
 			success:function (data){
-				console.log("통신성공");
+				console.log("통신성공(회원)");
 				console.log(data);
 				$("#Alert4").empty();
 				for (let i = 0; i<data.length; i++){
@@ -361,23 +355,54 @@
 							"\t\t\t\t\t\t\t\t</a>\n" +
 							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been4\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
+					if (data[i].readYn == "N"){
+						$(".msg-been4").show();
+						$(".msg-smallBeen4").show();
+					}else {
+						$(".msg-been4").hide();
+						$(".msg-smallBeen4").hide();
+					}
+					var adNotification = {
+						id: data[i].id
+					}
+					selectNotiinup(adNotification);
 				}
-				if (data.readYn === 'n'){
-					$(".msg-been4").show();
-					$(".msg-smallBeen4").show();
-
-				}else {
-					$(".msg-been4").hide();
-					$(".msg-smallBeen4").hide();
-				}
-			},
-			error:function(request, status, error){
-				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
-
 		});
 	}
+	//메뉴 알림
+	function selectNotise(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchIsReadNotificationByTypeCd',
+			type: 'GET',
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data) {
+				console.log(data)
+				if (data.countInOrd > 0){
+					$(".msg-smallBeen1").show();
+				}else {
+					$(".msg-smallBeen1").hide();
+				}
+				if (data.countOutOrd > 0){
+					$(".msg-smallBeen2").show();
+				}else {
+					$(".msg-smallBeen2").hide();
+				}
+				if (data.countUnFinishOut > 0){
+					$(".msg-smallBeen3").show();
+				}else {
+					$(".msg-smallBeen3").hide();
+				}
+				if (data.countJoin > 0){
+					$(".msg-smallBeen4").show();
+				}else {
+					$(".msg-smallBeen4").hide();
+				}
 
+			}
+		})
+	}
 	function notiall() {
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/insertNewInfo',
@@ -385,15 +410,8 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log("all 받기 성공");
-				console.log(data);
-
 			},
-			error:function(request, status, error){
-				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			}
-
-		})
+		});
 	}
 	function notibell() {
 		$.ajax({
@@ -402,26 +420,23 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log("bell 받기 성공");
-				console.log(data);
 				if (data === 0){
 					$(".bell-on-off").show();
 				}else{
 					$(".bell-on-off").hide();
 				}
 			},
-			error:function(request, status, error){
-				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			}
-
-		})
+		});
 	}
-
-	var setInterall= setInterval(notiall, 30000);
-	var setInterbell =setInterval(notibell,30000);
-	var test1 = {"id":"콜로세움 에서dsadasdsadsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa출고 됬었다!"}
-	$("#test123").text(test1.id);
-	$("#ccccc").off().on("click", function (){
+	//interval start
+	var setInterall= setInterval(notiall, 3000);
+	var setInterbell =setInterval(notibell,3000);
+	$(".close-wrap, .inventory-detail").on("click", function (){
+		$("#Alert-Box").hide();
+		setInterall = setInterval(notiall, 3000);
+		setInterbell = setInterval(notibell, 3000);
+	})
+	$("#ccccc").off().on("click",function (){
 		if ($("#Alert-Box").css("display")=== "none"){
 			clearInterval(setInterall);
 			clearInterval(setInterbell);
@@ -429,18 +444,13 @@
 			$(".ac1").addClass('show active');
 			$(".ac2").addClass('show active');
 			$("#Alert-Box").show();
-			//var aaaaaa1 = "IN01"
-			selectNotiin();
-			console.log(selectNotiinar);
-			selectNotiinup(selectNotiinar);
-
+			selectNotiin(); //입고 조회
+			selectNotise(); //조회 bell
 			clearInterval(setInterall);
 			clearInterval(setInterbell);
-
 			$(".nav-link").off().on("click",function (){
 				if ($(this).data('type') === "inWE"){
 					selectNotiin();
-
 				}else if($(this).data('type') === 'outWE'){
 					selectNotiout();
 				}else if($(this).data('type') === 'noOutSt'){
@@ -449,50 +459,14 @@
 					selectNotijo();
 				}
 			})
-
 		}else {
 			$("#Alert-Box").hide();
-			setInterall = setInterval(notiall, 30000);
-			setInterbell = setInterval(notibell, 30000);
+			setInterall = setInterval(notiall, 3000);
+			setInterbell = setInterval(notibell, 3000);
 		}
 	});
-	////알림기능 시작
-	$("#liveToastBtn").on("click",function (){
-		$(".toast-box").append("<div id=\"liveToast\" class=\"toast hide\" role=\"alert\" aria-live=\"assertive\" data-bs-autohide=\"false\" aria-atomic=\"true\">\n" +
-				"\t\t\t<div class=\"toast-header\">\n" +
-				"\t\t\t\t<strong class=\"me-auto\">알림!</strong>\n" +
-				"\t\t\t\t<small>온 시간 저장</small>\n" +
-				"\t\t\t\t<button type=\"button\" class=\"btn-close\" onclick=\"tititi();\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
-				"\t\t\t</div>\n" +
-				"\t\t\t<div class=\"toast-body\">\n" +
-				"\t\t\t\ㅁㅁㅁ 알림입니다. \n" +
-				"\t\t\t\t<div class=\"mt-2 pt-2 border-top\">\n" +
-				"\t\t\t\t\t<button type=\"button\" class=\"btn btn-primary btn-sm\">바로가기!</button>\n" +
-				"\n" +
-				"\t\t\t\t</div>\n" +
-				"\t\t\t</div>\n" +
-				"\t\t</div>");
-		$(".toast").toast('show');
-		test111();
-		// db로 랜더링될때마다 1증 증가 한다
-	});
-	$(".cccc").on("click",function (){
-		$(".toast").toast('show');
-		test111();
-	})
-	function tititi(){
-		$(event.target).closest(".toast").remove();
-		test111();
-		// 삭제버튼 누를때 마다 db에서 -1 한다.
-		//$(".toast-box>.toast:last").remove();
-		//$(".toast-box").last().empty();
-	}
-	function test111(){
-		var n = $(".toast").length;
-		$("#test-a").text(n);
-		//10 초마다 db에서 값을 가져와서 보여준다
-	}
-	//////여기까지 알림기능
+	//여기까지 알림기능
+
 	//전역변수
 	var leftselect = "";
 	var rightselect = "";
@@ -503,7 +477,7 @@
 	var one = -1;
 	//선택 스위치버튼
 	$("#out-select").empty();
-	$("#out-select").append('<option value="all" selected>wh</option>');
+
 	selectsl(day);
 	stockSelectSL(one);
 	$('.tdwdmd').on('click', function(e) {
@@ -512,7 +486,7 @@
 			$(".btn-select-t").addClass('btn-on-select');  //버튼색↑
 			day = getDayType();
 			$("#out-select").empty();
-			$("#out-select").append('<option selected value="all">wh</option>');
+			//$("#out-select").append('<option selected value="all">wh</option>');
 			selectsl(day);
 
 		} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
@@ -520,22 +494,18 @@
 			$(".btn-select-w").addClass('btn-on-select'); //버튼색↑
 			day = getWeekType();
 			$("#out-select").empty();
-			$("#out-select").append('<option selected value="all">wh</option>');
+			//   $("#out-select").append('<option selected value="all">wh</option>');
 			selectsl(day);
-
 		} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 			$(".tdwdmd").removeClass('btn-on-select');
 			$(".btn-select-m").addClass('btn-on-select'); //버튼색↑
 			day = getMonthType();
 			$("#out-select").empty();
-			$("#out-select").append('<option selected value="all">wh</option>');
+			//   $("#out-select").append('<option selected value="all">wh</option>');
 			selectsl(day);
 		}
 	});
-
 	$(document).ready(function(){
-
-
 		getTotalSum();//전체 출/입고량 실행
 		$('#input-data').change(function() {
 			if ($(this).prop('checked')){
@@ -544,17 +514,17 @@
 					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
 						day = getDayType();
 						$("#out-select").empty();
-						$("#out-select").append('<option selected value="all">wh</option>');
+						//   $("#out-select").append('<option selected value="all">wh</option>');
 						selectsl(day);
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
-						$("#out-select").append('<option selected value="all">wh</option>');
+						//   $("#out-select").append('<option selected value="all">wh</option>');
 						selectsl(day);
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
-						$("#out-select").append('<option selected value="all">wh</option>');
+						//   $("#out-select").append('<option selected value="all">wh</option>');
 						selectsl(day);
 					}
 				});
@@ -870,7 +840,6 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log(data);
 				if(data.length>0){
 					for(var i in data){
 						var $a = data[0].todayInApply;
@@ -894,9 +863,11 @@
 			dataType : 'json',
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
+				$("#out-select").empty();
 				$("#in-select").empty();
-				$("#in-select").append('<option value="-1" selected> ---선택--- </option>');
-				$("#in-select").append('<option value="all" id="All" > 전체 </option>');
+				$("#in-select").append('<option value="-1" selected>셀러를 선택해주세요.</option>');
+				$("#in-select").append('<option value="all" id="All" >전체</option>');
+				$("#out-select").append('<option value="-1" selected>창고를 선택해주세요.</option>');
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
@@ -920,7 +891,7 @@
 							contentType : 'application/json;charset=UTF-8',
 							success : function(whData) {
 								$("#out-select").empty();
-								$("#out-select").append('<option value="all" selected> wh </option>');
+								$("#out-select").append('<option value="all" selected>창고를 선택해주세요.</option>');
 								for (var i = 0; i < whData.length; i++) {
 									$("#out-select").append('<option value="'+ whData[i].id +'" >'+whData[i].centerNm+'</option>');
 								}
@@ -946,8 +917,10 @@
 			contentType : 'application/json;charset=UTF-8',
 			success : function(Data) {
 				$("#in-select").empty();
-				$("#in-select").append('<option value="-1" selected> -------- </option>');
-				$("#in-select").append('<option value="all" id="all"> 전체 </option>');
+				$("#out-select").empty();
+				$("#in-select").append('<option value="-1" selected> 창고를 선택해주세요.</option>');
+				$("#in-select").append('<option value="all" id="all">전체</option>');
+				$("#out-select").append('<option value="-1" selected> 셀러를 선택해주세요.</option>');
 				for (var i = 0; i < Data.length; i++) {
 					$("#in-select").append('<option value="'+ Data[i].id +'" >'+Data[i].centerNm+'</option>');
 				}
@@ -971,7 +944,7 @@
 							contentType : 'application/json;charset=UTF-8',
 							success : function(slData) {
 								$("#out-select").empty();
-								$("#out-select").append('<option value="all" selected> sl </option>');
+								$("#out-select").append('<option value="all" selected>셀러를 선택해주세요.</option>');
 								for (var i = 0; i < slData.length; i++) {
 									$("#out-select").append('<option value="'+ slData[i].id +'" >'+slData[i].centerNm+'</option>');
 								}
@@ -1023,7 +996,6 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log(data)
 				getSelectData(data);
 			},
 			beforeSend:function(){
@@ -1032,8 +1004,6 @@
 			,complete:function(){
 				$('.wrap-loading').addClass('display-none');
 			},
-
-
 		});
 	}
 	//둘다선택(셀러기준)
@@ -1050,7 +1020,6 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log(data)
 				getSelectData(data);
 			},
 			beforeSend:function(){
@@ -1075,7 +1044,6 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				console.log(data)
 				getSelectData(data);
 			},
 			beforeSend:function(){
@@ -1130,7 +1098,6 @@
 				dataType: 'json',
 				contentType: 'application/json;charset=UTF-8',
 				success:function (data){
-					console.log(data)
 					getSelectData(data);
 				},
 				beforeSend:function(){
@@ -1172,8 +1139,6 @@
 			},
 			datatype: 'json',
 			success: function (inventoryOut){
-				console.log("sl실행");
-				console.log(inventoryOut);
 				$('#inventoryTable').bootstrapTable('destroy');
 				$('#inventoryTable').bootstrapTable({
 					data: inventoryOut,
@@ -1181,9 +1146,7 @@
 						return 'No data found';
 					}
 				});
-
 			}
-
 		});
 	}
 	//창고만 선택
