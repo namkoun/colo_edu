@@ -4698,7 +4698,6 @@ td {
 .span-img-icon img{
 	width: 40px;
 	height: 40px;
-
 }
 .span-font-size span{
 	font-size: 24px;
@@ -4742,7 +4741,7 @@ td {
 	width: 540px;
 	z-index: 999;
 	box-sizing: border-box;
-	padding: 0;
+	padding: 0px;
 	display: none;
 }
 .nav-item{
