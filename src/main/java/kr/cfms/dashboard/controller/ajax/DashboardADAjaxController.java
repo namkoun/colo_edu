@@ -3,7 +3,6 @@ package kr.cfms.dashboard.controller.ajax;
 import kr.cfms.common.vo.session.UserInfo;
 import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.DashboardADService;
-import kr.cfms.dashboard.dto.IdList;
 import kr.cfms.dashboard.service.NotificationService;
 import kr.cfms.dashboard.vo.AdNotificationVO;
 import kr.cfms.vo.response.MessageVo;
@@ -167,28 +166,17 @@ public class DashboardADAjaxController {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> InOrdNotificationList = notificationService.selectInOrdNotificationList(adNotificationVO);
+
 		return ResponseEntity.ok(InOrdNotificationList);
 	}
-	@PostMapping("add/readInOrdNotification")
-	public ResponseEntity<MessageVo> readInOrdNotification(@RequestBody AdNotificationVO adNotificationVO) {
-		notificationService.updateReadYnn(adNotificationVO);
-		log.info("readInOrdNotification.id={}", adNotificationVO.getId());
 
-		return ResponseEntity.ok(new MessageVo("finish"));
-	}
 
 	// 출고신청 알림
 	@PostMapping("add/readOutOrdNotification")
 	public ResponseEntity<List<NotificationListDTO>> readOutOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		//1. select 알림리스트 (알림날짜 기준)
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> OutOrdNotificationList = notificationService.selectOutOrdNotificationList(adNotificationVO);
-
-		//2. update read_yn ='Y'
-		for (int i = 0; i < OutOrdNotificationList.size(); i++) {
-			notificationService.updateReadYn(OutOrdNotificationList.get(i).getId());
-		}
 
 		return ResponseEntity.ok(OutOrdNotificationList);
 	}
@@ -196,15 +184,9 @@ public class DashboardADAjaxController {
 	// 미진행 출고건 알림
 	@PostMapping("add/readUnFinishedOutNotification")
 	public ResponseEntity<List<NotificationListDTO>> readUnFinishedOutNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		//1. select 알림리스트 (알림날짜 기준)
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> unFinishedOutNotificationList = notificationService.selectUnFinishedOutNotificationList(adNotificationVO);
-
-		//2. update read_yn ='Y'
-		for (int i = 0; i < unFinishedOutNotificationList.size(); i++) {
-			notificationService.updateReadYn(unFinishedOutNotificationList.get(i).getId());
-		}
 
 		return ResponseEntity.ok(unFinishedOutNotificationList);
 	}
@@ -212,16 +194,21 @@ public class DashboardADAjaxController {
 	// 회원가입 알림
 	@PostMapping("add/readJoinNotification")
 	public ResponseEntity<List<NotificationListDTO>> selectJoinNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		//1. select 알림리스트 (알림날짜 기준)
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> joinNotificationList = notificationService.selectJoinNotificationList(adNotificationVO);
 
-		//2. update read_yn ='Y'
-		for (int i = 0; i < joinNotificationList.size(); i++) {
-			notificationService.updateReadYn(joinNotificationList.get(i).getId());
-		}
-
 		return ResponseEntity.ok(joinNotificationList);
+	}
+
+	/**
+	 * 읽음 처리
+	 */
+	@PostMapping("add/readInOrdNotification")
+	public ResponseEntity<MessageVo> readInOrdNotification(@RequestBody AdNotificationVO adNotificationVO) {
+		notificationService.updateReadYn(adNotificationVO);
+		log.info("readInOrdNotification.id={}", adNotificationVO.getId());
+
+		return ResponseEntity.ok(new MessageVo("finish"));
 	}
 }

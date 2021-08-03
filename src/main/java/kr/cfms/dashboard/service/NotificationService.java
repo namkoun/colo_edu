@@ -1,6 +1,5 @@
 package kr.cfms.dashboard.service;
 
-import kr.cfms.dashboard.dto.IdList;
 import kr.cfms.dashboard.dto.NotificationListDTO;
 import kr.cfms.dashboard.mapper.NotificationMapper;
 import kr.cfms.dashboard.vo.AdNotificationVO;
@@ -53,14 +52,7 @@ public class NotificationService {
         return notificationMapper.selectJoinNotificationList(adNotificationVO);
     }
 
-    public void updateReadYn(Long id) {
-        notificationMapper.updateReadYn(id);
-    }
-    public void updateReadYnn(AdNotificationVO adNotificationVO) {
-        notificationMapper.updateReadYnn(adNotificationVO);
-    }
-
-    public void updateTest(IdList idList) {
-        notificationMapper.updateTest(idList);
+    public void updateReadYn(AdNotificationVO adNotificationVO) {
+        notificationMapper.updateReadYn(adNotificationVO);
     }
 }
