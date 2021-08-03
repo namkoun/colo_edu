@@ -10,6 +10,7 @@ import org.apache.ibatis.type.Alias;
 @ToString
 @Alias("AdNotificationVO")
 public class AdNotificationVO {
+    private long id;
     private long infoId;
     private String adMid;
     private String readYn;
