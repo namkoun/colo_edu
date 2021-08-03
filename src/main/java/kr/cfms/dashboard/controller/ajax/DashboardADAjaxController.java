@@ -170,8 +170,9 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(InOrdNotificationList);
 	}
 	@PostMapping("add/readInOrdNotification")
-	public ResponseEntity<MessageVo> readInOrdNotification(Long id) {
-		notificationService.updateReadYn(id);
+	public ResponseEntity<MessageVo> readInOrdNotification(@RequestBody AdNotificationVO adNotificationVO) {
+		notificationService.updateReadYnn(adNotificationVO);
+		log.info("readInOrdNotification.id={}", adNotificationVO.getId());
 
 		return ResponseEntity.ok(new MessageVo("finish"));
 	}
