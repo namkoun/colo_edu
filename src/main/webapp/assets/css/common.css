@@ -4633,12 +4633,11 @@ td {
 /*운영 대쉬보드 CSS*/
 .total-sum{
 	width: 100%;
-	box-sizing: border-box;
-	padding: 0 0 20px 0;
+	height: 300px;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-around;
-	border-bottom: 2px solid #0e0e0e;
+	align-items: center;
 }
 .total-sum > div{
 	display: flex;
@@ -4652,6 +4651,7 @@ td {
 	color: rgb(6, 3, 141);
 	font-weight: bold;
 	border: 2px solid rgb(6, 3, 141);
+	margin-top: 40px;
 }
 .total-sum > span{
 	font-size: 40px;
@@ -4676,13 +4676,14 @@ td {
 	box-sizing: border-box;
 }
 .p-box{
+	position: absolute;
 	display: flex;
-	border-top: 2px solid #000;
+	width: 100%;
 }
 .p-box > h2{
 	width: 50%;
-	margin: 10px 0 5px 0;
 	font-weight: bold;
+	margin: 40px 0 0 10px;
 }
 .span-img-icon{
 	border: 1px solid #D3D3D3;
