@@ -52,10 +52,10 @@ public class NotificationInfoVO {
         else if(inOrdType.equals("INSP")) realInOrdType = "오후(15~16) 입고";
         else realInOrdType = "입고";
 
-        String content = custCenterNm + "에서 " + whCenterNm + "(으)로<br>"
-                + inOrdDate + "에 " + realInOrdType + "신청이 접수되었습니다.";
+        String content ="<div style=\"white-space:nowrap;\"><b>" + custCenterNm + "</b>에서<b> " + whCenterNm + "</b>(으)로<br><b>"  + inOrdDate + "</b>에<b> " + realInOrdType + "</b>신청이 접수되었습니다.</div>";
         return content;
     }
+
     //출고신청
     public String outOrdContent(String custCenterNm, String outOrdType, String outOrdDate) {
         String realInOrdType;
@@ -65,13 +65,13 @@ public class NotificationInfoVO {
         else if(outOrdDate.equals("OTSP")) realInOrdType = "특수(14:00이후)출고";
         else realInOrdType = "출고";
 
-        String content = custCenterNm + "에서<br>"
-                + outOrdType + "에 " + realInOrdType + "신청이 접수되었습니다.";
+        String content = "<div style=\"white-space:nowrap;\"><b>" + custCenterNm + "</b>에서<b><br>"
+                + realInOrdType + "</b>신청이 접수되었습니다.</div>";
         return content;
     }
 
     //회원가입
     public String joinContent(String memberTypeCod, String cmpNm, String mobile) {
-        return "(<b>"+memberTypeCod+"</b>)<b>"+cmpNm+"</b>(이)가<br><b>회원가입</b>했습니다. 연락처(<b>"+mobile+"</b>)";
+        return "<div style=\"white-space:nowrap;\">(<b>" + memberTypeCod + "</b>)<b>" + cmpNm + "</b>(이)가<div> <b>회원가입</b> 했습니다. 연락처(<b>" + mobile + "</b>)";
     }
 }
