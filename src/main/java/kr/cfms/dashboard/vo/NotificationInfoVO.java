@@ -70,20 +70,21 @@ public class NotificationInfoVO {
     //출고신청
     public String outOrdContent(String custCenterNm, String outOrdType, String outOrdDate) {
         String realInOrdType;
-        if(outOrdDate.equals("OTAM")) realInOrdType = "오전(10:00)출고";
-        else if(outOrdDate.equals("OTBB")) realInOrdType = "B2B출고";
-        else if(outOrdDate.equals("OTPM")) realInOrdType = "오후(14:00)출고";
-        else if(outOrdDate.equals("OTSP")) realInOrdType = "특수(14:00이후)출고";
+        if(outOrdType.equals("OTAM")) realInOrdType = "오전(10:00) 출고";
+        else if(outOrdType.equals("OTBB")) realInOrdType = "B2B 출고";
+        else if(outOrdType.equals("OTPM")) realInOrdType = "오후(14:00) 출고";
+        else if(outOrdType.equals("OTSP")) realInOrdType = "특수(14:00이후) 출고";
         else realInOrdType = "출고";
 
-        String content = "<div style=\"white-space:nowrap;\"><b>" + custCenterNm + "</b>에서<b><br>"
-                + realInOrdType + "</b>신청이 접수되었습니다.</div>";
+        String content = "<div style=\"white-space:nowrap;\"><b>" + custCenterNm + "</b>에서 <b>" + outOrdDate + "</b>에" +
+                "<b><br>" + realInOrdType + "</b>신청이 접수되었습니다.</div>";
         return content;
     }
 
     //회원가입
     public String joinContent(String memberTypeCod, String cmpNm, String mobile) {
-        return "<div style=\"white-space:nowrap;\">(<b>" + memberTypeCod + "</b>)<b>" + cmpNm + "</b>(이)가 <b>회원가입</b> 했습니다. 연락처(<b>" + mobile + "</b>)</div>";
+        return "<div style=\"white-space:nowrap;\">(<b>" + memberTypeCod + "</b>)<b>" + cmpNm + "</b>(이)가<br>" +
+                "<b>회원가입</b> 했습니다. 연락처(<b>" + mobile + "</b>)</div>";
     }
 
     //미진행출고건
