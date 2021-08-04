@@ -128,7 +128,7 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='IN01'
-        order by an.read_yn, ni.create_dt desc;
+        order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
     <select id="selectOutOrdNotificationList" parameterType="AdNotificationVO" resultType="NotificationListDTO">
@@ -143,7 +143,7 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='OS01'
-        order by an.read_yn, ni.create_dt desc;
+        order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
     <select id="selectUnFinishedOutNotificationList" parameterType="AdNotificationVO" resultType="NotificationListDTO">
@@ -158,7 +158,7 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='UFOT'
-        order by an.read_yn, ni.create_dt desc;
+        order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
     <select id="selectJoinNotificationList" parameterType="AdNotificationVO" resultType="NotificationListDTO">
@@ -173,7 +173,7 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='JOIN'
-        order by an.read_yn, ni.create_dt desc;
+        order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
     <update id="updateReadYn" parameterType="AdNotificationVO">
