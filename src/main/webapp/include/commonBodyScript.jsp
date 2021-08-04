@@ -131,8 +131,8 @@
 
        /* 관리자계정으로 로그인한 경우, 페이지 상단영역에 "VOC관리" 버튼추가 */
        if ( $('#memberTypeCode').val() === 'AD' ) {
-           $('.item-container .item-title').append("<a id='voc-manage-btn' href='/admin/admin_manage_voc' target='_blank'>VOC 관리</a>");
-           $('.colo-page-header').append("<a id='voc-manage-btn' href='/admin/admin_manage_voc' target='_blank'>VOC 관리</a>");
+           $('.item-container .item-title').append("<div><a id='voc-manage-btn' href='/admin/admin_manage_voc' target='_blank'>VOC 관리</a></div>");
+           $('.colo-page-header').append("<div><a id='voc-manage-btn' href='/admin/admin_manage_voc' target='_blank'>VOC 관리</a></div>");
        }
 
    });
