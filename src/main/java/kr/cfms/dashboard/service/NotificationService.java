@@ -2,8 +2,10 @@ package kr.cfms.dashboard.service;
 
 import kr.cfms.dashboard.dto.NotificationListDTO;
 import kr.cfms.dashboard.dto.NotificationResultDTO;
+import kr.cfms.dashboard.dto.UnFinishedResultDTO;
 import kr.cfms.dashboard.mapper.NotificationMapper;
 import kr.cfms.dashboard.vo.AdNotificationVO;
+import kr.cfms.dashboard.vo.NotificationInfoVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,27 @@ import java.util.List;
 public class NotificationService {
 
     private final NotificationMapper notificationMapper;
+
+    /**
+     * 미진행 출고건 조회
+     */
+    public List<UnFinishedResultDTO> selectUnFinishedOut() {
+        return notificationMapper.selectUnFinishedOut();
+    }
+
+    /**
+     * 오늘 만들어진 미진행 출고건 알림 있는지
+     */
+    public Integer selectTodayUnFinishedOutCheck() {
+        return notificationMapper.selectTodayUnFinishedOutCheck();
+    }
+
+    /**
+     *
+     */
+    public void insertUnFinishedOutNotificationInfo(NotificationInfoVO notificationInfoVO) {
+        notificationMapper.insertUnFinishedOutNotificationInfo(notificationInfoVO);
+    }
 
     /**
      * 새로운 알림정보 조회 -> (있으면 insert)

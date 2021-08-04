@@ -2,6 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.cfms.dashboard.mapper.NotificationMapper">
+    <select id="selectUnFinishedOut" resultType="UnFinishedResultDTO">
+        select
+        aaa.custId as custId,
+        (select center_nm from cwt_mst_center
+        where id =aaa.custId) as centerNm
+        ,
+        aaa.countUnOut as countUnFinishedOut,
+        aaa.outOrdDt as outOrdDt
+        from
+        (select
+        om.cust_id as custId,
+        count(oi.id) as countUnOut,
+        om.out_ord_dt as outOrdDt
+        from cwt_out_info as oi
+        join cwt_out_ord_mst as om
+        on oi.mst_id = om.id
+        where om.use_yn ='Y' and oi.use_yn ='Y'
+        and om.out_type !='OTAD'
+        and now() > om.out_ord_dt
+        and om.out_stats !='OS05'
+        and om.out_stats !='OS99'
+        group by om.cust_id, outOrdDt
+        order by outOrdDt desc) as aaa;
+    </select>
+
+    <select id="selectTodayUnFinishedOutCheck" resultType="Integer">
+        select count(id) from cwt_notification_info
+        where type_cd ='UFOT'
+          and create_dt = date_format(now(), '%Y-%m-%d');
+    </select>
+
+    <insert id="insertUnFinishedOutNotificationInfo" parameterType="NotificationInfoVO">
+        /*TestInsertMapper.insertInOrdNotificationInfo*/
+        insert cwt_notification_info
+			(
+				cust_id,
+				type_cd,
+				content,
+				create_dt,
+				reg_date,
+				mod_date
+			)
+			values
+			(
+                #{notificationInfoVO.custId},
+                #{notificationInfoVO.typeCd},
+                #{notificationInfoVO.content},
+                now(),
+                now(),
+                now()
+            )
+    </insert>
+
     <select id="selectNewInfoId" parameterType="AdNotificationVO" resultType="Long">
         select ni.id
         from cwt_notification_info as ni

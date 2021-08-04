@@ -5,6 +5,10 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Getter
 @Setter
 @ToString
@@ -13,6 +17,7 @@ public class NotificationInfoVO {
     private long inMstId;
     private long outMstId;
     private long userId;
+    private long custId;
 
     private String typeCd;
     private String content;
@@ -39,6 +44,11 @@ public class NotificationInfoVO {
     //회원가입
     public String joinTypeCd() {
         return "JOIN";
+    }
+
+    //미진행 출고건
+    public String unFinishedOutTypeCd() {
+        return "UFOT";
     }
 
     /**
@@ -72,6 +82,13 @@ public class NotificationInfoVO {
 
     //회원가입
     public String joinContent(String memberTypeCod, String cmpNm, String mobile) {
-        return "<div style=\"white-space:nowrap;\">(<b>" + memberTypeCod + "</b>)<b>" + cmpNm + "</b>(이)가<div> <b>회원가입</b> 했습니다. 연락처(<b>" + mobile + "</b>)";
+        return "<div style=\"white-space:nowrap;\">(<b>" + memberTypeCod + "</b>)<b>" + cmpNm + "</b>(이)가 <b>회원가입</b> 했습니다. 연락처(<b>" + mobile + "</b>)</div>";
+    }
+
+    //미진행출고건
+    public String unFinishedOutContent(String centerNm, String outOrdDt, int countUnFinishedOut) {
+        String content = "<div style=\"white-space:nowrap;\"><b>" + centerNm + "</b>에서 <b>" + outOrdDt + "</b>기준<br>"
+                +"미진행 출고 " + countUnFinishedOut + "건이 있습니다.</div>";
+        return content;
     }
 }

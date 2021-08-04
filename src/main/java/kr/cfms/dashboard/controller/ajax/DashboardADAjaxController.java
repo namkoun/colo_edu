@@ -5,6 +5,7 @@ import kr.cfms.dashboard.dto.*;
 import kr.cfms.dashboard.service.DashboardADService;
 import kr.cfms.dashboard.service.NotificationService;
 import kr.cfms.dashboard.vo.AdNotificationVO;
+import kr.cfms.dashboard.vo.NotificationInfoVO;
 import kr.cfms.vo.response.MessageVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -114,7 +115,34 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 새로운 알림정보 조회
+	 * 미진행 출고건 조회
+	 */
+	@GetMapping("get/searchUnFinishedOut")
+	public ResponseEntity<List<UnFinishedResultDTO>> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) {
+		// 미진행 출고건 조회
+		List<UnFinishedResultDTO> unFinishedResult = notificationService.selectUnFinishedOut();
+
+		// 당일 미진행 출고 알림 만든게 있는지 체크
+		Integer countToday = notificationService.selectTodayUnFinishedOutCheck();
+
+		// 당일 미진행 출고 알림 없으면 insert
+		if (countToday > 0) {
+			for (int i = 0; i < unFinishedResult.size(); i++) {
+				notificationInfoVO.setCustId(unFinishedResult.get(i).getCustId());
+				notificationInfoVO.setContent(notificationInfoVO.unFinishedOutContent(unFinishedResult.get(i).getCenterNm(),
+																				 	  unFinishedResult.get(i).getOutOrdDt(),
+																					  unFinishedResult.get(i).getCountUnFinishedOut()));
+				notificationInfoVO.setTypeCd(notificationInfoVO.unFinishedOutTypeCd());
+				notificationService.insertUnFinishedOutNotificationInfo(notificationInfoVO);
+			}
+
+		}
+
+		return ResponseEntity.ok(unFinishedResult);
+	}
+
+	/**
+	 * 새로운 알림정보 조회 (있으면, 새 알림 Insert)
 	 */
 	@PostMapping("add/insertNewInfo")
 	public ResponseEntity<Integer> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
@@ -128,7 +156,6 @@ public class DashboardADAjaxController {
 		if (infoIdList.size() != 0) {
 			isExist = 1;
 			//값 넣어줌
-//			adNotificationVO.setReadYn("N");
 			for (int i = 0; i < infoIdList.size(); i++) {
 				adNotificationVO.setInfoId(infoIdList.get(i));
 				notificationService.insertNewInfo(adNotificationVO);
