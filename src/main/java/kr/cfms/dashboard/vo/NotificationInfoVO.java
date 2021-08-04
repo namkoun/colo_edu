@@ -7,6 +7,7 @@ import org.apache.ibatis.type.Alias;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Getter
@@ -86,9 +87,17 @@ public class NotificationInfoVO {
     }
 
     //미진행출고건
-    public String unFinishedOutContent(String centerNm, String outOrdDt, int countUnFinishedOut) {
-        String content = "<div style=\"white-space:nowrap;\"><b>" + centerNm + "</b>에서 <b>" + outOrdDt + "</b>기준<br>"
-                +"미진행 출고 <b>" + countUnFinishedOut + "</b>건이 있습니다.</div>";
+    public String unFinishedOutContent(String centerNm, String outOrdDt, int countUnFinishedOut) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        Date todayDate = calendar.getTime();  // 오늘 날짜
+        Date outOrdDate = format.parse(outOrdDt);  // 출고 날짜
+
+        long diffSec = (todayDate.getTime() - outOrdDate.getTime()) / 1000; //초 차이
+        long diffDays = diffSec / (24*60*60); //일자수 차이
+
+        String content = "<div style=\"white-space:nowrap;\"><b>" + centerNm + "</b>에서 <b>" + outOrdDt + "</b>기준<br><b>"
+                + diffDays +"</b>일 지난 미진행 출고 <b>" + countUnFinishedOut + "</b>건이 있습니다.</div>";
         return content;
     }
 }

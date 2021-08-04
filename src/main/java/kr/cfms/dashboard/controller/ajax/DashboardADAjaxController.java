@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 @Slf4j
@@ -118,7 +119,7 @@ public class DashboardADAjaxController {
 	 * 미진행 출고건 조회
 	 */
 	@PostMapping("add/searchUnFinishedOut")
-	public ResponseEntity<MessageVo> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) {
+	public ResponseEntity<MessageVo> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) throws ParseException {
 		// 미진행 출고건 조회
 		List<UnFinishedResultDTO> unFinishedResult = notificationService.selectUnFinishedOut();
 
