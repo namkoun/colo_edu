@@ -117,8 +117,8 @@ public class DashboardADAjaxController {
 	/**
 	 * 미진행 출고건 조회
 	 */
-	@GetMapping("get/searchUnFinishedOut")
-	public ResponseEntity<List<UnFinishedResultDTO>> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) {
+	@PostMapping("add/searchUnFinishedOut")
+	public ResponseEntity<MessageVo> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) {
 		// 미진행 출고건 조회
 		List<UnFinishedResultDTO> unFinishedResult = notificationService.selectUnFinishedOut();
 
@@ -138,7 +138,7 @@ public class DashboardADAjaxController {
 
 		}
 
-		return ResponseEntity.ok(unFinishedResult);
+		return ResponseEntity.ok(new MessageVo("ok"));
 	}
 
 	/**
