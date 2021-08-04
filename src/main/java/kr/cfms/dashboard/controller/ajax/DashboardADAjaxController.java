@@ -127,7 +127,7 @@ public class DashboardADAjaxController {
 		Integer countToday = notificationService.selectTodayUnFinishedOutCheck();
 
 		// 당일 미진행 출고 알림 없으면 insert
-		if (countToday > 0) {
+		if (countToday == 0) {
 			for (int i = 0; i < unFinishedResult.size(); i++) {
 				notificationInfoVO.setCustId(unFinishedResult.get(i).getCustId());
 				notificationInfoVO.setContent(notificationInfoVO.unFinishedOutContent(unFinishedResult.get(i).getCenterNm(),
