@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 @Slf4j
@@ -118,7 +119,7 @@ public class DashboardADAjaxController {
 	 * 미진행 출고건 조회
 	 */
 	@PostMapping("add/searchUnFinishedOut")
-	public ResponseEntity<MessageVo> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) {
+	public ResponseEntity<MessageVo> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) throws ParseException {
 		// 미진행 출고건 조회
 		List<UnFinishedResultDTO> unFinishedResult = notificationService.selectUnFinishedOut();
 
@@ -126,7 +127,7 @@ public class DashboardADAjaxController {
 		Integer countToday = notificationService.selectTodayUnFinishedOutCheck();
 
 		// 당일 미진행 출고 알림 없으면 insert
-		if (countToday > 0) {
+		if (countToday == 0) {
 			for (int i = 0; i < unFinishedResult.size(); i++) {
 				notificationInfoVO.setCustId(unFinishedResult.get(i).getCustId());
 				notificationInfoVO.setContent(notificationInfoVO.unFinishedOutContent(unFinishedResult.get(i).getCenterNm(),
