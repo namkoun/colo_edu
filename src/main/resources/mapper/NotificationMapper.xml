@@ -24,7 +24,7 @@
         and om.out_stats !='OS05'
         and om.out_stats !='OS99'
         group by om.cust_id, outOrdDt
-        order by outOrdDt desc) as aaa;
+        order by outOrdDt asc) as aaa;
     </select>
 
     <select id="selectTodayUnFinishedOutCheck" resultType="Integer">

@@ -88,7 +88,7 @@ public class NotificationInfoVO {
     //미진행출고건
     public String unFinishedOutContent(String centerNm, String outOrdDt, int countUnFinishedOut) {
         String content = "<div style=\"white-space:nowrap;\"><b>" + centerNm + "</b>에서 <b>" + outOrdDt + "</b>기준<br>"
-                +"미진행 출고 " + countUnFinishedOut + "건이 있습니다.</div>";
+                +"미진행 출고 <b>" + countUnFinishedOut + "</b>건이 있습니다.</div>";
         return content;
     }
 }
