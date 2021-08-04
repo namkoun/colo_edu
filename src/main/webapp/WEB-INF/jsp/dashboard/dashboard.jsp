@@ -98,14 +98,14 @@
 		<!-- 선택 -->
 		<div class="select-home">
 			<div>
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-m btn-on-select" data-type="month" style="margin-left: 120px;">한달</button>
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-w" style="margin-left: 55px;" data-type="week">일주일</button>
-				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-t" data-type="day">오늘</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-m btn-on-select kAw" data-type="month" style="margin-left: 120px;">한달</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-w kAw" style="margin-left: 55px;" data-type="week">일주일</button>
+				<button type="button" class="btn btn-sm buttonmwd status tdwdmd btn-select-t kAw" data-type="day">오늘</button>
 			</div>
 			<div class="select-wrap">
-				<input class="btn-success" data-width="160" id="input-data" data-style="slow" type="checkbox" checked data-toggle="toggle" data-on="셀러 " data-off="창고 " data-onstyle="light" data-offstyle="light">
-				<select id="in-select" name="in-select"  class="form-select " style="margin: 0 20px" ></select>
-				<select id="out-select" name="out-select" class="form-select" ></select>
+				<input class="btn-success kAw" data-width="160" id="input-data" data-style="slow" type="checkbox" checked data-toggle="toggle" data-on="셀러 " data-off="창고 " data-onstyle="light" data-offstyle="light">
+				<select id="in-select" name="in-select"  class="form-select kAw" style="margin: 0 20px" ></select>
+				<select id="out-select" name="out-select" class="form-select kAw" ></select>
 			</div>
 		</div>
 		<div class="data-wrap">
@@ -224,13 +224,13 @@
 							data[i].content+
 							"\t\t\t\t\t\t\t\t\t</div>\n" +
 							"\t\t\t\t\t\t\t\t</a>\n" +
-							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been1\"></div></div>\n" +
+							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been1"+i+"\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
-					if (data[i].readYn == "N"){
-						$(".msg-been1").show();
+					if (data[i].readYn === 'N'){
+						$('.msg-been1'+i).show();
 						$(".msg-smallBeen1").show();
 					}else {
-						$(".msg-been1").hide();
+						$('.msg-been1'+i).hide();
 						$(".msg-smallBeen1").hide();
 					}
 					var adNotification = {
@@ -241,9 +241,10 @@
 			}
 		});
 	}
-	//입고업뎃
+	//업뎃(알림)
 	function selectNotiinup(id){
 		console.log(id);
+
 		$.ajax({
 			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readInOrdNotification',
 			type: 'POST',
@@ -277,14 +278,16 @@
 							data[i].content+
 							"\t\t\t\t\t\t\t\t\t</div>\n" +
 							"\t\t\t\t\t\t\t\t</a>\n" +
-							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been2\"></div></div>\n" +
+							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been2"+i+"\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
-					if (data[i].readYn == "N"){
-						$(".msg-been2").show();
-						$(".msg-smallBeen2").show();
-					}else {
-						$(".msg-been2").hide();
+
+					console.log(data[i].readYn);
+					if (data[i].readYn === 'Y'){
+						$('.msg-been2'+i).hide();
 						$(".msg-smallBeen2").hide();
+					}else {
+						$('.msg-been2'+i).show();
+						$(".msg-smallBeen2").show();
 					}
 					var adNotification = {
 						id: data[i].id
@@ -315,13 +318,13 @@
 							data[i].content+
 							"\t\t\t\t\t\t\t\t\t</div>\n" +
 							"\t\t\t\t\t\t\t\t</a>\n" +
-							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been3\"></div></div>\n" +
+							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been3"+i+"\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
-					if (data[i].readYn == "N"){
-						$(".msg-been3").show();
+					if (data[i].readYn === 'N'){
+						$('.msg-been3'+i).show();
 						$(".msg-smallBeen3").show();
 					}else {
-						$(".msg-been3").hide();
+						$('.msg-been3'+i).hide();
 						$(".msg-smallBeen3").hide();
 					}
 					var adNotification = {
@@ -353,13 +356,13 @@
 							data[i].content+
 							"\t\t\t\t\t\t\t\t\t</div>\n" +
 							"\t\t\t\t\t\t\t\t</a>\n" +
-							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been4\"></div></div>\n" +
+							"\t\t\t\t\t\t\t\t<div><div class=\"msg-been msg-been4"+i+"\"></div></div>\n" +
 							"\t\t\t\t\t\t\t</div>");
-					if (data[i].readYn == "N"){
-						$(".msg-been4").show();
+					if (data[i].readYn === 'N'){
+						$('.msg-been4'+i).show();
 						$(".msg-smallBeen4").show();
 					}else {
-						$(".msg-been4").hide();
+						$('.msg-been4'+i).hide();
 						$(".msg-smallBeen4").hide();
 					}
 					var adNotification = {
@@ -429,9 +432,11 @@
 		});
 	}
 	//interval start
+	notibell();
 	var setInterall= setInterval(notiall, 3000);
 	var setInterbell =setInterval(notibell,3000);
-	$(".close-wrap, .inventory-detail").on("click", function (){
+	$(".close-wrap, .inventory-detail, .kAw").on("click", function (){
+		notibell();
 		$("#Alert-Box").hide();
 		setInterall = setInterval(notiall, 3000);
 		setInterbell = setInterval(notibell, 3000);
@@ -451,16 +456,21 @@
 			$(".nav-link").off().on("click",function (){
 				if ($(this).data('type') === "inWE"){
 					selectNotiin();
+					selectNotise();
 				}else if($(this).data('type') === 'outWE'){
 					selectNotiout();
+					selectNotise();
 				}else if($(this).data('type') === 'noOutSt'){
 					selectNotino();
+					selectNotise();
 				}else if($(this).data('type') === 'join'){
 					selectNotijo();
+					selectNotise();
 				}
 			})
 		}else {
 			$("#Alert-Box").hide();
+			notibell();
 			setInterall = setInterval(notiall, 3000);
 			setInterbell = setInterval(notibell, 3000);
 		}
@@ -534,19 +544,19 @@
 					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
 						day = getDayType();
 						$("#out-select").empty();
-						$("#out-select").append('<option selected value="all">sl</option>');
+						//   $("#out-select").append('<option selected value="all">sl</option>');
 
 						selectwh(day);
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
-						$("#out-select").append('<option selected value="all">sl</option>');
+						//   $("#out-select").append('<option selected value="all">sl</option>');
 
 						selectwh(day);
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
-						$("#out-select").append('<option selected value="all">sl</option>');
+						//   $("#out-select").append('<option selected value="all">sl</option>');
 						selectwh(day);
 					}
 				});
