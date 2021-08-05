@@ -120,14 +120,14 @@ public class DashboardADAjaxController {
 	 */
 	@PostMapping("add/searchUnFinishedOut")
 	public ResponseEntity<MessageVo> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) throws ParseException {
-		// 미진행 출고건 조회
-		List<UnFinishedResultDTO> unFinishedResult = notificationService.selectUnFinishedOut();
-
 		// 당일 미진행 출고 알림 만든게 있는지 체크
 		Integer countToday = notificationService.selectTodayUnFinishedOutCheck();
 
 		// 당일 미진행 출고 알림 없으면 insert
 		if (countToday == 0) {
+			// 미진행 출고건 조회
+			List<UnFinishedResultDTO> unFinishedResult = notificationService.selectUnFinishedOut();
+
 			for (int i = 0; i < unFinishedResult.size(); i++) {
 				notificationInfoVO.setCustId(unFinishedResult.get(i).getCustId());
 				notificationInfoVO.setContent(notificationInfoVO.unFinishedOutContent(unFinishedResult.get(i).getCenterNm(),
