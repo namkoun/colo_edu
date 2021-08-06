@@ -197,8 +197,7 @@ public class DashboardADAjaxController {
 
 	/**
 	 * 알림 종류 버튼 클릭시
-	 * 1. select 알림리스트 (알림날짜 기준)
-	 * 2. update read_yn ='Y'
+	 * select 알림리스트 (알림날짜 기준)
 	 */
 	// 입고신청 알림
 	@GetMapping("get/searchInOrdNotification")
