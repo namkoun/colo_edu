@@ -76,9 +76,9 @@
 
     <insert id="insertNewInfo" parameterType="AdNotificationVO">
         insert into cwt_ad_notification
-            (info_id, ad_mid, read_yn)
+            (info_id, ad_mid, read_yn, reg_date, mod_date)
         values
-            (#{adNotificationVO.infoId}, #{adNotificationVO.adMid}, 'N');
+            (#{adNotificationVO.infoId}, #{adNotificationVO.adMid}, 'N', now(), now());
     </insert>
 
     <select id="selectIsReadNotification" parameterType="AdNotificationVO" resultType="Integer">
@@ -138,6 +138,7 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='IN01'
+          and ni.create_dt >=(CURDATE()-INTERVAL 10 DAY)
         order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
@@ -153,6 +154,7 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='OS01'
+          and ni.create_dt >=(CURDATE()-INTERVAL 10 DAY)
         order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
@@ -168,6 +170,7 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='UFOT'
+          and DATE_FORMAT(ni.create_dt, "%Y-%m-%d") = CURDATE()
         order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
@@ -183,12 +186,13 @@
                       on an.info_id = ni.id
         where ad_mid =#{adNotificationVO.adMid}
           and ni.type_cd ='JOIN'
+          and ni.create_dt >=(CURDATE()-INTERVAL 10 DAY)
         order by ni.create_dt desc, an.read_yn desc, ni.id desc;
     </select>
 
     <update id="updateReadYn" parameterType="AdNotificationVO">
         UPDATE cwt_ad_notification
-        SET read_yn = 'Y'
+        SET read_yn = 'Y', mod_date = now()
         WHERE id =#{adNotificationVO.id};
     </update>
 
