@@ -123,7 +123,7 @@
 					<i class="bi bi-caret-right "></i>
 					<div class="display-flex-column-align-items-center">
 						<span class="span-img-icon"><img src="${contextPath}/assets/images/icon/dashboard/in3.png" /> </span>
-						<span>입GO 작업중</span>
+						<span>입고 작업중</span>
 						<span id="in_working">0</span>
 						<span>건</span>
 					</div>
