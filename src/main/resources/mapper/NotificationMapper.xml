@@ -4,36 +4,37 @@
 <mapper namespace="kr.cfms.dashboard.mapper.NotificationMapper">
     <select id="selectUnFinishedOut" resultType="UnFinishedResultDTO">
         select
-            iom.custId as custId,
-            (select center_nm from cwt_mst_center where id =iom.custId) as centerNm,
-            iom.countUnOut as countUnFinishedOut,
-            iom.outOrdDt as outOrdDt
+            sub1.cust_id as custId
+            ,sub1.center_nm as centerNm
+            ,sub1.out_ord_dt as outOrdDt
+            ,sub1.code_name
+            ,count(sub1.id) as countUnFinishedOut
         from
             (select
-                 om.cust_id as custId,
-                 count(oiic.info_id) as countUnOut,
-                 om.out_ord_dt as outOrdDt
-             from (select
-                       c.id as info_id,
-                       c.mst_id as mst_id,
-                       ab.invc_no as invc_no
-                   from cwt_out_info as c
-                            left join (select b.invc_no as invc_no, a.info_id as info_id from cwt_rel_info_invc as a
-                                                                                                  left join cwt_out_invc as b
-                                                                                                            on a.invc_id = b.id
-                                       where a.use_yn ='Y' and b.use_yn ='Y') as ab
-                                      on c.id = ab.info_id
-                   where c.use_yn ='Y') as oiic
-                      join cwt_out_ord_mst as om
-                           on om.id = oiic.mst_id
-             where om.use_yn ='Y'
-               and om.out_type !='OTAD'
-		and now() > om.out_ord_dt
-		and om.out_stats not in ('OS05', 'OS99')
-		and oiic.invc_no is null
-		and om.out_ord_dt !='Invalid date'
-             group by om.cust_id, outOrdDt
-             order by outOrdDt asc) as iom;
+                oi.id
+                ,om.cust_id
+                ,mc.center_nm
+                ,count(ori.id) as parcel_count
+                ,om.out_method
+                ,ccd.code_name
+                ,om.out_stats
+                ,om.out_ord_dt
+            from cwt_out_info oi
+            join cwt_out_ord_mst om on om.id = oi.mst_id and om.use_yn ='Y'
+            join cwt_mst_center mc on mc.id = om.cust_id
+            join cwt_code_dtl ccd on ccd.code_id = om.out_method and ccd.use_yn ='Y' and ccd.code_group_id = 'ORD_METHOD_TYPE'
+            left join cwt_rel_info_invc ori on ori.info_id = oi.id and ori.use_yn ='Y' and ori.rel_stats ='CN'
+            where 1=1
+            and date_format(now(),'%Y-%m-%d') > om.out_ord_dt
+            and oi.use_yn ='Y'
+            and om.out_type !='OTAD'
+            and om.out_stats not in ('OS05', 'OS99')
+            group by oi.id
+            order by om.out_ord_dt desc) sub1
+        where 1=1
+        and ((sub1.out_method = 'PC' and 1 > sub1.parcel_count) or (sub1.out_method != 'PC'))
+        group by sub1.cust_id, sub1.out_ord_dt, sub1.out_method
+        order by sub1.out_ord_dt
     </select>
 
     <select id="selectTodayUnFinishedOutCheck" resultType="Integer">
