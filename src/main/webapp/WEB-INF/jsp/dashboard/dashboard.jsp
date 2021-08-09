@@ -239,17 +239,7 @@
 			}
 		});
 	}
-	//미진행 출고건(시작)시 값넣어주기
-    function searchUnFinishedOut(){
-        $.ajax({
-            url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/searchUnFinishedOut',
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/;charset=UTF-8',
-            success:function (data) {
-            }
-        })
-    }
+
 	//업뎃(알림)
 	function selectNotiinup(id){
 		$.ajax({
@@ -297,6 +287,17 @@
 				}
 			}
 		});
+	}
+	//미진행 출고건(시작)시 값넣어주기
+	function searchUnFinishedOut(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/searchUnFinishedOut',
+			type: 'POST',
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data) {
+			}
+		})
 	}
 	//미진행출고 알림
 	function selectNotino(){
@@ -432,12 +433,8 @@
 	notibell();
 	var setInterall= setInterval(notiall, 3000);
 	var setInterbell =setInterval(notibell,3000);
-	$(".close-wrap, .inventory-detail, .kAw").on("click", function (){
-		notibell();
-		$("#Alert-Box").hide();
-		setInterall = setInterval(notiall, 3000);
-		setInterbell = setInterval(notibell, 3000);
-	})
+
+	//종을 눌렀을때(알림)
 	$("#ccccc").off().on("click",function (){
 		if ($("#Alert-Box").css("display")=== "none"){
 			clearInterval(setInterall);
@@ -472,6 +469,13 @@
 					selectNotise();
 				}
 			})
+            // 예외성처리(알림)
+            $(".close-wrap, .inventory-detail, .kAw").on("click", function (){
+                notibell();
+                $("#Alert-Box").hide();
+                setInterall = setInterval(notiall, 3000);
+                setInterbell = setInterval(notibell, 3000);
+            })
 		}else {
 			$("#Alert-Box").hide();
 			notibell();
