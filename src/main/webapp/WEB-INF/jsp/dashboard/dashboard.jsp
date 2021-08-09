@@ -239,21 +239,11 @@
 			}
 		});
 	}
-	//미진행 출고건(시작)시 값넣어주기
-    function searchUnFinishedOut(){
-        $.ajax({
-            url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/searchUnFinishedOut',
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/;charset=UTF-8',
-            success:function (data) {
-            }
-        })
-    }
+
 	//업뎃(알림)
 	function selectNotiinup(id){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readInOrdNotification',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/readNotification',
 			type: 'POST',
 			data: JSON.stringify(id),
 			dataType: 'json',
@@ -265,7 +255,7 @@
 	//출고 알림
 	function selectNotiout(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/readOutOrdNotification',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchOutOrdNotification',
 			type: 'GET',
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
@@ -298,10 +288,21 @@
 			}
 		});
 	}
+	//미진행 출고건(시작)시 값넣어주기
+	function searchUnFinishedOut(){
+		$.ajax({
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.add + '/searchUnFinishedOut',
+			type: 'POST',
+			dataType: 'json',
+			contentType: 'application/;charset=UTF-8',
+			success:function (data) {
+			}
+		})
+	}
 	//미진행출고 알림
 	function selectNotino(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/readUnFinishedOutNotification',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchUnFinishedOutNotification',
 			type: 'GET',
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
@@ -337,7 +338,7 @@
 	//회원가입 알림
 	function selectNotijo(){
 		$.ajax({
-			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/readJoinNotification',
+			url: '${contextPath}/ajax/' + ajaxName.dashboard + httpMethod.get + '/searchJoinNotification',
 			type: 'GET',
 			dataType: 'json',
 			contentType: 'application/;charset=UTF-8',
@@ -432,12 +433,8 @@
 	notibell();
 	var setInterall= setInterval(notiall, 3000);
 	var setInterbell =setInterval(notibell,3000);
-	$(".close-wrap, .inventory-detail, .kAw").on("click", function (){
-		notibell();
-		$("#Alert-Box").hide();
-		setInterall = setInterval(notiall, 3000);
-		setInterbell = setInterval(notibell, 3000);
-	})
+
+	//종을 눌렀을때(알림)
 	$("#ccccc").off().on("click",function (){
 		if ($("#Alert-Box").css("display")=== "none"){
 			clearInterval(setInterall);
@@ -472,6 +469,13 @@
 					selectNotise();
 				}
 			})
+            // 예외성처리(알림)
+            $(".close-wrap, .inventory-detail, .kAw").on("click", function (){
+                notibell();
+                $("#Alert-Box").hide();
+                setInterall = setInterval(notiall, 3000);
+                setInterbell = setInterval(notibell, 3000);
+            })
 		}else {
 			$("#Alert-Box").hide();
 			notibell();
