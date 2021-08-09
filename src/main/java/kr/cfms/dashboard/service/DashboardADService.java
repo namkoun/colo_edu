@@ -16,7 +16,7 @@ public class DashboardADService {
 
 	private final DashboardADMapper dashboardADMapper;
 
-	public List<TodayInOutDTO> selectTodayInOut() {
+	public TodayInOutDTO selectTodayInOut() {
 		return dashboardADMapper.selectTodayInOut();
 	}
 

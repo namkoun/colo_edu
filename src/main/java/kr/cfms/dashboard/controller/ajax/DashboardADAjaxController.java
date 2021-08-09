@@ -27,15 +27,17 @@ public class DashboardADAjaxController {
 
 	/**
 	 * 오늘의 출/입고 현황
+	 * @return 입고신청건수, 입고완료건수, 출고신청건수, 출고완료건수
 	 */
 	@GetMapping("get/searchTodayInOut")
-	public ResponseEntity<List<TodayInOutDTO>> searchTodayInOut() {
-		List<TodayInOutDTO> todayInOut = dashboardADService.selectTodayInOut();
+	public ResponseEntity<TodayInOutDTO> searchTodayInOut() {
+		TodayInOutDTO todayInOut = dashboardADService.selectTodayInOut();
 		return ResponseEntity.ok(todayInOut);
 	}
 
 	/**
-	 * 업체명 출력
+	 * 셀러 업체명 전체 출력
+	 * @return 셀러업체명 리스트
 	 */
 	@GetMapping("get/searchSLCenterList")
 	public ResponseEntity<List<CenterIdNameDTO>> searchSLCenterList() {
@@ -43,18 +45,32 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(slCenterList);
 	}
 
+	/**
+	 * 창고명 전체 출력
+	 * @return 창고명 리스트
+	 */
 	@GetMapping("get/searchWHCenterList")
 	public ResponseEntity<List<CenterIdNameDTO>> searchWHCenterList() {
 		List<CenterIdNameDTO> whCenterList = dashboardADService.selectWHCenterNameAll();
 		return ResponseEntity.ok(whCenterList);
 	}
 
+	/**
+	 * 셀러 업체명으로 해당 창고명 전체 조회
+	 * @param id
+	 * @return 창고명 리스트
+	 */
 	@GetMapping("get/searchWHCenterListBySLCenterId")
 	public ResponseEntity<List<CenterIdNameDTO>> searchWHCenterListBySLCenterId(long id) {
 		List<CenterIdNameDTO> whCenterList = dashboardADService.selectWHCenterNameBySLCenterId(id);
 		return ResponseEntity.ok(whCenterList);
 	}
 
+	/**
+	 * 창고명으로 해당 셀러 업체명 전체 조회
+	 * @param id
+	 * @return 셀러 업체명 리스트
+	 */
 	@GetMapping("get/searchSLCenterListByWHCenterId")
 	public ResponseEntity<List<CenterIdNameDTO>> searchSLCenterListByWHCenterId(long id) {
 		List<CenterIdNameDTO> slCenterList = dashboardADService.selectSLCenterNameByWHCenterId(id);
@@ -119,7 +135,7 @@ public class DashboardADAjaxController {
 	 * 미진행 출고건 조회
 	 */
 	@PostMapping("add/searchUnFinishedOut")
-	public ResponseEntity<MessageVo> selectUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) throws ParseException {
+	public ResponseEntity<MessageVo> searchUnFinishedOut(@ModelAttribute NotificationInfoVO notificationInfoVO) throws ParseException {
 		// 당일 미진행 출고 알림 만든게 있는지 체크
 		Integer countToday = notificationService.selectTodayUnFinishedOutCheck();
 
@@ -146,23 +162,20 @@ public class DashboardADAjaxController {
 	 * 새로운 알림정보 조회 (있으면, 새 알림 Insert)
 	 */
 	@PostMapping("add/insertNewInfo")
-	public ResponseEntity<Integer> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		Integer isExist = 0;
-
+	public ResponseEntity<MessageVo> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		//새로운 알림 정보 가져와서
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<Long> infoIdList = notificationService.selectNewInfoId(adNotificationVO);
 
 		if (infoIdList.size() != 0) {
-			isExist = 1;
 			//값 넣어줌
 			for (int i = 0; i < infoIdList.size(); i++) {
 				adNotificationVO.setInfoId(infoIdList.get(i));
 				notificationService.insertNewInfo(adNotificationVO);
 			}
 		}
-		return ResponseEntity.ok(isExist);  // 새로운 알림 있으면 1, 없으면 0
+		return ResponseEntity.ok(new MessageVo("ok"));  // 새로운 알림 있으면 1, 없으면 0
 	}
 
 	/**
@@ -211,8 +224,8 @@ public class DashboardADAjaxController {
 
 
 	// 출고신청 알림
-	@GetMapping("get/readOutOrdNotification")
-	public ResponseEntity<List<NotificationListDTO>> readOutOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+	@GetMapping("get/searchOutOrdNotification")
+	public ResponseEntity<List<NotificationListDTO>> searchOutOrdNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> OutOrdNotificationList = notificationService.selectOutOrdNotificationList(adNotificationVO);
@@ -221,8 +234,8 @@ public class DashboardADAjaxController {
 	}
 
 	// 미진행 출고건 알림
-	@GetMapping("get/readUnFinishedOutNotification")
-	public ResponseEntity<List<NotificationListDTO>> readUnFinishedOutNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+	@GetMapping("get/searchUnFinishedOutNotification")
+	public ResponseEntity<List<NotificationListDTO>> searchUnFinishedOutNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> unFinishedOutNotificationList = notificationService.selectUnFinishedOutNotificationList(adNotificationVO);
@@ -231,8 +244,8 @@ public class DashboardADAjaxController {
 	}
 
 	// 회원가입 알림
-	@GetMapping("get/readJoinNotification")
-	public ResponseEntity<List<NotificationListDTO>> selectJoinNotificationList(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
+	@GetMapping("get/searchJoinNotification")
+	public ResponseEntity<List<NotificationListDTO>> searchJoinNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<NotificationListDTO> joinNotificationList = notificationService.selectJoinNotificationList(adNotificationVO);
@@ -243,10 +256,9 @@ public class DashboardADAjaxController {
 	/**
 	 * 읽음 처리
 	 */
-	@PostMapping("add/readInOrdNotification")
-	public ResponseEntity<MessageVo> readInOrdNotification(@RequestBody AdNotificationVO adNotificationVO) {
+	@PostMapping("add/readNotification")
+	public ResponseEntity<MessageVo> readNotification(@RequestBody AdNotificationVO adNotificationVO) {
 		notificationService.updateReadYn(adNotificationVO);
-		log.info("readInOrdNotification.id={}", adNotificationVO.getId());
 
 		return ResponseEntity.ok(new MessageVo("finish"));
 	}

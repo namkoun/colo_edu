@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface DashboardADMapper {
 
-	List<TodayInOutDTO> selectTodayInOut();
+	TodayInOutDTO selectTodayInOut();
 	
 	List<CenterIdNameDTO> selectSLCenterNameAll();
 	List<CenterIdNameDTO> selectWHCenterNameAll();
