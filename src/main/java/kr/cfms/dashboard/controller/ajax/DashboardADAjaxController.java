@@ -36,7 +36,7 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 셀러 업체명 전체 출력
+	 * 셀러 업체명 전체 조회
 	 * @return 셀러업체명 리스트
 	 */
 	@GetMapping("get/searchSLCenterList")
@@ -46,7 +46,7 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 창고명 전체 출력
+	 * 창고명 전체 조회
 	 * @return 창고명 리스트
 	 */
 	@GetMapping("get/searchWHCenterList")
@@ -56,7 +56,7 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 셀러 업체명으로 해당 창고명 전체 조회
+	 * custId로 연결된 창고명 전체 조회
 	 * @param id
 	 * @return 창고명 리스트
 	 */
@@ -67,7 +67,7 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 창고명으로 해당 셀러 업체명 전체 조회
+	 * whId로 연결된 셀러 업체명 전체 조회
 	 * @param id
 	 * @return 셀러 업체명 리스트
 	 */
@@ -78,7 +78,9 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 날짜, 업체별 출/입고 현황
+	 * 날짜별 전체 입/출고 현황
+	 * @param inOutSearchDTO (fromDate, toDate)
+	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
 	 */
 	@GetMapping("get/searchInOutStatus")
 	public ResponseEntity<List<InOutResultDTO>> searchInOutStatus(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
@@ -86,18 +88,33 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(inOutStatus);
 	}
 
+	/**
+	 * 날짜, 셀러별 전체 입/출고 현황
+	 * @param inOutSearchDTO (fromDate, toDate, custId)
+	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
+	 */
 	@GetMapping("get/searchInOutStatusBySL")
 	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusBySL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<InOutResultDTO> inOutStatusBySL = dashboardADService.selectInOutStatusBySL(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatusBySL);
 	}
 
+	/**
+	 * 날짜, 창고별 전체 입/출고 현황
+	 * @param inOutSearchDTO (fromDate, toDate, whId)
+	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
+	 */
 	@GetMapping("get/searchInOutStatusByWH")
 	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusByWH(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<InOutResultDTO> inOutStatusByWH = dashboardADService.selectInOutStatusByWH(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatusByWH);
 	}
 
+	/**
+	 * 날짜, 창고, 셀러별 입/출고 현황
+	 * @param inOutSearchDTO (fromDate, toDate, whId, custId)
+	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
+	 */
 	@GetMapping("get/searchInOutStatusByWHAndSL")
 	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<InOutResultDTO> inOutStatusByWHAndSL = dashboardADService.selectInOutStatusByWHAndSL(inOutSearchDTO);
@@ -105,7 +122,8 @@ public class DashboardADAjaxController {
 	}
 
 	/**
-	 * 재고부족
+	 * 전체 재고 부족 / 결품 현황
+	 * @return 상품명, 현재고량, 결품수량(0), 입고중인 상품수, 최종입고일, 안전재고 수량 기준
 	 */
 	@GetMapping("get/searchStockLackAll")
 	public ResponseEntity<List<StockLackResultDTO>> searchStockLackAll() {
@@ -113,18 +131,33 @@ public class DashboardADAjaxController {
 		return ResponseEntity.ok(stockLackAll);
 	}
 
+	/**
+	 * 셀러별 재고 부족 / 결품 현황
+	 * @param inOutSearchDTO (custId)
+	 * @return 상품명, 현재고량, 결품수량(0), 입고중인 상품수, 최종입고일, 안전재고 수량 기준
+	 */
 	@GetMapping("get/searchStockLackBySL")
 	public ResponseEntity<List<StockLackResultDTO>> searchStockLackBySL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<StockLackResultDTO> stockLackBySL = dashboardADService.selectStockLackBySL(inOutSearchDTO);
 		return ResponseEntity.ok(stockLackBySL);
 	}
 
+	/**
+	 * 창고별 재고 부족 / 결품 현황
+	 * @param inOutSearchDTO (whId)
+	 * @return 상품명, 현재고량, 결품수량(0), 입고중인 상품수, 최종입고일, 안전재고 수량 기준
+	 */
 	@GetMapping("get/searchStockLackByWH")
 	public ResponseEntity<List<StockLackResultDTO>> searchStockLackByWH(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<StockLackResultDTO> stockLackByWH = dashboardADService.selectStockLackByWH(inOutSearchDTO);
 		return ResponseEntity.ok(stockLackByWH);
 	}
 
+	/**
+	 * 창고, 셀러별 재고 부족 / 결품 현황
+	 * @param inOutSearchDTO (whId, custId)
+	 * @return 상품명, 현재고량, 결품수량(0), 입고중인 상품수, 최종입고일, 안전재고 수량 기준
+	 */
 	@GetMapping("get/searchStockLackByWHAndSL")
 	public ResponseEntity<List<StockLackResultDTO>> searchStockLackByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
 		List<StockLackResultDTO> stockLackByWHAndSL = dashboardADService.selectStockLackByWHAndSL(inOutSearchDTO);
@@ -180,6 +213,7 @@ public class DashboardADAjaxController {
 
 	/**
 	 * 안 읽은 알림 있는지 체크
+	 * @return 0(있다) or 1(없다)
 	 */
 	@GetMapping("get/searchIsReadNotification")
 	public ResponseEntity<Integer> searchIsReadNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {

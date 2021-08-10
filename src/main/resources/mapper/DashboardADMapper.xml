@@ -4,32 +4,32 @@
 
 	<select id="selectTodayInOut" resultType="TodayInOutDTO">
 		/*DashboardADMapper.selectTodayInOut*/
-		/*오늘의 입/출고별 신청/완료 건수*/
+		/*오늘의 입/출고 현황*/
 		SELECT
--- 		    오늘의 전체 입고신청 건수
+			-- 오늘의 전체 입고신청 건수
 			(SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
 			 FROM cwt_in_ord_mst AS im
-					  JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
-							WHERE use_yn = 'Y'
-							GROUP BY mst_id) AS id ON id.mst_id = im.id
+		  	 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
+				   WHERE use_yn = 'Y'
+				   GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			   AND im.in_ord_dt = a.now_dt
-			   AND im.in_stats IN ('IN00' , 'IN01')) AS 'today_in_apply'
+		     AND im.in_ord_dt = a.now_dt
+		     AND im.in_stats IN ('IN00' , 'IN01')) AS 'today_in_apply'
 		    ,
--- 		    오늘의 전체 입고완료 건수
-				(SELECT
-					 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
-				 FROM cwt_in_ord_mst AS im
-						  JOIN (SELECT mst_id, COUNT(id) AS count_sku
-								FROM cwt_in_ord_dtl
-								WHERE use_yn = 'Y'
-								GROUP BY mst_id) AS id ON id.mst_id = im.id
-				 WHERE 1 = 1 AND im.use_yn = 'Y'
-				   AND im.in_ord_dt = a.now_dt
-				   AND im.in_stats IN ('IN04')) AS 'today_in_complete'
+ 		    -- 오늘의 전체 입고완료 건수
+			(SELECT
+				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
+			 FROM cwt_in_ord_mst AS im
+			 JOIN (SELECT mst_id, COUNT(id) AS count_sku
+				   FROM cwt_in_ord_dtl
+				   WHERE use_yn = 'Y'
+				   GROUP BY mst_id) AS id ON id.mst_id = im.id
+			 WHERE 1 = 1 AND im.use_yn = 'Y'
+			 AND im.in_ord_dt = a.now_dt
+			 AND im.in_stats IN ('IN04')) AS 'today_in_complete'
 			,
--- 			오늘의 전체 출고신청 건수
+ 			-- 오늘의 전체 출고신청 건수
 			(SELECT
 				 IFNULL(SUM(oi.count_info_invc), 0)
 			 FROM cwt_out_ord_mst AS om
@@ -53,7 +53,7 @@
 		     AND om.out_stats IN ('OS01')
 		     AND om.out_ord_dt = a.now_dt) AS 'today_out_apply'
 		    ,
--- 		    오늘의 전체 출고완료 건수
+ 		    -- 오늘의 전체 출고완료 건수
 			(SELECT
 				 IFNULL(SUM(oi.count_info_invc), 0)
 			 FROM cwt_out_ord_mst AS om
@@ -82,65 +82,57 @@
 
 	<select id="selectSLCenterNameAll" resultType="CenterIdNameDTO">
 		/*DashboardADMapper.selectSLCenterNameAll*/
-		/*SL-센터명 모두 불러오기*/
+		/*셀러 업체명 전체 조회*/
 		SELECT id, center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'SL'
-		AND center_nm IS NOT NULL
-		AND center_nm != ''
-        AND use_yn = 'Y'
+		  AND center_nm IS NOT NULL
+		  AND center_nm != ''
+          AND use_yn = 'Y'
 		ORDER BY center_nm;
 	</select>
 	<select id="selectWHCenterNameAll" resultType="CenterIdNameDTO">
 		/*DashboardADMapper.selectWHCenterNameAll*/
-		/*WH-센터명 모두 불러오기*/
+		/*창고 업체명 전체 조회*/
 		SELECT id, center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'WH'
-	    AND center_nm IS NOT NULL
-	    AND center_nm != ''
-        AND use_yn = 'Y'
+	      AND center_nm IS NOT NULL
+	      AND center_nm != ''
+          AND use_yn = 'Y'
 		ORDER BY center_nm;
 
 	</select>
 	<select id="selectWHCenterNameBySLCenterId" parameterType="long" resultType="CenterIdNameDTO">
 		/*DashboardADMapper.selectWHCenterNameBySLCenterId*/
-		/*SL(센터id)로 WH(센터명) 모두 불러오기*/
+		/*custId로 연결된 창고명 전체 조회*/
 		SELECT id, center_nm FROM cwt_mst_center c
-	    JOIN (SELECT  wh_id FROM cwt_rel_wh_cust
+	    JOIN (SELECT wh_id FROM cwt_rel_wh_cust
 	  	      WHERE cust_id =#{id}
-			  and use_yn ='Y' and rel_stats ='CN') AS r
+			    and use_yn ='Y' and rel_stats ='CN') AS r
 	    ON c.id = r.wh_id;
 	</select>
 	<select id="selectSLCenterNameByWHCenterId" parameterType="long" resultType="CenterIdNameDTO">
 		/*DashboardADMapper.selectSLCenterNameByWHCenterId*/
-		/*WH(센터id)로 SL(센터명) 모두 불러오기*/
+		/*whId로 연결된 셀러 업체명 전체 조회*/
 		SELECT id, center_nm FROM cwt_mst_center c
 		JOIN (SELECT cust_id FROM cwt_rel_wh_cust
 			  WHERE wh_id =#{id}
-			  and use_yn ='Y' and rel_stats ='CN') AS r
+			    and use_yn ='Y' and rel_stats ='CN') AS r
 		ON c.id = r.cust_id;
 	</select>
 
 	<select id="selectInOutStatus" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
 		/*DashboardADMapper.selectInOutStatus*/
-		/*전체 입/출고 현황*/
+		/*날짜별 전체 입/출고 현황*/
 		SELECT
-			(SELECT
-				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
-			 FROM cwt_in_ord_mst AS im
-		     JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
-				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
-			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IS NOT NULL AND im.in_stats != ''
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_all
-			,
 			 (SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
 			 FROM cwt_in_ord_mst AS im
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			       WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 		     WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN00' , 'IN01')
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_tobe
+			   AND im.in_stats IN ('IN00' , 'IN01')
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_tobe
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -148,8 +140,9 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-		  	 AND im.in_stats IN ('IN02')
-		 	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_working
+		  	   AND im.in_stats ='IN02'
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_working
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -157,8 +150,9 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 		 		   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN04')
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_complete
+			   AND im.in_stats ='IN04'
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_complete
 			,
 			(SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -166,29 +160,9 @@
 			 JOIN (SELECT  mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			 	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN99')
-		  	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_cancle
-			,
-			(SELECT
-				IFNULL(SUM(oi.count_info_invc), 0)
-			FROM cwt_out_ord_mst AS om
-			LEFT JOIN (SELECT
-							ioi.mst_id,
-							SUM(IFNULL(oiic.info_invc_count, 1)) AS count_info_invc
-					   FROM cwt_out_info AS ioi
-						LEFT JOIN (SELECT bb.info_id, COUNT(bb.invc_no) AS info_invc_count
-								   FROM (SELECT DISTINCT d.info_id, e.invc_no, e.parcel_cd
-										 FROM (SELECT * FROM cwt_rel_info_invc
-											   WHERE 1 = 1  AND use_yn = 'Y' AND rel_stats = 'CN') d
-										 LEFT JOIN (SELECT * FROM cwt_out_invc
-													WHERE 1 = 1  AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
-								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
-						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
-			WHERE 1 = 1
-		    AND om.use_yn = 'Y'
-		    AND om.out_stats IS NOT NULL AND om.out_stats != ''
-		    AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_all
+			   AND im.in_stats ='IN99'
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -203,13 +177,14 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		     AND om.use_yn = 'Y'
-		     AND om.out_stats IN ('OS01')
-		     AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_tobe
+		       AND om.use_yn = 'Y'
+		       AND om.out_stats ='OS01'
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -224,13 +199,14 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		 	 AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_working
+		  	   AND om.use_yn = 'Y'
+		 	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -245,13 +221,14 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		 	 AND om.out_stats IN ('OS05')
-		 	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_complete
+		  	   AND om.use_yn ='Y'
+		 	   AND om.out_stats ='OS05'
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -266,13 +243,14 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		  	 AND om.out_stats IN ('OS99')
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_cancle
+		  	   AND om.use_yn = 'Y'
+		  	   AND om.out_stats ='OS99'
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
 		FROM
 			(SELECT
 				#{inOutSearchDTO.fromDate} AS from_dt,
@@ -280,28 +258,19 @@
 			) AS a;
 	</select>
 	<select id="selectInOutStatusBySL" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
-		/*DashboardADMapper.selectInOutStatus*/
-		/*셀러의 입/출고 현황*/
+		/*DashboardADMapper.selectInOutStatusBySL*/
+		/*날짜, 셀러별 입/출고 현황*/
 		SELECT
-			(SELECT
-				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
-			 FROM cwt_in_ord_mst AS im
-		     JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
-				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
-			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IS NOT NULL AND im.in_stats != ''
-			 AND im.cust_id = a.cust_id
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_all
-			,
 			 (SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
 			 FROM cwt_in_ord_mst AS im
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			       WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 		     WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN00' , 'IN01')
-		   	 AND im.cust_id = a.cust_id
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_tobe
+			   AND im.in_stats IN ('IN00' , 'IN01')
+		   	   AND im.cust_id = a.cust_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_tobe
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -309,9 +278,10 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-		  	 AND im.in_stats IN ('IN02')
-		     AND im.cust_id = a.cust_id
-		 	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_working
+		  	   AND im.in_stats ='IN02'
+		       AND im.cust_id = a.cust_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_working
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -319,9 +289,10 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 		 		   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN04')
-			 AND im.cust_id = a.cust_id
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_complete
+			   AND im.in_stats ='IN04'
+			   AND im.cust_id = a.cust_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_complete
 			,
 			(SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -329,31 +300,10 @@
 			 JOIN (SELECT  mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			 	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN99')
-		     AND im.cust_id = a.cust_id
-		  	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_cancle
-			,
-			(SELECT
-				IFNULL(SUM(oi.count_info_invc), 0)
-			FROM cwt_out_ord_mst AS om
-			LEFT JOIN (SELECT
-							ioi.mst_id,
-							SUM(IFNULL(oiic.info_invc_count, 1)) AS count_info_invc
-					   FROM cwt_out_info AS ioi
-						LEFT JOIN (SELECT bb.info_id, COUNT(bb.invc_no) AS info_invc_count
-								   FROM (SELECT DISTINCT d.info_id, e.invc_no, e.parcel_cd
-										 FROM (SELECT * FROM cwt_rel_info_invc
-											   WHERE 1 = 1  AND use_yn = 'Y' AND rel_stats = 'CN') d
-										 LEFT JOIN (SELECT * FROM cwt_out_invc
-													WHERE 1 = 1  AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
-								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
-						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
-			WHERE 1 = 1
-		    AND om.use_yn = 'Y'
-		    AND om.out_stats IS NOT NULL AND om.out_stats != ''
-			AND om.cust_id = a.cust_id
-		    AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_all
+			   AND im.in_stats ='IN99'
+		       AND im.cust_id = a.cust_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -368,14 +318,15 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		     AND om.use_yn = 'Y'
-		     AND om.out_stats IN ('OS01')
-			 AND om.cust_id = a.cust_id
-		     AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_tobe
+		       AND om.use_yn = 'Y'
+		       AND om.out_stats ='OS01'
+			   AND om.cust_id = a.cust_id
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -390,14 +341,15 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		 	 AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-			 AND om.cust_id = a.cust_id
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_working
+		  	   AND om.use_yn = 'Y'
+		 	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
+			   AND om.cust_id = a.cust_id
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -412,14 +364,15 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		 	 AND om.out_stats IN ('OS05')
-			 AND om.cust_id = a.cust_id
-		 	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_complete
+		  	   AND om.use_yn = 'Y'
+		 	   AND om.out_stats ='OS05'
+			   AND om.cust_id = a.cust_id
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -434,14 +387,15 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		  	 AND om.out_stats IN ('OS99')
-		 	 AND om.cust_id = a.cust_id
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_cancle
+		  	   AND om.use_yn = 'Y'
+		  	   AND om.out_stats ='OS99'
+		 	   AND om.cust_id = a.cust_id
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
 		FROM
 			(SELECT
 				#{inOutSearchDTO.custId} AS cust_id,
@@ -450,28 +404,19 @@
 			) AS a;
 	</select>
 	<select id="selectInOutStatusByWH" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
-		/*DashboardADMapper.selectInOutStatus*/
-		/*창고의 입/출고 현황*/
+		/*DashboardADMapper.selectInOutStatusByWH*/
+		/*날짜별 창고별 입/출고 현황*/
 		SELECT
-			(SELECT
-				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
-			 FROM cwt_in_ord_mst AS im
-		     JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
-				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
-			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IS NOT NULL AND im.in_stats != ''
-			 AND im.wh_id = a.wh_id
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_all
-			,
 			 (SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
 			 FROM cwt_in_ord_mst AS im
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			       WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 		     WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN00' , 'IN01')
-			 AND im.wh_id = a.wh_id
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_tobe
+			   AND im.in_stats IN ('IN00' , 'IN01')
+			   AND im.wh_id = a.wh_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_tobe
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -479,9 +424,10 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-		  	 AND im.in_stats IN ('IN02')
-			 AND im.wh_id = a.wh_id
-		 	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_working
+		  	   AND im.in_stats ='IN02'
+			   AND im.wh_id = a.wh_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_working
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -489,9 +435,10 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 		 		   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN04')
-			 AND im.wh_id = a.wh_id
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_complete
+			   AND im.in_stats ='IN04'
+			   AND im.wh_id = a.wh_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_complete
 			,
 			(SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -499,30 +446,10 @@
 			 JOIN (SELECT  mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			 	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN99')
-			 AND im.wh_id = a.wh_id
-		  	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_cancle
-			,
-			(SELECT
-				IFNULL(SUM(oi.count_info_invc), 0)
-			FROM cwt_out_ord_mst AS om
-			LEFT JOIN (SELECT
-							ioi.mst_id,
-							SUM(IFNULL(oiic.info_invc_count, 1)) AS count_info_invc
-					   FROM cwt_out_info AS ioi
-						LEFT JOIN (SELECT bb.info_id, COUNT(bb.invc_no) AS info_invc_count
-								   FROM (SELECT DISTINCT d.info_id, e.invc_no, e.parcel_cd
-										 FROM (SELECT * FROM cwt_rel_info_invc
-											   WHERE 1 = 1  AND use_yn = 'Y' AND rel_stats = 'CN') d
-										 LEFT JOIN (SELECT * FROM cwt_out_invc
-													WHERE 1 = 1  AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
-								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
-						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
-			WHERE 1 = 1
-		    AND om.use_yn = 'Y'
-		    AND om.out_stats IS NOT NULL AND om.out_stats != ''
-		    AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_all
+			   AND im.in_stats IN ('IN99')
+			   AND im.wh_id = a.wh_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -537,13 +464,14 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		     AND om.use_yn = 'Y'
-		     AND om.out_stats IN ('OS01')
-		     AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_tobe
+		       AND om.use_yn = 'Y'
+		       AND om.out_stats ='OS01'
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -558,13 +486,14 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		 	 AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_working
+		  	   AND om.use_yn = 'Y'
+		 	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -579,13 +508,14 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
+													  AND invc_no IS NOT NULL AND invc_no != '') e ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		 	 AND om.out_stats IN ('OS05')
-		 	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_complete
+		  	   AND om.use_yn = 'Y'
+		 	   AND om.out_stats ='OS05'
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -604,9 +534,10 @@
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-		  	 AND om.use_yn = 'Y'
-		  	 AND om.out_stats IN ('OS99')
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_cancle
+		  	   AND om.use_yn = 'Y'
+		  	   AND om.out_stats ='OS99'
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
 		FROM
 			(SELECT
 				#{inOutSearchDTO.whId} AS wh_id,
@@ -615,30 +546,20 @@
 			) AS a;
 	</select>
 	<select id="selectInOutStatusByWHAndSL" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
-		/*DashboardADMapper.selectInOutStatus*/
-		/*창고의 입/출고 현황*/
+		/*DashboardADMapper.selectInOutStatusByWHAndSL*/
+		/*날짜, 창고, 셀러별 입/출고 현황*/
 		SELECT
-			(SELECT
-				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
-			 FROM cwt_in_ord_mst AS im
-					  JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
-							WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
-			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IS NOT NULL AND im.in_stats != ''
-		     AND im.cust_id = a.cust_id
-			 AND im.wh_id = a.wh_id
-			 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_all
-			 ,
 			 (SELECT
 				CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
 		      FROM cwt_in_ord_mst AS im
 			  JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 					WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			  WHERE 1 = 1 AND im.use_yn = 'Y'
-		 	  AND im.in_stats IN ('IN00' , 'IN01')
-		      AND im.cust_id = a.cust_id
-		 	  AND im.wh_id = a.wh_id
-		  	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_tobe
+		 	    AND im.in_stats IN ('IN00' , 'IN01')
+		        AND im.cust_id = a.cust_id
+		 	    AND im.wh_id = a.wh_id
+				AND a.to_dt >= im.in_ord_dt
+				AND im.in_ord_dt >= a.from_dt) AS in_tobe
 			,
 			(SELECT
 				CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -646,10 +567,11 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_stats IN ('IN02')
-			 AND im.cust_id = a.cust_id
-		     AND im.wh_id = a.wh_id
-		     AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_working
+			   AND im.in_stats ='IN02'
+			   AND im.cust_id = a.cust_id
+		       AND im.wh_id = a.wh_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_working
 			,
 			(SELECT
 				CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -657,10 +579,11 @@
 			 JOIN (SELECT mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			  	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-		 	 AND im.in_stats IN ('IN04')
-			 AND im.cust_id = a.cust_id
-		     AND im.wh_id = a.wh_id
-		     AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_complete
+			   AND im.in_stats ='IN04'
+			   AND im.cust_id = a.cust_id
+			   AND im.wh_id = a.wh_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_complete
 			,
 			(SELECT
 				CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -668,33 +591,11 @@
 			 JOIN (SELECT  mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
-		  	 AND im.in_stats IN ('IN99')
-			 AND im.cust_id = a.cust_id
-		 	 AND im.wh_id = a.wh_id
-		  	 AND im.in_ord_dt BETWEEN a.from_dt AND a.to_dt) AS in_cancle
-			,
-			(SELECT
-				IFNULL(SUM(oi.count_info_invc), 0)
-			 FROM cwt_out_ord_mst AS om
-			 LEFT JOIN (SELECT
-							ioi.mst_id,
-							SUM(IFNULL(oiic.info_invc_count, 1)) AS count_info_invc
-						FROM cwt_out_info AS ioi
-						LEFT JOIN (SELECT bb.info_id, COUNT(bb.invc_no) AS info_invc_count
-								   FROM (SELECT DISTINCT d.info_id, e.invc_no, e.parcel_cd
-										 FROM (SELECT * FROM cwt_rel_info_invc
-											   WHERE 1 = 1  AND use_yn = 'Y' AND rel_stats = 'CN') d
-									 	 LEFT JOIN (SELECT * FROM cwt_out_invc
-										 WHERE 1 = 1  AND use_yn = 'Y'
-										 AND invc_no IS NOT NULL AND invc_no != '') e
-								   ON e.id = d.invc_id) bb
-								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
-						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
-			 WHERE 1 = 1
-		 	 AND om.use_yn = 'Y'
-		 	 AND om.out_stats IS NOT NULL AND om.out_stats != ''
-		 	 AND om.cust_id = a.cust_id
-		 	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_all
+		  	   AND im.in_stats ='IN99'
+			   AND im.cust_id = a.cust_id
+		 	   AND im.wh_id = a.wh_id
+			   AND a.to_dt >= im.in_ord_dt
+			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -709,15 +610,16 @@
 											  WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 					   					LEFT JOIN (SELECT * FROM cwt_out_invc
 												   WHERE 1 = 1 AND use_yn = 'Y'
-												   AND invc_no IS NOT NULL AND invc_no != '') e
+												     AND invc_no IS NOT NULL AND invc_no != '') e
 									    ON e.id = d.invc_id) bb
 							      GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			WHERE 1 = 1
-		    AND om.use_yn = 'Y'
-		    AND om.out_stats IN ('OS01')
-			AND om.cust_id = a.cust_id
-		  	AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_tobe
+		      AND om.use_yn = 'Y'
+		      AND om.out_stats ='OS01'
+			  AND om.cust_id = a.cust_id
+			  AND a.to_dt >= om.out_ord_dt
+			  AND om.out_ord_dt >= a.from_dt) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -732,15 +634,16 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e
+													  AND invc_no IS NOT NULL AND invc_no != '') e
 										ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-			 AND om.use_yn = 'Y'
-		  	 AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-			 AND om.cust_id = a.cust_id
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_working
+			   AND om.use_yn = 'Y'
+		  	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
+			   AND om.cust_id = a.cust_id
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -755,15 +658,16 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e
+													  AND invc_no IS NOT NULL AND invc_no != '') e
 										 ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-			 AND om.use_yn = 'Y'
-		  	 AND om.out_stats IN ('OS05')
-			 AND om.cust_id = a.cust_id
-		  	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_complete
+			   AND om.use_yn = 'Y'
+		  	   AND om.out_stats ='OS05'
+			   AND om.cust_id = a.cust_id
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -778,15 +682,16 @@
 											   WHERE 1 = 1 AND use_yn = 'Y' AND rel_stats = 'CN') d
 										 LEFT JOIN (SELECT * FROM cwt_out_invc
 													WHERE 1 = 1 AND use_yn = 'Y'
-													AND invc_no IS NOT NULL AND invc_no != '') e
+													  AND invc_no IS NOT NULL AND invc_no != '') e
 										 ON e.id = d.invc_id) bb
 								   GROUP BY bb.info_id) AS oiic ON oiic.info_id = ioi.id
 						WHERE ioi.use_yn = 'Y' AND ioi.wh_id =#{inOutSearchDTO.whId} GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1
-			 AND om.use_yn = 'Y'
-		  	 AND om.out_stats IN ('OS99')
-			 AND om.cust_id = a.cust_id
-		 	 AND om.out_ord_dt BETWEEN a.from_dt AND a.to_dt) AS out_cancle
+			   AND om.use_yn = 'Y'
+		  	   AND om.out_stats ='OS99'
+			   AND om.cust_id = a.cust_id
+			   AND a.to_dt >= om.out_ord_dt
+			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
 		FROM
 			(SELECT
 				#{inOutSearchDTO.whId} AS wh_id,
@@ -797,6 +702,8 @@
 	</select>
 
 	<select id="selectStockLackAll" resultType="StockLackResultDTO">
+	/*DashboardADMapper.selectStockLackAll*/
+	/*전체 재고 부족 / 결품 현황*/
 		select * from
 			(select
 				 max(d.goods_cd) as goods_cd
@@ -862,6 +769,8 @@
 		limit 100;
 	</select>
 	<select id="selectStockLackBySL" parameterType="InOutSearchDTO" resultType="StockLackResultDTO">
+	/*DashboardADMapper.selectStockLackBySL*/
+	/*셀러별 재고 부족 / 결품 현황*/
 		select * from
 			(select
 				 max(d.goods_cd) as goods_cd
@@ -935,6 +844,8 @@
 		order by 6 asc;
 	</select>
 	<select id="selectStockLackByWH" parameterType="InOutSearchDTO" resultType="StockLackResultDTO">
+	/*DashboardADMapper.selectStockLackBySL*/
+	/*창고별 재고 부족 / 결품 현황*/
 		select * from
 			(select
 				 max(d.goods_cd) as goods_cd
@@ -1008,6 +919,8 @@
 		order by 6 asc;
 	</select>
 	<select id="selectStockLackByWHAndSL" parameterType="InOutSearchDTO" resultType="StockLackResultDTO">
+	/*DashboardADMapper.selectStockLackBySL*/
+	/*창고,셀러별 재고 부족 / 결품 현황*/
 		select * from
 			(select
 				 max(d.goods_cd) as goods_cd

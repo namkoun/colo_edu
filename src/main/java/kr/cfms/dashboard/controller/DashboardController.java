@@ -111,10 +111,10 @@ public class DashboardController {
 
 		//insert notification_info
 		String typeCd = notificationInfoVO.inOrdTypeCd(inOrdNotificationDTO.getInOrdType());
-		String content = notificationInfoVO.inOrdContent(inOrdNotificationDTO.getCustCenterNm()
-														, inOrdNotificationDTO.getWhCenterNm()
-														, inOrdNotificationDTO.getInOrdType()
-														, inOrdNotificationDTO.getInOrdDt());
+		String content = notificationInfoVO.inOrdContent(inOrdNotificationDTO.getCustCenterNm(),
+														 inOrdNotificationDTO.getWhCenterNm(),
+														 inOrdNotificationDTO.getInOrdType(),
+														 inOrdNotificationDTO.getInOrdDt());
 		notificationInfoVO.setInMstId(inMstId);
 		notificationInfoVO.setTypeCd(typeCd);
 		notificationInfoVO.setContent(content);
@@ -123,6 +123,9 @@ public class DashboardController {
 		return "redirect:/";
 	}
 
+	/**
+	 * test input
+	 */
 	@PostMapping("insertOutOrd")
 	public String insertOutOrd(HttpSession session, @ModelAttribute OutOrdVO outOrdVO, @ModelAttribute NotificationInfoVO notificationInfoVO) {
 
@@ -138,7 +141,7 @@ public class DashboardController {
 		String typeCd = notificationInfoVO.outOrdTypeCd(outOrdNotificationDTO.getOutOrdType());
 		String content = notificationInfoVO.outOrdContent(outOrdNotificationDTO.getCustCenterNm(),
 													      outOrdNotificationDTO.getOutOrdType(),
-														  outOrdNotificationDTO.getOutOrdType());
+														  outOrdNotificationDTO.getOutOrdDt());
 		notificationInfoVO.setOutMstId(outMstId);
 		notificationInfoVO.setTypeCd(typeCd);
 		notificationInfoVO.setContent(content);
@@ -147,6 +150,9 @@ public class DashboardController {
 		return "redirect:/";
 	}
 
+	/**
+	 * test input
+	 */
     @PostMapping("insertUser")
     public String insertUser(@ModelAttribute JoinVO joinVO, @ModelAttribute NotificationInfoVO notificationInfoVO) {
 		//insert cwt_user
