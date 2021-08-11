@@ -33,16 +33,16 @@ public class DashboardADService {
 		return dashboardADMapper.selectSLCenterNameByWHCenterId(id);
 	}
 
-	public List<InOutResultDTO> selectInOutStatus(InOutSearchDTO inOutSearchDTO) {
+	public InOutResultDTO selectInOutStatus(InOutSearchDTO inOutSearchDTO) {
 		return dashboardADMapper.selectInOutStatus(inOutSearchDTO);
 	}
-	public List<InOutResultDTO> selectInOutStatusBySL(InOutSearchDTO inOutSearchDTO) {
+	public InOutResultDTO selectInOutStatusBySL(InOutSearchDTO inOutSearchDTO) {
 		return dashboardADMapper.selectInOutStatusBySL(inOutSearchDTO);
 	}
-	public List<InOutResultDTO> selectInOutStatusByWH(InOutSearchDTO inOutSearchDTO) {
+	public InOutResultDTO selectInOutStatusByWH(InOutSearchDTO inOutSearchDTO) {
 		return dashboardADMapper.selectInOutStatusByWH(inOutSearchDTO);
 	}
-	public List<InOutResultDTO> selectInOutStatusByWHAndSL(InOutSearchDTO inOutSearchDTO) {
+	public InOutResultDTO selectInOutStatusByWHAndSL(InOutSearchDTO inOutSearchDTO) {
 		return dashboardADMapper.selectInOutStatusByWHAndSL(inOutSearchDTO);
 	}
 

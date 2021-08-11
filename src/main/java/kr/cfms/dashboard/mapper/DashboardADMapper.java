@@ -18,10 +18,10 @@ public interface DashboardADMapper {
 	List<CenterIdNameDTO> selectWHCenterNameBySLCenterId(@Param("id") long id);
 	List<CenterIdNameDTO> selectSLCenterNameByWHCenterId(@Param("id") long id);
 
-	List<InOutResultDTO> selectInOutStatus(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
-	List<InOutResultDTO> selectInOutStatusBySL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
-	List<InOutResultDTO> selectInOutStatusByWH(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
-	List<InOutResultDTO> selectInOutStatusByWHAndSL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
+	InOutResultDTO selectInOutStatus(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
+	InOutResultDTO selectInOutStatusBySL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
+	InOutResultDTO selectInOutStatusByWH(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
+	InOutResultDTO selectInOutStatusByWHAndSL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
 
 	List<StockLackResultDTO> selectStockLackAll();
 	List<StockLackResultDTO> selectStockLackBySL(@Param("inOutSearchDTO") InOutSearchDTO inOutSearchDTO);
