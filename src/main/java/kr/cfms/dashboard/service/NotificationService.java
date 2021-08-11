@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Slf4j
@@ -36,25 +37,31 @@ public class NotificationService {
     }
 
     /**
-     *
+     * 미진행 출고건 알림 생성
      */
-    public void insertUnFinishedOutNotificationInfo(NotificationInfoVO notificationInfoVO) {
-        notificationMapper.insertUnFinishedOutNotificationInfo(notificationInfoVO);
+    public void insertUnFinishedOutNotificationInfo(NotificationInfoVO notificationInfoVO, List<UnFinishedResultDTO> unFinishedResult) throws ParseException {
+        for (int i = 0; i < unFinishedResult.size(); i++) {
+            notificationInfoVO.setCustId(unFinishedResult.get(i).getCustId());
+            notificationInfoVO.setContent(notificationInfoVO.makeUnFinishedOutContent(unFinishedResult.get(i).getCenterNm(),
+                                                                                      unFinishedResult.get(i).getOutOrdDt(),
+                                                                                      unFinishedResult.get(i).getCountUnFinishedOut()));
+            notificationInfoVO.setTypeCd(notificationInfoVO.makeUnFinishedOutTypeCd());
+            notificationMapper.insertUnFinishedOutNotificationInfo(notificationInfoVO);
+        }
     }
 
     /**
-     * 새로운 알림정보 조회 -> (있으면 insert)
+     * 새로운 알림정보 조회 -> (있으면 insert) -> 안읽은 알림 개수 count
      */
     public List<Long> selectNewInfoId(AdNotificationVO adNotificationVO) {
         return notificationMapper.selectNewInfoId(adNotificationVO);
     }
-    public void insertNewInfo(AdNotificationVO adNotificationVO) {
-        notificationMapper.insertNewInfo(adNotificationVO);
+    public void insertNewInfo(AdNotificationVO adNotificationVO, List<Long> infoIdList) {
+        for (int i = 0; i < infoIdList.size(); i++) {
+            adNotificationVO.setInfoId(infoIdList.get(i));
+            notificationMapper.insertNewInfo(adNotificationVO);
+        }
     }
-
-    /**
-     * 안 읽은 알림 있는지 체크
-     */
     public Integer selectIsReadNotification(AdNotificationVO adNotificationVO) {
         return notificationMapper.selectIsReadNotification(adNotificationVO);
     }

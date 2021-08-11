@@ -31,14 +31,14 @@ public class NotificationInfoVO {
      * 알림 종류
      */
     //입고신청
-    public String inOrdTypeCd(String inOrdType) {
+    public String makeInOrdTypeCd(String inOrdType) {
         String realTypeCd = "";
         if(inOrdType.equals("INAM") || inOrdType.equals("INPM") || inOrdType.equals("INSP") || inOrdType.equals("INAD") || inOrdType.equals("INDS"))
             realTypeCd = "IN01";
         return realTypeCd;
     }
     //출고신청
-    public String outOrdTypeCd(String outOrdType) {
+    public String makeOutOrdTypeCd(String outOrdType) {
         String realTypeCd = "";
         if(outOrdType.equals("OTAM") || outOrdType.equals("OTBB") || outOrdType.equals("OTPM") || outOrdType.equals("OTSP")
             || outOrdType.equals("OTAD") || outOrdType.equals("OTCS") || outOrdType.equals("OTDD") || outOrdType.equals("OTWD") || outOrdType.equals("OTWG"))
@@ -46,12 +46,12 @@ public class NotificationInfoVO {
         return realTypeCd;
     }
     //회원가입
-    public String joinTypeCd() {
+    public String makeJoinTypeCd() {
         return "JOIN";
     }
 
     //미진행 출고건
-    public String unFinishedOutTypeCd() {
+    public String makeUnFinishedOutTypeCd() {
         return "UFOT";
     }
 
@@ -59,7 +59,7 @@ public class NotificationInfoVO {
      * 알림 내용
      */
     //입고신청
-    public String inOrdContent(String custCenterNm, String whCenterNm, String inOrdType, String inOrdDate) {
+    public String makeInOrdContent(String custCenterNm, String whCenterNm, String inOrdType, String inOrdDate) {
         String realInOrdType;
         if(inOrdType.equals("INAM")) realInOrdType = "오전(9~11) 입고";
         else if(inOrdType.equals("INPM")) realInOrdType = "오후(13~15) 입고";
@@ -73,7 +73,7 @@ public class NotificationInfoVO {
     }
 
     //출고신청
-    public String outOrdContent(String custCenterNm, String outOrdType, String outOrdDate) {
+    public String makeOutOrdContent(String custCenterNm, String outOrdType, String outOrdDate) {
         String realInOrdType;
         if(outOrdType.equals("OTAM")) realInOrdType = "오전(10:00) 출고";
         else if(outOrdType.equals("OTBB")) realInOrdType = "B2B 출고";
@@ -92,13 +92,13 @@ public class NotificationInfoVO {
     }
 
     //회원가입
-    public String joinContent(String memberTypeCod, String cmpNm, String mobile) {
+    public String makeJoinContent(String memberTypeCod, String cmpNm, String mobile) {
         return "<div style=\"white-space:nowrap;\">(<b>" + memberTypeCod + "</b>)<b>" + cmpNm + "</b>(이)가<br>" +
                 "<b>회원가입</b> 했습니다. 연락처(<b>" + mobile + "</b>)</div>";
     }
 
     //미진행출고건
-    public String unFinishedOutContent(String centerNm, String outOrdDt, int countUnFinishedOut) throws ParseException {
+    public String makeUnFinishedOutContent(String centerNm, String outOrdDt, int countUnFinishedOut) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         Date todayDate = calendar.getTime();  // 오늘 날짜

@@ -176,65 +176,31 @@ public class DashboardADAjaxController {
 		if (countToday == 0) {
 			// 미진행 출고건 조회
 			List<UnFinishedResultDTO> unFinishedResult = notificationService.selectUnFinishedOut();
-
-			for (int i = 0; i < unFinishedResult.size(); i++) {
-				notificationInfoVO.setCustId(unFinishedResult.get(i).getCustId());
-				notificationInfoVO.setContent(notificationInfoVO.unFinishedOutContent(unFinishedResult.get(i).getCenterNm(),
-																				 	  unFinishedResult.get(i).getOutOrdDt(),
-																					  unFinishedResult.get(i).getCountUnFinishedOut()));
-				notificationInfoVO.setTypeCd(notificationInfoVO.unFinishedOutTypeCd());
-				notificationService.insertUnFinishedOutNotificationInfo(notificationInfoVO);
-			}
-
+			notificationService.insertUnFinishedOutNotificationInfo(notificationInfoVO, unFinishedResult);
 		}
 
 		return ResponseEntity.ok(new MessageVo("ok"));
 	}
 
 	/**
-	 * 새로운 알림정보 조회 (있으면, 새 알림 Insert)
+	 * 새로운 알림정보 조회
+	 * 있으면 알림정보 추가
+	 * 안 읽은 알림 개수 (종에 New표시)
 	 */
 	@PostMapping("add/insertNewInfo")
 	public ResponseEntity<MessageVo> insertNewInfo(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		//새로운 알림 정보 가져와서
+		//새로운 알림정보 조회
 		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<Long> infoIdList = notificationService.selectNewInfoId(adNotificationVO);
 
-		if (infoIdList.size() > 0) {
-			//값 넣어줌
-			for (int i = 0; i < infoIdList.size(); i++) {
-				adNotificationVO.setInfoId(infoIdList.get(i));
-				notificationService.insertNewInfo(adNotificationVO);
-			}
-		}
+		//있으면 알림정보 추가
+		if (infoIdList.size() > 0) notificationService.insertNewInfo(adNotificationVO, infoIdList);
 
-		//안 읽은 알림 있는지 체크
-		String isRead = "1";
+		//안 읽은 알림 개수 (종에 New표시)
+		String countNotRead = "" + notificationService.selectIsReadNotification(adNotificationVO);
 
-		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO); // ad_mid로 검색
-		if (countNotRead > 0) isRead = "0";
-
-		return ResponseEntity.ok(new MessageVo(isRead));  // 새로운 알림 있으면 0, 없으면 1
-	}
-
-	/**
-	 * 안 읽은 알림 있는지 체크
-	 * @return 0(있다) or 1(없다)
-	 */
-//	@GetMapping("get/searchIsReadNotification")
-	public ResponseEntity<Integer> searchIsReadNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
-		Integer isRead = 1;
-
-		// ad_mid로 검색
-		UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-		adNotificationVO.setAdMid(userInfo.getMid());
-		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO);
-
-		// 있으면 isRead=0
-		if (countNotRead > 0) isRead = 0;
-
-		return ResponseEntity.ok(isRead);
+		return ResponseEntity.ok(new MessageVo(countNotRead));
 	}
 
 	/**

@@ -14,7 +14,7 @@
 				   WHERE use_yn = 'Y'
 				   GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-		     AND im.in_ord_dt = a.now_dt
+		     AND im.in_ord_dt = DATE_FORMAT(NOW(), '%Y-%m-%d')
 		     AND im.in_stats IN ('IN00' , 'IN01')) AS 'today_in_apply'
 		    ,
  		    -- 오늘의 전체 입고완료 건수
@@ -26,8 +26,8 @@
 				   WHERE use_yn = 'Y'
 				   GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
-			 AND im.in_ord_dt = a.now_dt
-			 AND im.in_stats IN ('IN04')) AS 'today_in_complete'
+			 AND im.in_ord_dt = DATE_FORMAT(NOW(), '%Y-%m-%d')
+			 AND im.in_stats ='IN04') AS 'today_in_complete'
 			,
  			-- 오늘의 전체 출고신청 건수
 			(SELECT
@@ -50,8 +50,8 @@
 						WHERE ioi.use_yn = 'Y'
 				  		GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1 AND om.use_yn = 'Y'
-		     AND om.out_stats IN ('OS01')
-		     AND om.out_ord_dt = a.now_dt) AS 'today_out_apply'
+		     AND om.out_stats ='OS01'
+		     AND om.out_ord_dt = DATE_FORMAT(NOW(), '%Y-%m-%d')) AS 'today_out_apply'
 		    ,
  		    -- 오늘의 전체 출고완료 건수
 			(SELECT
@@ -74,10 +74,8 @@
 					    WHERE ioi.use_yn = 'Y'
 					 	GROUP BY ioi.mst_id) AS oi ON oi.mst_id = om.id
 			 WHERE 1 = 1 AND om.use_yn = 'Y'
-		     AND om.out_stats IN ('OS05')
-		     AND om.out_ord_dt = a.now_dt) AS 'today_out_complete'
-		FROM
-			(SELECT DATE_FORMAT(NOW(), '%Y-%m-%d') AS now_dt) AS a;
+		     AND om.out_stats ='OS05'
+		     AND om.out_ord_dt = DATE_FORMAT(NOW(), '%Y-%m-%d')) AS 'today_out_complete'
 	</select>
 
 	<select id="selectSLCenterNameAll" resultType="CenterIdNameDTO">
@@ -85,21 +83,18 @@
 		/*셀러 업체명 전체 조회*/
 		SELECT id, center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'SL'
-		  AND center_nm IS NOT NULL
 		  AND center_nm != ''
           AND use_yn = 'Y'
-		ORDER BY center_nm;
+		ORDER BY center_nm
 	</select>
 	<select id="selectWHCenterNameAll" resultType="CenterIdNameDTO">
 		/*DashboardADMapper.selectWHCenterNameAll*/
 		/*창고 업체명 전체 조회*/
 		SELECT id, center_nm FROM cwt_mst_center
 		WHERE center_type_cd = 'WH'
-	      AND center_nm IS NOT NULL
 	      AND center_nm != ''
           AND use_yn = 'Y'
-		ORDER BY center_nm;
-
+		ORDER BY center_nm
 	</select>
 	<select id="selectWHCenterNameBySLCenterId" parameterType="long" resultType="CenterIdNameDTO">
 		/*DashboardADMapper.selectWHCenterNameBySLCenterId*/
@@ -131,8 +126,8 @@
 			       WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 		     WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats IN ('IN00' , 'IN01')
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_tobe
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_tobe
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -141,8 +136,8 @@
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 		  	   AND im.in_stats ='IN02'
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_working
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_working
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -151,8 +146,8 @@
 		 		   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats ='IN04'
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_complete
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_complete
 			,
 			(SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -161,8 +156,8 @@
 			 	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
 			   AND im.in_stats ='IN99'
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -183,8 +178,8 @@
 			 WHERE 1 = 1
 		       AND om.use_yn = 'Y'
 		       AND om.out_stats ='OS01'
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_tobe
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -205,8 +200,8 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		 	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_working
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -227,8 +222,8 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn ='Y'
 		 	   AND om.out_stats ='OS05'
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_complete
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -249,13 +244,8 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		  	   AND om.out_stats ='OS99'
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
-		FROM
-			(SELECT
-				#{inOutSearchDTO.fromDate} AS from_dt,
-				#{inOutSearchDTO.toDate} AS to_dt
-			) AS a;
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_cancle
 	</select>
 	<select id="selectInOutStatusBySL" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
 		/*DashboardADMapper.selectInOutStatusBySL*/
@@ -268,9 +258,9 @@
 			       WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 		     WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats IN ('IN00' , 'IN01')
-		   	   AND im.cust_id = a.cust_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_tobe
+		   	   AND im.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_tobe
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -279,9 +269,9 @@
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 		  	   AND im.in_stats ='IN02'
-		       AND im.cust_id = a.cust_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_working
+		       AND im.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_working
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -290,9 +280,9 @@
 		 		   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats ='IN04'
-			   AND im.cust_id = a.cust_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_complete
+			   AND im.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_complete
 			,
 			(SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -301,9 +291,9 @@
 			 	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
 			   AND im.in_stats ='IN99'
-		       AND im.cust_id = a.cust_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
+		       AND im.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -324,9 +314,9 @@
 			 WHERE 1 = 1
 		       AND om.use_yn = 'Y'
 		       AND om.out_stats ='OS01'
-			   AND om.cust_id = a.cust_id
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_tobe
+			   AND om.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -347,9 +337,9 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		 	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-			   AND om.cust_id = a.cust_id
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_working
+			   AND om.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -370,9 +360,9 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		 	   AND om.out_stats ='OS05'
-			   AND om.cust_id = a.cust_id
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_complete
+			   AND om.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -393,15 +383,9 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		  	   AND om.out_stats ='OS99'
-		 	   AND om.cust_id = a.cust_id
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
-		FROM
-			(SELECT
-				#{inOutSearchDTO.custId} AS cust_id,
-				#{inOutSearchDTO.fromDate} AS from_dt,
-				#{inOutSearchDTO.toDate} AS to_dt
-			) AS a;
+		 	   AND om.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_cancle
 	</select>
 	<select id="selectInOutStatusByWH" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
 		/*DashboardADMapper.selectInOutStatusByWH*/
@@ -414,9 +398,9 @@
 			       WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 		     WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats IN ('IN00' , 'IN01')
-			   AND im.wh_id = a.wh_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_tobe
+			   AND im.wh_id = #{inOutSearchDTO.whId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_tobe
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -425,9 +409,9 @@
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 		  	   AND im.in_stats ='IN02'
-			   AND im.wh_id = a.wh_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_working
+			   AND im.wh_id = #{inOutSearchDTO.whId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_working
 			,
 			(SELECT
 			 	 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -436,9 +420,9 @@
 		 		   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats ='IN04'
-			   AND im.wh_id = a.wh_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_complete
+			   AND im.wh_id = #{inOutSearchDTO.whId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_complete
 			,
 			(SELECT
 				 CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -446,10 +430,10 @@
 			 JOIN (SELECT  mst_id, COUNT(id) AS count_sku FROM cwt_in_ord_dtl
 			 	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
-			   AND im.in_stats IN ('IN99')
-			   AND im.wh_id = a.wh_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
+			   AND im.in_stats ='IN99'
+			   AND im.wh_id = #{inOutSearchDTO.whId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -470,8 +454,8 @@
 			 WHERE 1 = 1
 		       AND om.use_yn = 'Y'
 		       AND om.out_stats ='OS01'
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_tobe
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -492,8 +476,8 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		 	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_working
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -514,8 +498,8 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		 	   AND om.out_stats ='OS05'
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_complete
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -536,14 +520,8 @@
 			 WHERE 1 = 1
 		  	   AND om.use_yn = 'Y'
 		  	   AND om.out_stats ='OS99'
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
-		FROM
-			(SELECT
-				#{inOutSearchDTO.whId} AS wh_id,
-				#{inOutSearchDTO.fromDate} AS from_dt,
-				#{inOutSearchDTO.toDate} AS to_dt
-			) AS a;
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_cancle
 	</select>
 	<select id="selectInOutStatusByWHAndSL" parameterType="InOutSearchDTO" resultType="InOutResultDTO">
 		/*DashboardADMapper.selectInOutStatusByWHAndSL*/
@@ -556,10 +534,10 @@
 					WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			  WHERE 1 = 1 AND im.use_yn = 'Y'
 		 	    AND im.in_stats IN ('IN00' , 'IN01')
-		        AND im.cust_id = a.cust_id
-		 	    AND im.wh_id = a.wh_id
-				AND a.to_dt >= im.in_ord_dt
-				AND im.in_ord_dt >= a.from_dt) AS in_tobe
+		        AND im.cust_id = #{inOutSearchDTO.custId}
+		 	    AND im.wh_id = #{inOutSearchDTO.whId}
+				AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+				AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_tobe
 			,
 			(SELECT
 				CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -568,10 +546,10 @@
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats ='IN02'
-			   AND im.cust_id = a.cust_id
-		       AND im.wh_id = a.wh_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_working
+			   AND im.cust_id = #{inOutSearchDTO.custId}
+		       AND im.wh_id = #{inOutSearchDTO.whId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_working
 			,
 			(SELECT
 				CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -580,10 +558,10 @@
 			  	   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1 AND im.use_yn = 'Y'
 			   AND im.in_stats ='IN04'
-			   AND im.cust_id = a.cust_id
-			   AND im.wh_id = a.wh_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_complete
+			   AND im.cust_id = #{inOutSearchDTO.custId}
+			   AND im.wh_id = #{inOutSearchDTO.whId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_complete
 			,
 			(SELECT
 				CONCAT(IFNULL(COUNT(im.id), 0), '/', IFNULL(SUM(id.count_sku), 0))
@@ -592,10 +570,10 @@
 				   WHERE use_yn = 'Y' GROUP BY mst_id) AS id ON id.mst_id = im.id
 			 WHERE 1 = 1  AND im.use_yn = 'Y'
 		  	   AND im.in_stats ='IN99'
-			   AND im.cust_id = a.cust_id
-		 	   AND im.wh_id = a.wh_id
-			   AND a.to_dt >= im.in_ord_dt
-			   AND im.in_ord_dt >= a.from_dt) AS in_cancle
+			   AND im.cust_id = #{inOutSearchDTO.custId}
+		 	   AND im.wh_id = #{inOutSearchDTO.whId}
+			   AND #{inOutSearchDTO.toDate} >= im.in_ord_dt
+			   AND im.in_ord_dt >= #{inOutSearchDTO.fromDate}) AS in_cancle
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -617,9 +595,9 @@
 			WHERE 1 = 1
 		      AND om.use_yn = 'Y'
 		      AND om.out_stats ='OS01'
-			  AND om.cust_id = a.cust_id
-			  AND a.to_dt >= om.out_ord_dt
-			  AND om.out_ord_dt >= a.from_dt) AS out_tobe
+			  AND om.cust_id = #{inOutSearchDTO.custId}
+			  AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			  AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_tobe
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -641,9 +619,9 @@
 			 WHERE 1 = 1
 			   AND om.use_yn = 'Y'
 		  	   AND om.out_stats IN ('OS02' , 'OS03', 'OS04', 'OSR4')
-			   AND om.cust_id = a.cust_id
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_working
+			   AND om.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_working
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -665,9 +643,9 @@
 			 WHERE 1 = 1
 			   AND om.use_yn = 'Y'
 		  	   AND om.out_stats ='OS05'
-			   AND om.cust_id = a.cust_id
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_complete
+			   AND om.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_complete
 			,
 			(SELECT
 				IFNULL(SUM(oi.count_info_invc), 0)
@@ -689,16 +667,9 @@
 			 WHERE 1 = 1
 			   AND om.use_yn = 'Y'
 		  	   AND om.out_stats ='OS99'
-			   AND om.cust_id = a.cust_id
-			   AND a.to_dt >= om.out_ord_dt
-			   AND om.out_ord_dt >= a.from_dt) AS out_cancle
-		FROM
-			(SELECT
-				#{inOutSearchDTO.whId} AS wh_id,
-				#{inOutSearchDTO.custId} AS cust_id,
-				#{inOutSearchDTO.fromDate} AS from_dt,
-				#{inOutSearchDTO.toDate} AS to_dt
-			) AS a;
+			   AND om.cust_id = #{inOutSearchDTO.custId}
+			   AND #{inOutSearchDTO.toDate} >= om.out_ord_dt
+			   AND om.out_ord_dt >= #{inOutSearchDTO.fromDate}) AS out_cancle
 	</select>
 
 	<select id="selectStockLackAll" resultType="StockLackResultDTO">
@@ -766,7 +737,7 @@
 			 group by d.goods_cd) e
 		where 1 > e.ex_count
 		order by 6 asc
-		limit 100;
+		limit 100
 	</select>
 	<select id="selectStockLackBySL" parameterType="InOutSearchDTO" resultType="StockLackResultDTO">
 	/*DashboardADMapper.selectStockLackBySL*/
@@ -841,7 +812,7 @@
 							   on d.goods_cd = dd.goods_cd
 			 group by d.goods_cd) e
 		where 1 > e.ex_count
-		order by 6 asc;
+		order by 6 asc
 	</select>
 	<select id="selectStockLackByWH" parameterType="InOutSearchDTO" resultType="StockLackResultDTO">
 	/*DashboardADMapper.selectStockLackBySL*/
@@ -916,7 +887,7 @@
 							   on d.goods_cd = dd.goods_cd
 			 group by d.goods_cd) e
 		where 1 > e.ex_count
-		order by 6 asc;
+		order by 6 asc
 	</select>
 	<select id="selectStockLackByWHAndSL" parameterType="InOutSearchDTO" resultType="StockLackResultDTO">
 	/*DashboardADMapper.selectStockLackBySL*/
@@ -993,6 +964,6 @@
 							   on d.goods_cd = dd.goods_cd
 			 group by d.goods_cd) e
 		where 1 > e.ex_count
-		order by 6 asc;
+		order by 6 asc
 	</select>
 </mapper>

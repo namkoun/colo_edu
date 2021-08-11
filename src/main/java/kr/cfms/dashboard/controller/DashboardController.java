@@ -110,8 +110,8 @@ public class DashboardController {
 		InOrdNotificationDTO inOrdNotificationDTO = testInsertService.selectInOrdMstById(inMstId);
 
 		//insert notification_info
-		String typeCd = notificationInfoVO.inOrdTypeCd(inOrdNotificationDTO.getInOrdType());
-		String content = notificationInfoVO.inOrdContent(inOrdNotificationDTO.getCustCenterNm(),
+		String typeCd = notificationInfoVO.makeInOrdTypeCd(inOrdNotificationDTO.getInOrdType());
+		String content = notificationInfoVO.makeInOrdContent(inOrdNotificationDTO.getCustCenterNm(),
 														 inOrdNotificationDTO.getWhCenterNm(),
 														 inOrdNotificationDTO.getInOrdType(),
 														 inOrdNotificationDTO.getInOrdDt());
@@ -138,8 +138,8 @@ public class DashboardController {
 		OutOrdNotificationDTO outOrdNotificationDTO = testInsertService.selectOutOrdMstById(outMstId);
 
 		//insert notification_info
-		String typeCd = notificationInfoVO.outOrdTypeCd(outOrdNotificationDTO.getOutOrdType());
-		String content = notificationInfoVO.outOrdContent(outOrdNotificationDTO.getCustCenterNm(),
+		String typeCd = notificationInfoVO.makeOutOrdTypeCd(outOrdNotificationDTO.getOutOrdType());
+		String content = notificationInfoVO.makeOutOrdContent(outOrdNotificationDTO.getCustCenterNm(),
 													      outOrdNotificationDTO.getOutOrdType(),
 														  outOrdNotificationDTO.getOutOrdDt());
 		notificationInfoVO.setOutMstId(outMstId);
@@ -163,8 +163,8 @@ public class DashboardController {
 
 		//insert notification_info
 		notificationInfoVO.setUserId(userId);
-		notificationInfoVO.setTypeCd(notificationInfoVO.joinTypeCd());
-		notificationInfoVO.setContent(notificationInfoVO.joinContent(joinNotificationDTO.getMemberTypeCode(),
+		notificationInfoVO.setTypeCd(notificationInfoVO.makeJoinTypeCd());
+		notificationInfoVO.setContent(notificationInfoVO.makeJoinContent(joinNotificationDTO.getMemberTypeCode(),
 																	 joinNotificationDTO.getCmpNm(),
 																	 joinNotificationDTO.getMobile()));
 		testInsertService.insertJoinNotificationInfo(notificationInfoVO);
