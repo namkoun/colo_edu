@@ -201,21 +201,28 @@ public class DashboardADAjaxController {
 		adNotificationVO.setAdMid(userInfo.getMid());
 		List<Long> infoIdList = notificationService.selectNewInfoId(adNotificationVO);
 
-		if (infoIdList.size() != 0) {
+		if (infoIdList.size() > 0) {
 			//값 넣어줌
 			for (int i = 0; i < infoIdList.size(); i++) {
 				adNotificationVO.setInfoId(infoIdList.get(i));
 				notificationService.insertNewInfo(adNotificationVO);
 			}
 		}
-		return ResponseEntity.ok(new MessageVo("ok"));  // 새로운 알림 있으면 1, 없으면 0
+
+		//안 읽은 알림 있는지 체크
+		String isRead = "1";
+
+		Integer countNotRead = notificationService.selectIsReadNotification(adNotificationVO); // ad_mid로 검색
+		if (countNotRead > 0) isRead = "0";
+
+		return ResponseEntity.ok(new MessageVo(isRead));  // 새로운 알림 있으면 0, 없으면 1
 	}
 
 	/**
 	 * 안 읽은 알림 있는지 체크
 	 * @return 0(있다) or 1(없다)
 	 */
-	@GetMapping("get/searchIsReadNotification")
+//	@GetMapping("get/searchIsReadNotification")
 	public ResponseEntity<Integer> searchIsReadNotification(HttpSession session, @ModelAttribute AdNotificationVO adNotificationVO) {
 		Integer isRead = 1;
 
