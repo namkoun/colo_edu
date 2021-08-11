@@ -234,7 +234,9 @@
 					var adNotification = {
 						id: data[i].id
 					}
-					selectNotiinup(adNotification);
+                    if (data[i].readYn === 'N'){
+                        selectNotiinup(adNotification);
+                    }
 				}
 			}
 		});
@@ -283,7 +285,9 @@
 					var adNotification = {
 						id: data[i].id
 					}
-					selectNotiinup(adNotification);
+                    if (data[i].readYn === 'N'){
+                        selectNotiinup(adNotification);
+                    }
 				}
 			}
 		});
@@ -330,7 +334,10 @@
 					var adNotification = {
 						id: data[i].id
 					}
-					selectNotiinup(adNotification);
+					if (data[i].readYn === 'N'){
+                        selectNotiinup(adNotification);
+                    }
+
 				}
 			}
 		});
@@ -366,7 +373,10 @@
 					var adNotification = {
 						id: data[i].id
 					}
-					selectNotiinup(adNotification);
+                    if (data[i].readYn === 'N'){
+                        selectNotiinup(adNotification);
+                    }
+
 				}
 			}
 		});
@@ -428,61 +438,63 @@
 			},
 		});
 	}
+
 	//interval start
     searchUnFinishedOut();
-	notibell();
-	var setInterall= setInterval(notiall, 3000);
-	var setInterbell =setInterval(notibell,3000);
-
-	//종을 눌렀을때(알림)
-	$("#ccccc").off().on("click",function (){
-		if ($("#Alert-Box").css("display")=== "none"){
-			clearInterval(setInterall);
-			clearInterval(setInterbell);
-			$(".ac").removeClass('show active');
-			$(".ac1").addClass('show active');
-			$("#Alert-Box").show();
-			selectNotiin(); //입고 조회
-			selectNotise(); //조회 bell
-			clearInterval(setInterall);
-			clearInterval(setInterbell);
-			$(".nav-link").off().on("click",function (){
-				if ($(this).data('type') === "inWE"){
-					$(".ac").removeClass('show active');
-					$(".ac1").addClass('show active');
-					selectNotiin();
-					selectNotise();
-				}else if($(this).data('type') === 'outWE'){
-					$(".ac").removeClass('show active');
-					$(".ac2").addClass('show active');
-					selectNotiout();
-					selectNotise();
-				}else if($(this).data('type') === 'noOutSt'){
-					$(".ac").removeClass('show active');
-					$(".ac3").addClass('show active');
-					selectNotino();
-					selectNotise();
-				}else if($(this).data('type') === 'join'){
-					$(".ac").removeClass('show active');
-					$(".ac4").addClass('show active');
-					selectNotijo();
-					selectNotise();
-				}
-			})
-            // 예외성처리(알림)
-            $(".close-wrap, .inventory-detail, .kAw").on("click", function (){
-                notibell();
+    notibell();
+    var setInterall= setInterval(notiall, 3000);
+    var setInterbell =setInterval(notibell,3000);
+    $(document).ready(function(){
+        //종을 눌렀을때(알림)
+        $("#ccccc").off().on("click",function (){
+            if ($("#Alert-Box").css("display")=== "none"){
+                clearInterval(setInterall);
+                clearInterval(setInterbell);
+                $(".ac").removeClass('show active');
+                $(".ac1").addClass('show active');
+                $("#Alert-Box").show();
+                selectNotiin(); //입고 조회
+                selectNotise(); //조회 bell
+                clearInterval(setInterall);
+                clearInterval(setInterbell);
+                $(".nav-link").off().on("click",function (){
+                    if ($(this).data('type') === "inWE"){
+                        $(".ac").removeClass('show active');
+                        $(".ac1").addClass('show active');
+                        selectNotiin();
+                        selectNotise();
+                    }else if($(this).data('type') === 'outWE'){
+                        $(".ac").removeClass('show active');
+                        $(".ac2").addClass('show active');
+                        selectNotiout();
+                        selectNotise();
+                    }else if($(this).data('type') === 'noOutSt'){
+                        $(".ac").removeClass('show active');
+                        $(".ac3").addClass('show active');
+                        selectNotino();
+                        selectNotise();
+                    }else if($(this).data('type') === 'join'){
+                        $(".ac").removeClass('show active');
+                        $(".ac4").addClass('show active');
+                        selectNotijo();
+                        selectNotise();
+                    }
+                })
+                // 예외성처리(알림)
+                $(".close-wrap, .inventory-detail, .kAw").on("click", function (){
+                    notibell();
+                    $("#Alert-Box").hide();
+                    setInterall = setInterval(notiall, 3000);
+                    setInterbell = setInterval(notibell, 3000);
+                })
+            }else {
                 $("#Alert-Box").hide();
+                notibell();
                 setInterall = setInterval(notiall, 3000);
                 setInterbell = setInterval(notibell, 3000);
-            })
-		}else {
-			$("#Alert-Box").hide();
-			notibell();
-			setInterall = setInterval(notiall, 3000);
-			setInterbell = setInterval(notibell, 3000);
-		}
-	});
+            }
+        });
+    })
 	//여기까지 알림기능
 
 	//전역변수
@@ -504,7 +516,6 @@
 			$(".btn-select-t").addClass('btn-on-select');  //버튼색↑
 			day = getDayType();
 			$("#out-select").empty();
-			//$("#out-select").append('<option selected value="all">wh</option>');
 			selectsl(day);
 
 		} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
@@ -512,14 +523,12 @@
 			$(".btn-select-w").addClass('btn-on-select'); //버튼색↑
 			day = getWeekType();
 			$("#out-select").empty();
-			//   $("#out-select").append('<option selected value="all">wh</option>');
 			selectsl(day);
 		} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 			$(".tdwdmd").removeClass('btn-on-select');
 			$(".btn-select-m").addClass('btn-on-select'); //버튼색↑
 			day = getMonthType();
 			$("#out-select").empty();
-			//   $("#out-select").append('<option selected value="all">wh</option>');
 			selectsl(day);
 		}
 	});
@@ -532,17 +541,14 @@
 					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
 						day = getDayType();
 						$("#out-select").empty();
-						//   $("#out-select").append('<option selected value="all">wh</option>');
 						selectsl(day);
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
-						//   $("#out-select").append('<option selected value="all">wh</option>');
 						selectsl(day);
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
-						//   $("#out-select").append('<option selected value="all">wh</option>');
 						selectsl(day);
 					}
 				});
@@ -552,20 +558,18 @@
 					if ( $(this).data('type') === 'day' ) { // 오늘 클릭
 						day = getDayType();
 						$("#out-select").empty();
-						//   $("#out-select").append('<option selected value="all">sl</option>');
-
 						selectwh(day);
+
 					} else if ( $(this).data('type') === 'week' ) { // 이번 주 클릭
 						day = getWeekType();
 						$("#out-select").empty();
-						//   $("#out-select").append('<option selected value="all">sl</option>');
-
 						selectwh(day);
+
 					} else if ( $(this).data('type') === 'month' ) { // 이번 달 클릭
 						day = getMonthType();
 						$("#out-select").empty();
-						//   $("#out-select").append('<option selected value="all">sl</option>');
 						selectwh(day);
+
 					}
 				});
 			}
@@ -858,18 +862,10 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				if(data.length>0){
-					for(var i in data){
-						var $a = data[0].todayInApply;
-						var $b = data[0].todayInComplete;
-						var $c = data[0].todayOutApply;
-						var $d = data[0].todayOutComplete;
-						$('#in-sum').text($a);
-						$('#in-complete').text($b);
-						$('#out-sum').text($c);
-						$('#out-complete').text($d);
-					}
-				}
+						$('#in-sum').text(data.todayInApply);
+						$('#in-complete').text(data.todayInComplete);
+						$('#out-sum').text(data.todayOutApply);
+						$('#out-complete').text(data.todayOutComplete);
 			},
 		});
 	}
@@ -894,6 +890,8 @@
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
 					if ($("select[name=in-select]").val() === 'all'){
+						$("#out-select").empty();
+						$("#out-select").append('<option value="-1" selected>창고를 선택해주세요.</option>');
 						stockSelectNone();
 						selectAll(day,getDayType());
 					}else {
@@ -947,6 +945,8 @@
 				$("#in-select").change(function (){
 					leftselect = $("select[name=in-select]").val();
 					if ($("select[name=in-select]").val() === 'all'){
+						$("#out-select").empty();
+						$("#out-select").append('<option value="-1" selected> 셀러를 선택해주세요.</option>');
 						stockSelectNone();
 						selectAll(day,getDayType());
 					}else {
@@ -981,26 +981,18 @@
 	};
 	//select data format
 	function getSelectData(data){
-		if(data.length>0){
-			for(var i in data){
-				var $a = data[0].inTobe.split('/');
-				var $b = data[0].inWorking.split('/');
-				var $c = data[0].inComplete.split('/');
-				var $d = data[0].inCancle.split('/');
-				var $e = data[0].outTobe;
-				var $f = data[0].outWorking;
-				var $g = data[0].outComplete;
-				var $h = data[0].outCancle;
+				var $a = data.inTobe.split('/');
+				var $b = data.inWorking.split('/');
+				var $c = data.inComplete.split('/');
+				var $d = data.inCancle.split('/');
 				$('#in_expected').text($a[0]);
 				$('#in_working').text($b[0]);
 				$('#in_complete').text($c[0]);
 				$('#in_cancel').text($d[0]);
-				$('#out_expected').text($e);
-				$('#out_working').text($f);
-				$('#out_complete').text($g);
-				$('#out_cancel').text($h);
-			}
-		}
+				$('#out_expected').text(data.outTobe);
+				$('#out_working').text(data.outWorking);
+				$('#out_complete').text(data.outComplete);
+				$('#out_cancel').text(data.outCancle);
 	}
 	//전체 선택
 	function selectAll(fromDate,toDate){
