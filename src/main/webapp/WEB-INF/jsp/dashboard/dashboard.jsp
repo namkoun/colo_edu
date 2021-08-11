@@ -420,6 +420,11 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
+				if (data.message === '0'){
+					$(".bell-on-off").show();
+				}else{
+					$(".bell-on-off").hide();
+				}
 			},
 		});
 	}
@@ -430,20 +435,15 @@
 			dataType: 'json',
 			contentType: 'application/json;charset=UTF-8',
 			success:function (data){
-				if (data === 0){
-					$(".bell-on-off").show();
-				}else{
-					$(".bell-on-off").hide();
-				}
 			},
 		});
 	}
 
 	//interval start
     searchUnFinishedOut();
-    notibell();
+    notiall();
     var setInterall= setInterval(notiall, 3000);
-    var setInterbell =setInterval(notibell,3000);
+    //var setInterbell =setInterval(notibell,3000);
     $(document).ready(function(){
         //종을 눌렀을때(알림)
         $("#ccccc").off().on("click",function (){
@@ -482,16 +482,16 @@
                 })
                 // 예외성처리(알림)
                 $(".close-wrap, .inventory-detail, .kAw").on("click", function (){
-                    notibell();
+                   notiall();
                     $("#Alert-Box").hide();
                     setInterall = setInterval(notiall, 3000);
-                    setInterbell = setInterval(notibell, 3000);
+                   // setInterbell = setInterval(notibell, 3000);
                 })
             }else {
                 $("#Alert-Box").hide();
-                notibell();
+               notiall();
                 setInterall = setInterval(notiall, 3000);
-                setInterbell = setInterval(notibell, 3000);
+           //     setInterbell = setInterval(notibell, 3000);
             }
         });
     })
