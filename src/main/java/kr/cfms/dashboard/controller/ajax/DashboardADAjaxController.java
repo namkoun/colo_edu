@@ -83,8 +83,8 @@ public class DashboardADAjaxController {
 	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
 	 */
 	@GetMapping("get/searchInOutStatus")
-	public ResponseEntity<List<InOutResultDTO>> searchInOutStatus(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
-		List<InOutResultDTO> inOutStatus = dashboardADService.selectInOutStatus(inOutSearchDTO);
+	public ResponseEntity<InOutResultDTO> searchInOutStatus(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		InOutResultDTO inOutStatus = dashboardADService.selectInOutStatus(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatus);
 	}
 
@@ -94,8 +94,8 @@ public class DashboardADAjaxController {
 	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
 	 */
 	@GetMapping("get/searchInOutStatusBySL")
-	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusBySL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
-		List<InOutResultDTO> inOutStatusBySL = dashboardADService.selectInOutStatusBySL(inOutSearchDTO);
+	public ResponseEntity<InOutResultDTO> searchInOutStatusBySL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		InOutResultDTO inOutStatusBySL = dashboardADService.selectInOutStatusBySL(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatusBySL);
 	}
 
@@ -105,8 +105,8 @@ public class DashboardADAjaxController {
 	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
 	 */
 	@GetMapping("get/searchInOutStatusByWH")
-	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusByWH(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
-		List<InOutResultDTO> inOutStatusByWH = dashboardADService.selectInOutStatusByWH(inOutSearchDTO);
+	public ResponseEntity<InOutResultDTO> searchInOutStatusByWH(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		InOutResultDTO inOutStatusByWH = dashboardADService.selectInOutStatusByWH(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatusByWH);
 	}
 
@@ -116,8 +116,8 @@ public class DashboardADAjaxController {
 	 * @return 출고예정/작업중/완료/취소 건수, 입고예정/작업중/완료/취소 건수
 	 */
 	@GetMapping("get/searchInOutStatusByWHAndSL")
-	public ResponseEntity<List<InOutResultDTO>> searchInOutStatusByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
-		List<InOutResultDTO> inOutStatusByWHAndSL = dashboardADService.selectInOutStatusByWHAndSL(inOutSearchDTO);
+	public ResponseEntity<InOutResultDTO> searchInOutStatusByWHAndSL(@ModelAttribute InOutSearchDTO inOutSearchDTO) {
+		InOutResultDTO inOutStatusByWHAndSL = dashboardADService.selectInOutStatusByWHAndSL(inOutSearchDTO);
 		return ResponseEntity.ok(inOutStatusByWHAndSL);
 	}
 
